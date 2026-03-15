@@ -1,0 +1,79 @@
+name: bmad-phase5
+version: 1.0.0-alpha
+description: Production lifecycle extension for BMAD Method - deploy, monitor, learn, refine
+author: vforvaick
+repository: https://github.com/vforvaick/bmad-phase5
+
+agents:
+  - name: devops
+    file: agents/devops.yaml
+    description: Deployment, infrastructure, and rollback orchestration
+    
+  - name: sre
+    file: agents/sre.yaml
+    description: Observability setup, monitoring, and incident analysis
+    
+  - name: analytics
+    file: agents/analytics.yaml
+    description: Product usage analysis and feature adoption tracking
+
+workflows:
+  - name: bmad-phase5-release-readiness
+    path: workflows/release-readiness
+    description: Pre-deploy validation gate
+    agents: [architect, test-architect, devops]
+    
+  - name: bmad-phase5-deploy
+    path: workflows/deploy
+    description: Structured deployment execution
+    agents: [devops]
+    
+  - name: bmad-phase5-observability-setup
+    path: workflows/observability-setup
+    description: Monitoring stack configuration (one-time per environment)
+    agents: [sre, devops]
+    
+  - name: bmad-phase5-post-launch-review
+    path: workflows/post-launch-review
+    description: Evidence synthesis and insights generation (24-72h post-deploy)
+    agents: [pm, analyst, sre, analytics]
+    
+  - name: bmad-phase5-spec-refinement
+    path: workflows/spec-refinement
+    description: Translate production insights to PRD/epic updates
+    agents: [pm, analyst]
+
+templates:
+  - release-readiness.md
+  - deployment-plan.md
+  - deployment-log.md
+  - rollback-plan.md
+  - observability-config.md
+  - observability-report.md
+  - usage-insights.md
+  - post-launch-insights.md
+  - PRD-v2-draft.md
+
+adapters:
+  - name: vps-default
+    path: adapters/vps-default
+    description: Full-stack observability for VPS with root access
+    
+  - name: vercel
+    path: adapters/vercel
+    description: Logs, errors, and analytics via Vercel APIs
+    
+  - name: shared-hosting
+    path: adapters/shared-hosting
+    description: Lightweight monitoring for shared hosting environments
+
+dependencies:
+  bmad-method: ">=6.0.0"
+
+outputDirectory: _bmad-output/production-artifacts
+
+metadata:
+  phase: 5
+  category: production
+  maturity: alpha
+  governance: human-in-the-loop
