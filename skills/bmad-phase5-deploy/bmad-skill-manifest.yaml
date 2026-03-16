@@ -1,3 +1,4 @@
+type: skill
 name: bmad-phase5-deploy
 description: Structured deployment execution. Orchestrates the physical release of the application to the target environment.
 author: vforvaick

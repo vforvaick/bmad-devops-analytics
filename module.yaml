@@ -18,7 +18,7 @@ agents:
     file: agents/analytics.yaml
     description: Product usage analysis and feature adoption tracking
 
-workflows:
+skills:
   - name: bmad-phase5-release-readiness
     path: skills/bmad-phase5-release-readiness
     description: Pre-deploy validation gate
