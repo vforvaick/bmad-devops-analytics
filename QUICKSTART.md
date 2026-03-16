@@ -8,215 +8,99 @@ Complete the production lifecycle loop: deploy your BMAD project, monitor it, le
 
 ---
 
-## Prerequisites
+## Step 1: Installation (Existing Project)
 
-✅ **Completed BMAD Phase 1-4**
-- All epics finished
-- Tests passing
-- Ready to deploy
-
-✅ **Infrastructure Ready**
-- VPS with root access (recommended), OR
-- Vercel/shared hosting with adapter support
-
-✅ **BMAD Method Installed**
-- `npx bmad-method --version` shows v6+
-
----
-
-## Step 1: Install BMAD Phase 5 (5 minutes)
-
-### Option A: NPX Install (Recommended)
+In your existing BMAD-enabled project:
 
 ```bash
-cd your-bmad-project/
+# 1. Create the custom modules directory if it doesn't exist
+mkdir -p _bmad/_config/custom/modules
 
-npx bmad-method install
-# When prompted:
-# - Select "Add custom modules"
-# - Enter: bmad-phase5
-# OR GitHub: vforvaick/bmad-phase5
-```
+# 2. Clone this repository
+git clone https://github.com/vforvaick/bmad-devops-analytics.git _bmad/_config/custom/modules/bmad-phase5
 
-### Option B: Manual Clone
-
-```bash
-cd your-bmad-project/.bmad/custom/modules/
-git clone https://github.com/vforvaick/bmad-phase5.git
-
-cd ../../..
-npx bmad-method deploy
-```
-
-### Verify Installation
-
-```bash
-# Check that new workflows are available
-npx bmad-method workflows list | grep phase5
-
-# Should show:
-# - bmad-phase5-release-readiness
-# - bmad-phase5-deploy
-# - bmad-phase5-observability-setup
-# - bmad-phase5-post-launch-review
-# - bmad-phase5-spec-refinement
+# 3. Register the module using the BMAD CLI
+npx bmad-method install --action update --yes
 ```
 
 ---
 
-## Step 2: Release Readiness Review (15-30 minutes)
+## Step 2: Release Readiness (15-30 minutes)
 
-**Run the workflow:**
+Before deploying, ensure your code and specs are aligned.
+
+**Run the readiness check:**
 
 ```bash
 /bmad-phase5-release-readiness
 ```
 
-**The workflow will check:**
-- Architecture risks
-- Test coverage
-- Environment configuration
-- Observability hooks
-- Rollback plan
+**The agents will:**
+1. Read your `PRD.md` and `architecture.md`.
+2. Verify test coverage.
+3. Check environment configuration.
+4. Generate `_bmad-output/production-artifacts/release-readiness.md`.
 
-**Output:** `_bmad-output/production-artifacts/release-readiness.md`
-
-**Decision:**
-- ✅ **PASS** → Continue to Step 3
-- ⚠️ **CONCERNS** → Review concerns, decide if acceptable
-- ❌ **FAIL** → Fix critical issues, run again
+**Action**: Proceed only if the decision is 🟢 **PASS**.
 
 ---
 
-## Step 3: Deploy (10-60 minutes)
+## Step 3: Deployment (10-60 minutes)
 
-**Run the deployment workflow:**
+Once readiness is verified, execute the deployment.
+
+**Run deployment workflow:**
 
 ```bash
 /bmad-phase5-deploy
-
-# Follow agent prompts for:
-# - Deployment target (VPS, Vercel, etc.)
-# - Database migrations (if any)
-# - Smoke tests
 ```
 
-**Output:** 
-- `deployment-plan.md` - What will be deployed
-- `deployment-log.md` - What actually happened
-- `rollback-plan.md` - How to undo if needed
-
-**Manual steps may be required** depending on your infrastructure.
+**The agents will:**
+1. Generate a detailed `deployment-plan.md`.
+2. Assist with (or execute) code sync to production.
+3. Define rollback triggers.
+4. Log the execution in `deployment-log.md`.
 
 ---
 
-## Step 4: Observability Setup (30-90 minutes, one-time)
+## Step 4: Observability Setup (One-time)
 
-**For VPS (Full Stack):**
+Establish the evidence pipeline.
 
-```bash
-/bmad-phase5-observability-setup
-
-Environment: vps-default
-```
-
-This generates Docker Compose configuration for:
-- Prometheus (metrics)
-- Loki (logs)
-- Sentry (errors)
-- Jaeger (traces)
-- PostHog (analytics)
-
-**Deploy the stack:**
-
-```bash
-cd _bmad-output/production-artifacts/
-docker-compose -f docker-compose.observability.yml up -d
-
-# Verify services
-docker-compose ps
-```
-
-**For Vercel/Shared Hosting:**
+**Run setup workflow:**
 
 ```bash
 /bmad-phase5-observability-setup
-
-Environment: vercel
-# OR
-Environment: shared-hosting
 ```
 
-Follow adapter-specific instructions in `observability-config.md`.
-
-**Configure your application:**
-
-Add generated environment variables to your app:
-
-```bash
-# From .env.observability
-SENTRY_DSN=...
-PROMETHEUS_PORT=9100
-POSTHOG_API_KEY=...
-```
-
-See `adapters/vps-default/README.md` for instrumentation code examples.
+**The agents will:**
+1. Provision or configure your monitoring stack (e.g., Docker Compose for VPS).
+2. Verify that logs, metrics, and analytics are flowing.
+3. Generate `observability-config.md`.
 
 ---
 
-## Step 5: Wait for Evidence (24-72 hours)
+## Step 5: Wait & Monitor (24-72 hours)
 
-🕐 **Let your application run in production**
-
-During this time:
-- Users interact with your app
-- Logs accumulate
-- Errors are tracked (if any)
-- Metrics are collected
-- Analytics events fire
-
-**What's being collected:**
-- Application logs (info, warnings, errors)
-- Error reports with stack traces
-- Request latency and throughput
-- Infrastructure metrics (CPU, memory)
-- User behavior and feature usage
-
-**Minimum viable evidence:**
-- At least 100 requests
-- At least 10 unique users (if user-facing)
-- 24 hours of metrics
+Let the application run in production to collect real-world evidence.
 
 ---
 
 ## Step 6: Post-Launch Review (1-2 hours)
 
-**Run the review workflow:**
+Synthesize evidence into insights.
+
+**Run review workflow:**
 
 ```bash
 /bmad-phase5-post-launch-review
-
-Evidence period: Last 48 hours
-Analysis focus: All dimensions (errors, performance, adoption, behavior, infrastructure)
 ```
 
 **The agents will:**
-1. **SRE Agent** - Analyzes technical health (errors, performance, infrastructure)
-2. **Analytics Agent** - Analyzes user behavior and feature adoption
-3. **PM + Analyst** - Synthesize findings into actionable insights
-
-**Output:** `post-launch-insights.md`
-
-**Review the insights document:**
-
-```bash
-cat _bmad-output/production-artifacts/post-launch-insights.md
-```
-
-Look for:
-- 🔴 **Critical issues** (P0) - High error rates, severe bugs
-- 🟡 **Opportunities** (P1-P2) - Feature gaps, UX improvements
-- 🟢 **Validations** (P3) - What worked well
+1. Analyze production logs and metrics.
+2. Identify top errors and performance bottlenecks.
+3. Track feature adoption.
+4. Generate `post-launch-insights.md`.
 
 ---
 
@@ -226,258 +110,47 @@ Look for:
 
 ```bash
 /bmad-phase5-spec-refinement
-
-Input: post-launch-insights.md
-Output: Draft PRD updates and new epic proposals
 ```
 
 **The agents will generate:**
-
-1. **PRD-v2-draft.md**
-   - Proposed updates to your Product Requirements Document
-   - Each change backed by production evidence
-   - Categorized by priority (P0, P1, P2, P3)
-
-2. **new-epics/** directory
-   - Draft epic documents for high-priority findings
-   - Problem statement, evidence, proposed solution
-   - Success criteria and acceptance criteria
-
-3. **spec-refinement-log.md**
-   - Summary of all proposed changes
-   - Impact assessment
-   - Recommended next sprint focus
-
-**🚨 CRITICAL: Human Review Required**
-
-All outputs are **DRAFTS**. You must:
-
-1. Review each proposed PRD change
-2. Validate evidence interpretation
-3. Approve or reject each epic
-4. Ensure no "north-star drift"
-
-**Approve changes:**
-
-```bash
-# Manually merge approved PRD changes
-cp _bmad-output/production-artifacts/PRD-v2-draft.md _bmad-output/planning-artifacts/PRD.md
-
-# Move approved epics to backlog
-mv _bmad-output/production-artifacts/new-epics/fix-payment-errors.md \
-   _bmad-output/planning-artifacts/epics/
-```
+1. **PRD-v2-draft.md**: Proposed updates to your Product Requirements Document.
+2. **New Epic Proposals**: Drafts for the next sprint based on evidence.
 
 ---
 
-## Step 8: Back to BMAD Sprint Planning
+## Next Steps
 
-🔄 **The loop closes!**
-
-You now have:
-- ✅ Refined PRD based on production evidence
-- ✅ New epics prioritized by real user impact
-- ✅ Data-driven backlog for next sprint
-
-**Continue with BMAD core workflow:**
-
-```bash
-# BMAD Phase 2: Planning
-/bmad-sprint-plan
-
-# Use refined PRD and new epics
-# Agents will see production insights context
-```
-
----
-
-## Complete Lifecycle Diagram
-
-```
-┌─────────────────────────────────────────────────────┐
-│ BMAD Phase 1-4: Analysis → Implementation         │
-│ (Standard BMAD workflow)                            │
-└──────────────────┬──────────────────────────────────┘
-                   ↓
-┌──────────────────────────────────────────────────────┐
-│ Phase 5.1: Release Readiness [15-30 min]           │
-│ → release-readiness.md (PASS/CONCERNS/FAIL)         │
-└──────────────────┬───────────────────────────────────┘
-                   ↓
-┌──────────────────────────────────────────────────────┐
-│ Phase 5.2: Deploy [10-60 min]                       │
-│ → deployment-log.md, rollback-plan.md               │
-└──────────────────┬───────────────────────────────────┘
-                   ↓
-┌──────────────────────────────────────────────────────┐
-│ Phase 5.3: Observability Setup [30-90 min, once]   │
-│ → docker-compose.observability.yml, config          │
-└──────────────────┬───────────────────────────────────┘
-                   ↓
-┌──────────────────────────────────────────────────────┐
-│ [WAIT: 24-72 hours for production evidence]         │
-└──────────────────┬───────────────────────────────────┘
-                   ↓
-┌──────────────────────────────────────────────────────┐
-│ Phase 5.4: Post-Launch Review [1-2 hours]          │
-│ → post-launch-insights.md                           │
-└──────────────────┬───────────────────────────────────┘
-                   ↓
-┌──────────────────────────────────────────────────────┐
-│ Phase 5.5: Spec Refinement [30-60 min]             │
-│ → PRD-v2-draft.md, new-epics/                      │
-└──────────────────┬───────────────────────────────────┘
-                   ↓
-┌──────────────────────────────────────────────────────┐
-│ [Human Review & Approval]                            │
-└──────────────────┬───────────────────────────────────┘
-                   ↓
-┌──────────────────────────────────────────────────────┐
-│ Back to BMAD Sprint Planning (Phase 2)              │
-│ with refined specs ← LOOP COMPLETE                   │
-└──────────────────────────────────────────────────────┘
-```
+Review the generated drafs, approve them, and move the new epics into your Phase 2 **Sprint Planning**.
 
 ---
 
 ## Troubleshooting
 
-### "Workflow not found"
+### "Skill not found" or "Command not found"
+
+If `/bmad-phase5-...` commands aren't appearing in your IDE:
 
 ```bash
-# Rebuild BMAD to register module
-npx bmad-method deploy
-
-# Verify module loaded
-cat .bmad/config.json | grep bmad-phase5
+# Force re-registration of module
+npx bmad-method install --action update --yes
 ```
 
-### "Evidence collection failed"
+### Module Folder Structure
 
-```bash
-# Check observability stack health
-docker-compose -f docker-compose.observability.yml ps
+Your project structure should look like this:
 
-# View logs
-docker-compose -f docker-compose.observability.yml logs sentry
-docker-compose -f docker-compose.observability.yml logs prometheus
-
-# Test endpoints
-curl http://localhost:9090/-/healthy  # Prometheus
-curl http://localhost:3100/ready      # Loki
-```
-
-### "Not enough evidence"
-
-Extend observation window:
-
-```bash
-/bmad-phase5-post-launch-review
-
-Evidence period: Last 7 days  # Instead of 48 hours
-Minimum samples: 50           # Lower threshold
-```
-
-### "Agents not producing good insights"
-
-Provide more context:
-
-```bash
-# Before running post-launch-review, update PRD with:
-# - Expected traffic volume
-# - Critical user journeys
-# - Known limitations
-# - Success metrics
-```
-
----
-
-## What's Next?
-
-### Iteration 2+
-
-For subsequent releases, the workflow is faster:
-
-1. ✅ **Observability already set up** (skip Step 4)
-2. ✅ **Familiar workflow** (faster execution)
-3. ✅ **Baseline for comparison** (compare to previous insights)
-
-**Typical iteration time: 30-60 minutes** (excluding 24-72h wait)
-
-### Advanced Usage
-
-**Mode B (Future): Assisted Drafting**
-- Agents draft and create PRs for low-risk PRD changes
-- Human reviews and merges
-
-**Mode C (Future): Autonomous Updates**
-- Agents auto-commit certain change types
-- Human reviews afterward
-
-**v1 is Mode A only** (safest for production).
-
-### Custom Adapters
-
-Create your own evidence adapter:
-
-```bash
-cp -r .bmad/custom/modules/bmad-phase5/adapters/vps-default \
-      .bmad/custom/modules/bmad-phase5/adapters/my-custom-stack
-
-# Edit my-custom-stack/adapter.ts
-# Implement IEvidenceAdapter interface
-```
-
----
-
-## Support
-
-**Issues**: [GitHub Issues](https://github.com/vforvaick/bmad-phase5/issues)
-**Discussions**: [GitHub Discussions](https://github.com/vforvaick/bmad-phase5/discussions)
-**BMAD Community**: [Discord](https://discord.gg/bmad-method)
-
----
-
-**🎉 Congratulations! You've closed the loop from implementation to continuous product evolution.**
-
----
-
-## Appendix: Folder Structure After Phase 5
-
-```
-your-project/
-├── _bmad-output/
-│   ├── planning-artifacts/
-│   │   ├── PRD.md (← May be updated from PRD-v2-draft.md)
-│   │   ├── architecture.md
-│   │   └── epics/ (← New epics added from post-launch)
-│   ├── implementation-artifacts/
-│   │   └── stories/
-│   └── production-artifacts/ (← NEW in Phase 5)
-│       ├── release-readiness.md
-│       ├── deployment-plan.md
-│       ├── deployment-log.md
-│       ├── rollback-plan.md
-│       ├── observability-config.md
-│       ├── docker-compose.observability.yml
-│       ├── observability-report.md
-│       ├── usage-insights.md
-│       ├── post-launch-insights.md
-│       ├── PRD-v2-draft.md
-│       ├── new-epics/
-│       │   ├── fix-payment-errors.md
-│       │   └── improve-onboarding-ux.md
-│       └── spec-refinement-log.md
-│
-├── .bmad/
-│   └── custom/
-│       └── modules/
-│           └── bmad-phase5/
-│               ├── module.yaml
-│               ├── agents/
-│               ├── workflows/
-│               ├── templates/
-│               └── adapters/
+```text
+.
+├── _bmad/
+│   └── _config/
+│       └── custom/
+│           └── modules/
+│               └── bmad-phase5/
+│                   ├── module.yaml
+│                   ├── agents/
+│                   ├── workflows/
+│                   ├── templates/
+│                   └── adapters/
 │
 └── [your application code]
 ```
