@@ -45,7 +45,7 @@ cd your-project
 mkdir -p _bmad/_config/custom/modules
 
 # 3. Clone this module
-git clone https://github.com/vforvaick/bmad-devops-analytics.git _bmad/_config/custom/modules/bmad-phase5
+git clone https://github.com/vforvaick/bmad-devops-analytics.git _bmad/_config/custom/modules/bmad-devops-analytics
 
 # 4. Register the module
 npx bmad-method install --action update --yes
