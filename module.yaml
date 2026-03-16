@@ -1,4 +1,5 @@
 name: bmad-phase5
+code: bmad-phase5
 version: 1.0.0-alpha
 description: Production lifecycle extension for BMAD Method - deploy, monitor, learn, refine
 author: vforvaick
