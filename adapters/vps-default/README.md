@@ -27,7 +27,7 @@ Reference implementation of `IEvidenceAdapter` for VPS environments with root ac
 ### 1. Run Observability Setup Workflow
 
 ```bash
-/bmad-phase5-observability-setup
+/bda-observability-setup
 
 Environment: vps-default
 Stack: Prometheus, Sentry, PostHog, OpenTelemetry
@@ -473,7 +473,7 @@ sudo lsof -i :9090  # Check if Prometheus port is used
 ```bash
 # Verify network connectivity
 docker network ls
-docker network inspect bmad-phase5_default
+docker network inspect bda_default
 
 # Check application is in same network
 docker-compose ps
@@ -508,4 +508,4 @@ After deployment:
 2. Access Grafana: `http://your-vps:3000` (admin/admin)
 3. Configure application instrumentation
 4. Wait 24-72h for evidence collection
-5. Run `/bmad-phase5-post-launch-review`
+5. Run `/bda-post-launch-review`

@@ -1,5 +1,5 @@
 type: skill
-name: bmad-phase5-release-readiness
+name: bmad-bda-release-readiness
 description: Pre-deploy validation gate. Reviews architecture, tests, and config before production release.
 author: vforvaick
 version: 1.0.0-alpha

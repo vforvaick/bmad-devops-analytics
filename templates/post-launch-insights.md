@@ -383,7 +383,7 @@ Based on production evidence, recommend prioritizing:
 **Next Steps**:
 1. Product team reviews findings
 2. Prioritizes recommendations
-3. Runs `/bmad-phase5-spec-refinement`
+3. Runs `/bda-spec-refinement`
 4. Approves PRD changes and new epics
 5. Proceeds to sprint planning with refined spec
 

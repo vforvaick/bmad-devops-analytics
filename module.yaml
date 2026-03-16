@@ -1,9 +1,9 @@
-name: bmad-phase5
-code: bmad-phase5
+name: bda
+code: bda
 version: 1.0.0-alpha
-description: Production lifecycle extension for BMAD Method - deploy, monitor, learn, refine
+description: BMAD DevOps Analytics (BDA) - Production lifecycle extension - deploy, monitor, learn, refine
 author: vforvaick
-repository: https://github.com/vforvaick/bmad-phase5
+repository: https://github.com/vforvaick/bmad-devops-analytics
 
 agents:
   - name: devops
@@ -19,28 +19,28 @@ agents:
     description: Product usage analysis and feature adoption tracking
 
 workflows:
-  - name: bmad-phase5-release-readiness
-    path: workflows/bmad-phase5-release-readiness
+  - name: bmad-bda-release-readiness
+    path: workflows/bmad-bda-release-readiness
     description: Pre-deploy validation gate
     agents: [architect, test-architect, devops]
     
-  - name: bmad-phase5-deploy
-    path: workflows/bmad-phase5-deploy
+  - name: bmad-bda-deploy
+    path: workflows/bmad-bda-deploy
     description: Structured deployment execution
     agents: [devops]
     
-  - name: bmad-phase5-observability-setup
-    path: workflows/bmad-phase5-observability-setup
+  - name: bmad-bda-observability-setup
+    path: workflows/bmad-bda-observability-setup
     description: Monitoring stack configuration (one-time per environment)
     agents: [sre, devops]
     
-  - name: bmad-phase5-post-launch-review
-    path: workflows/bmad-phase5-post-launch-review
+  - name: bmad-bda-post-launch-review
+    path: workflows/bmad-bda-post-launch-review
     description: Evidence synthesis and insights generation (24-72h post-deploy)
     agents: [pm, analyst, sre, analytics]
     
-  - name: bmad-phase5-spec-refinement
-    path: workflows/bmad-phase5-spec-refinement
+  - name: bmad-bda-spec-refinement
+    path: workflows/bmad-bda-spec-refinement
     description: Translate production insights to PRD/epic updates
     agents: [pm, analyst]
 

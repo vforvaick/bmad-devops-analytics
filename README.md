@@ -1,4 +1,4 @@
-# BMAD Phase 5: Production Lifecycle Extension
+# BMAD DevOps Analytics (BDA): Production Lifecycle Extension
 
 > **Extends BMAD Method with production deployment, monitoring, learning, and spec refinement workflows**
 
@@ -7,7 +7,7 @@
 
 ## Overview
 
-BMAD Phase 5 fills the critical gap between implementation completion and continuous product evolution. While core BMAD ends at implementation, production reality requires:
+BMAD DevOps Analytics (BDA) fills the critical gap between implementation completion and continuous product evolution. While core BMAD ends at implementation, production reality requires:
 
 ```
 deploy → monitor → learn → update spec → repeat
@@ -45,7 +45,7 @@ cd your-project
 mkdir -p _bmad/_config/custom/modules
 
 # 3. Clone this module
-git clone https://github.com/vforvaick/bmad-devops-analytics.git _bmad/_config/custom/modules/bmad-devops-analytics
+git clone https://github.com/vforvaick/bmad-devops-analytics.git _bmad/_config/custom/modules/bda
 
 # 4. Register the module
 npx bmad-method install --action update --yes
@@ -57,21 +57,21 @@ After completing all BMAD Phase 1-4 epics:
 
 ```bash
 # Step 1: Release readiness check
-/bmad-phase5-release-readiness
+/bmad-bda-release-readiness
 
 # Step 2: Deploy (if PASS)
-/bmad-phase5-deploy
+/bmad-bda-deploy
 
 # Step 3: Setup observability (one-time per environment)
-/bmad-phase5-observability-setup
+/bmad-bda-observability-setup
 
 # Step 4: Wait 24-72 hours for production evidence
 
 # Step 5: Generate insights
-/bmad-phase5-post-launch-review
+/bmad-bda-post-launch-review
 
 # Step 6: Refine spec (creates draft PRD-v2 for human review)
-/bmad-phase5-spec-refinement
+/bmad-bda-spec-refinement
 ```
 
 ## Governance Model

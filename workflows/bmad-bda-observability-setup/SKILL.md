@@ -1,4 +1,4 @@
-# BMAD Phase 5: Observability Setup
+# BMAD BDA: Observability Setup
 
 ## Role
 Act as a collaborative pair: **SRE Agent** and **DevOps Agent**.

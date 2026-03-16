@@ -1,4 +1,4 @@
-# BMAD Phase 5 - Quick Start Guide
+# BMAD DevOps Analytics (BDA) - Quick Start Guide
 
 ## 🎯 What You'll Accomplish
 
@@ -17,7 +17,7 @@ In your existing BMAD-enabled project:
 mkdir -p _bmad/_config/custom/modules
 
 # 2. Clone this repository
-git clone https://github.com/vforvaick/bmad-devops-analytics.git _bmad/_config/custom/modules/bmad-phase5
+git clone https://github.com/vforvaick/bmad-devops-analytics.git _bmad/_config/custom/modules/bda
 
 # 3. Register the module using the BMAD CLI
 npx bmad-method install --action update --yes
@@ -32,7 +32,7 @@ Before deploying, ensure your code and specs are aligned.
 **Run the readiness check:**
 
 ```bash
-/bmad-phase5-release-readiness
+/bmad-bda-release-readiness
 ```
 
 **The agents will:**
@@ -52,7 +52,7 @@ Once readiness is verified, execute the deployment.
 **Run deployment workflow:**
 
 ```bash
-/bmad-phase5-deploy
+/bmad-bda-deploy
 ```
 
 **The agents will:**
@@ -70,7 +70,7 @@ Establish the evidence pipeline.
 **Run setup workflow:**
 
 ```bash
-/bmad-phase5-observability-setup
+/bmad-bda-observability-setup
 ```
 
 **The agents will:**
@@ -93,7 +93,7 @@ Synthesize evidence into insights.
 **Run review workflow:**
 
 ```bash
-/bmad-phase5-post-launch-review
+/bmad-bda-post-launch-review
 ```
 
 **The agents will:**
@@ -109,7 +109,7 @@ Synthesize evidence into insights.
 **Run refinement workflow:**
 
 ```bash
-/bmad-phase5-spec-refinement
+/bmad-bda-spec-refinement
 ```
 
 **The agents will generate:**
@@ -128,7 +128,7 @@ Review the generated drafs, approve them, and move the new epics into your Phase
 
 ### "Skill not found" or "Command not found"
 
-If `/bmad-phase5-...` commands aren't appearing in your IDE:
+If `/bmad-bda-...` commands aren't appearing in your IDE:
 
 ```bash
 # Force re-registration of module
@@ -145,7 +145,7 @@ Your project structure should look like this:
 │   └── _config/
 │       └── custom/
 │           └── modules/
-│               └── bmad-phase5/
+│               └── bda/
 │                   ├── module.yaml
 │                   ├── agents/
 │                   ├── workflows/

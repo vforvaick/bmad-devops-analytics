@@ -1,6 +1,6 @@
-# Contributing to BMAD Phase 5
+# Contributing to BMAD BDA
 
-Thank you for considering contributing to BMAD Phase 5! This extension aims to close the production lifecycle gap in the BMAD Method.
+Thank you for considering contributing to BMAD BDA! This extension aims to close the production lifecycle gap in the BMAD Method.
 
 ## How to Contribute
 
@@ -8,7 +8,7 @@ Thank you for considering contributing to BMAD Phase 5! This extension aims to c
 
 Found a bug or have a feature request?
 
-- Check [existing issues](https://github.com/vforvaick/bmad-phase5/issues)
+- Check [existing issues](https://github.com/vforvaick/bda/issues)
 - Open a new issue with clear description
 - Include reproduction steps for bugs
 - Tag appropriately: `bug`, `enhancement`, `documentation`, `adapter`
@@ -69,15 +69,15 @@ See `adapters/README.md` for adapter development guide.
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR-USERNAME/bmad-phase5.git
-cd bmad-phase5
+git clone https://github.com/YOUR-USERNAME/bda.git
+cd bda
 
 # Install dependencies (if any)
 npm install
 
 # Link to local BMAD project for testing
 cd /path/to/your-bmad-project/.bmad/custom/modules/
-ln -s /path/to/bmad-phase5 bmad-phase5
+ln -s /path/to/bda bda
 
 # Rebuild BMAD
 cd /path/to/your-bmad-project
@@ -90,8 +90,8 @@ npx bmad-method build
 
 ```bash
 # In your BMAD test project
-/bmad-phase5-release-readiness
-/bmad-phase5-observability-setup
+/bda-release-readiness
+/bda-observability-setup
 # etc.
 ```
 
@@ -301,7 +301,7 @@ Patch versions (v1.0.1) fix:
 
 ## Community
 
-- **Discussions**: [GitHub Discussions](https://github.com/vforvaick/bmad-phase5/discussions)
+- **Discussions**: [GitHub Discussions](https://github.com/vforvaick/bda/discussions)
 - **BMAD Discord**: [Join here](https://discord.gg/bmad-method)
 - **Email**: vforvaick@example.com (for sensitive topics)
 
@@ -325,4 +325,4 @@ Be respectful, inclusive, and constructive. We're building tools to help develop
 
 Not sure where to start? Open a discussion or reach out!
 
-**Thank you for contributing to BMAD Phase 5!** 🚀
+**Thank you for contributing to BMAD BDA!** 🚀

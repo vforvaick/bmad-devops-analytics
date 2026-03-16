@@ -47,11 +47,11 @@ context_requirements:
 
 workflows:
   primary:
-    - bmad-phase5-post-launch-review
-    - bmad-phase5-spec-refinement
+    - bda-post-launch-review
+    - bda-spec-refinement
   
   supporting:
-    - bmad-phase5-observability-setup (analytics instrumentation)
+    - bda-observability-setup (analytics instrumentation)
 
 output_artifacts:
   - usage-insights.md

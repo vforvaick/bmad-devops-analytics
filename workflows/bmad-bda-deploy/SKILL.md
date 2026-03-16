@@ -1,4 +1,4 @@
-# BMAD Phase 5: Deploy
+# BMAD BDA: Deploy
 
 ## Role
 Act as the **DevOps Agent**.

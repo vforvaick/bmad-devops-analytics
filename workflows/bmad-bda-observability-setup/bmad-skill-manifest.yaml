@@ -1,5 +1,5 @@
 type: skill
-name: bmad-phase5-observability-setup
+name: bmad-bda-observability-setup
 description: Monitoring stack configuration workflow to establish the data pipeline for the feedback loop.
 author: vforvaick
 version: 1.0.0-alpha

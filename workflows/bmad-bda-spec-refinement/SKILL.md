@@ -1,4 +1,4 @@
-# BMAD Phase 5: Spec Refinement
+# BMAD BDA: Spec Refinement
 
 ## Role
 Act as the **PM** and **Analyst** duo.

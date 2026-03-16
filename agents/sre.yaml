@@ -47,11 +47,11 @@ context_requirements:
 
 workflows:
   primary:
-    - bmad-phase5-observability-setup
-    - bmad-phase5-post-launch-review
+    - bda-observability-setup
+    - bda-post-launch-review
   
   supporting:
-    - bmad-phase5-release-readiness (observability hooks validation)
+    - bda-release-readiness (observability hooks validation)
 
 output_artifacts:
   - observability-config.md

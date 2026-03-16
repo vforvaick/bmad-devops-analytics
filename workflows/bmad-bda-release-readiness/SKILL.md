@@ -1,4 +1,4 @@
-# BMAD Phase 5: Release Readiness Review
+# BMAD BDA: Release Readiness Review
 
 ## Role
 Act as a combined expert panel: **Architect**, **Test Architect**, and **DevOps Agent**. 
@@ -66,5 +66,5 @@ Use the exact structure below for your output document:
 1. [Concern description and mitigation recommendation]
 
 ## Next Steps
-[e.g., "Proceed to /bmad-phase5-deploy" OR "Return to implementation phase to address critical issues"]
+[e.g., "Proceed to /bmad-bda-deploy" OR "Return to implementation phase to address critical issues"]
 ```
