@@ -1,0 +1,26 @@
+# BMAD Execution & Configuration Data
+_bmad/
+_bmad-output/
+.bmad/
+.agent/
+.agents/
+
+# IDE & AI CLI Tools
+.gemini/
+.cursor/
+.windsurf/
+
+# Github skills
+.github/skills/
+
+# Dependency directories
+node_modules/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

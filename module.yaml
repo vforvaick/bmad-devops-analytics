@@ -19,27 +19,27 @@ agents:
 
 workflows:
   - name: bmad-phase5-release-readiness
-    path: workflows/release-readiness
+    path: skills/bmad-phase5-release-readiness
     description: Pre-deploy validation gate
     agents: [architect, test-architect, devops]
     
   - name: bmad-phase5-deploy
-    path: workflows/deploy
+    path: skills/bmad-phase5-deploy
     description: Structured deployment execution
     agents: [devops]
     
   - name: bmad-phase5-observability-setup
-    path: workflows/observability-setup
+    path: skills/bmad-phase5-observability-setup
     description: Monitoring stack configuration (one-time per environment)
     agents: [sre, devops]
     
   - name: bmad-phase5-post-launch-review
-    path: workflows/post-launch-review
+    path: skills/bmad-phase5-post-launch-review
     description: Evidence synthesis and insights generation (24-72h post-deploy)
     agents: [pm, analyst, sre, analytics]
     
   - name: bmad-phase5-spec-refinement
-    path: workflows/spec-refinement
+    path: skills/bmad-phase5-spec-refinement
     description: Translate production insights to PRD/epic updates
     agents: [pm, analyst]
 

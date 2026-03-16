@@ -1,11 +1,29 @@
-# Deployment Plan
+# Deployment Plan: [Release Version]
 
-## Overview
-Brief overview of the deployment.
+**Target Environment**: [Environment Name]
+**Scheduled Time**: [Date/Time]
+**Deployment Lead**: [Name/Agent]
 
-## Steps
-1. Step 1
-2. Step 2
+## Pre-Deployment Checklist
+- [ ] Release Readiness verified (Status: PASS)
+- [ ] Backups completed
+- [ ] Maintenance window communicated
 
-## Rollback Plan
-Details on how to rollback.
+## Deployment Steps
+1. **Prepare**
+   - [ ] [Step description]
+2. **Migrate**
+   - [ ] [Database migration script]
+3. **Deploy**
+   - [ ] [Application update script]
+4. **Verify**
+   - [ ] [Smoke test execution]
+
+## Rollback Trigger Conditions
+- [ ] Smoke tests fail
+- [ ] Error rate > [Threshold]%
+- [ ] Critical infrastructure alerts
+
+## Post-Deployment
+- [ ] Notify team
+- [ ] Monitor logs for 15 mins

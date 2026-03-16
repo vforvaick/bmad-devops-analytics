@@ -45,7 +45,7 @@ cd your-bmad-project/.bmad/custom/modules/
 git clone https://github.com/vforvaick/bmad-phase5.git
 
 cd ../../..
-npx bmad-method build
+npx bmad-method deploy
 ```
 
 ### Verify Installation
@@ -346,7 +346,7 @@ You now have:
 
 ```bash
 # Rebuild BMAD to register module
-npx bmad-method build
+npx bmad-method deploy
 
 # Verify module loaded
 cat .bmad/config.json | grep bmad-phase5

@@ -59,7 +59,7 @@ cd .bmad/custom/modules/
 git clone https://github.com/vforvaick/bmad-phase5.git
 
 # Rebuild BMAD to register agents
-npx bmad-method build
+npx bmad-method deploy
 ```
 
 ### Method 3: Package.json (Future)
