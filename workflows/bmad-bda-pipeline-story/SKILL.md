@@ -1,3 +1,8 @@
+---
+name: bmad-bda-pipeline-story
+description: Deliver one user story autonomously in an isolated git worktree. Use when the user says "run story pipeline" or "deliver next story"
+---
+
 # BMAD BDA: Story Pipeline Worktree
 
 Deliver one story through the BMAD pipeline inside an isolated git worktree.

@@ -1,3 +1,8 @@
+---
+name: bmad-bda-spec-refinement
+description: Translate production insights to PRD/epic updates. Completes the deploy-monitor-learn-refine feedback loop. Use when the user says "refine specs" or "run spec refinement"
+---
+
 # BMAD BDA: Spec Refinement
 
 ## Role

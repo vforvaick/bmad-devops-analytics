@@ -21,6 +21,11 @@ git clone https://github.com/vforvaick/bmad-devops-analytics.git _bmad/_config/c
 
 # 3. Register the module using the BMAD CLI
 npx bmad-method install --action update --yes
+
+# 4. Copy workflows to .agents/skills (required for IDE/Antigravity detection)
+cp -r _bmad/bda/workflows/* .agents/skills/
+
+# 5. Reload your IDE window (Cmd+Shift+P → "Reload Window")
 ```
 
 ---
@@ -120,7 +125,7 @@ Synthesize evidence into insights.
 
 ## Next Steps
 
-Review the generated drafs, approve them, and move the new epics into your Phase 2 **Sprint Planning**.
+Review the generated drafts, approve them, and move the new epics into your Phase 2 **Sprint Planning**.
 
 ---
 
@@ -131,26 +136,52 @@ Review the generated drafs, approve them, and move the new epics into your Phase
 If `/bmad-bda-...` commands aren't appearing in your IDE:
 
 ```bash
-# Force re-registration of module
+# 1. Force re-registration of module
 npx bmad-method install --action update --yes
+
+# 2. Copy workflows to .agents/skills (this is the most common fix)
+cp -r _bmad/bda/workflows/* .agents/skills/
+
+# 3. Reload your IDE window
 ```
+
+### Skills Installed But Not Visible
+
+If the skills are in `.agents/skills/` but still not showing, check that each `SKILL.md` has YAML frontmatter:
+
+```yaml
+---
+name: bmad-bda-deploy
+description: Your skill description here
+---
+```
+
+Without this frontmatter, the IDE cannot detect or register the skill.
 
 ### Module Folder Structure
 
-Your project structure should look like this:
+Your project structure should look like this after installation:
 
 ```text
 .
 ├── _bmad/
+│   ├── bda/                        # Installed by npx bmad-method install
+│   │   └── workflows/
 │   └── _config/
 │       └── custom/
 │           └── modules/
-│               └── bda/
+│               └── bda/            # Git clone source
 │                   ├── module.yaml
 │                   ├── agents/
 │                   ├── workflows/
 │                   ├── templates/
 │                   └── adapters/
+│
+├── .agents/
+│   └── skills/                     # IDE reads skills from here
+│       ├── bmad-bda-deploy/
+│       ├── bmad-bda-pipeline-story/
+│       └── ...                     # All 7 BDA skills
 │
 └── [your application code]
 ```

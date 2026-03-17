@@ -1,3 +1,8 @@
+---
+name: bmad-bda-observability-setup
+description: Monitoring stack configuration and observability setup. Design monitoring strategy and provision infrastructure. Use when the user says "setup observability" or "configure monitoring"
+---
+
 # BMAD BDA: Observability Setup
 
 ## Role

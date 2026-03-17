@@ -1,3 +1,8 @@
+---
+name: bmad-bda-deploy
+description: Structured deployment execution. Orchestrates the physical release of the application to the target environment. Use when the user says "deploy to production" or "run deployment"
+---
+
 # BMAD BDA: Deploy
 
 ## Role

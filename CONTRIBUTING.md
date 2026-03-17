@@ -8,7 +8,7 @@ Thank you for considering contributing to BMAD BDA! This extension aims to close
 
 Found a bug or have a feature request?
 
-- Check [existing issues](https://github.com/vforvaick/bda/issues)
+- Check [existing issues](https://github.com/vforvaick/bmad-devops-analytics/issues)
 - Open a new issue with clear description
 - Include reproduction steps for bugs
 - Tag appropriately: `bug`, `enhancement`, `documentation`, `adapter`
@@ -76,12 +76,15 @@ cd bda
 npm install
 
 # Link to local BMAD project for testing
-cd /path/to/your-bmad-project/.bmad/custom/modules/
+cd /path/to/your-bmad-project/_bmad/_config/custom/modules/
 ln -s /path/to/bda bda
 
 # Rebuild BMAD
 cd /path/to/your-bmad-project
-npx bmad-method build
+npx bmad-method install --action update --yes
+
+# Copy to .agents/skills for IDE detection
+cp -r _bmad/bda/workflows/* .agents/skills/
 ```
 
 ### Testing
@@ -90,8 +93,8 @@ npx bmad-method build
 
 ```bash
 # In your BMAD test project
-/bda-release-readiness
-/bda-observability-setup
+/bmad-bda-release-readiness
+/bmad-bda-observability-setup
 # etc.
 ```
 
@@ -234,8 +237,14 @@ Support multiple environments (VPS, Vercel, shared hosting) with degraded but fu
 ### Adding a Workflow
 
 1. Create workflow directory: `workflows/your-workflow/`
-2. Add `instructions.md` (agent instructions)
-3. Add `checklist.md` (workflow checklist)
+2. Add `SKILL.md` with YAML frontmatter:
+   ```yaml
+   ---
+   name: bmad-bda-your-workflow
+   description: Your workflow description. Use when the user says "trigger phrase"
+   ---
+   ```
+3. Add `bmad-skill-manifest.yaml` with metadata
 4. Update `module.yaml` to register workflow
 5. Add documentation in `docs/workflows/`
 6. Test end-to-end
@@ -301,7 +310,7 @@ Patch versions (v1.0.1) fix:
 
 ## Community
 
-- **Discussions**: [GitHub Discussions](https://github.com/vforvaick/bda/discussions)
+- **Discussions**: [GitHub Discussions](https://github.com/vforvaick/bmad-devops-analytics/discussions)
 - **BMAD Discord**: [Join here](https://discord.gg/bmad-method)
 - **Email**: vforvaick@example.com (for sensitive topics)
 

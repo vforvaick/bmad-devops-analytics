@@ -1,3 +1,8 @@
+---
+name: bmad-bda-pipeline-epic
+description: End-to-end autonomous delivery of an entire Epic using isolated git worktrees. Use when the user says "run epic pipeline" or "deliver epic autonomously"
+---
+
 # BMAD BDA: Autonomous Epic Worktree
 
 Deliver one BMAD epic as a continuous execution run using per-story git worktrees.

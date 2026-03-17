@@ -1,3 +1,8 @@
+---
+name: bmad-bda-post-launch-review
+description: Evidence synthesis and insights generation from 24-72 hours of production data. Use when the user says "run post-launch review" or "generate post-launch insights"
+---
+
 # BMAD BDA: Post-Launch Review
 
 ## Role

@@ -1,3 +1,8 @@
+---
+name: bmad-bda-release-readiness
+description: Pre-deploy validation gate. Conducts architecture review, test coverage validation, and rollback plan review. Use when the user says "check release readiness" or "run release readiness review"
+---
+
 # BMAD BDA: Release Readiness Review
 
 ## Role
