@@ -1,0 +1,5 @@
+type: skill
+name: bmad-bda-pipeline-epic
+description: End-to-end autonomous delivery of an entire Epic using isolated git worktrees. Handles all stories sequentially.
+author: vforvaick
+version: 1.0.0-alpha

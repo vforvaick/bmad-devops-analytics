@@ -1,0 +1,5 @@
+type: skill
+name: bmad-bda-pipeline-story
+description: Deliver one user story autonomously in an isolated git worktree using the BMAD Method. Prevents main branch contamination during development.
+author: vforvaick
+version: 1.0.0-alpha

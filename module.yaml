@@ -19,6 +19,16 @@ agents:
     description: Product usage analysis and feature adoption tracking
 
 workflows:
+  - name: bmad-bda-pipeline-story
+    path: workflows/bmad-bda-pipeline-story
+    description: Deliver one user story autonomously in an isolated git worktree
+    agents: [dev]
+
+  - name: bmad-bda-pipeline-epic
+    path: workflows/bmad-bda-pipeline-epic
+    description: End-to-end autonomous delivery of an entire Epic using isolated git worktrees
+    agents: [pm, dev]
+
   - name: bmad-bda-release-readiness
     path: workflows/bmad-bda-release-readiness
     description: Pre-deploy validation gate
