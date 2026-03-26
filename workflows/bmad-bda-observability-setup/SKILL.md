@@ -13,6 +13,13 @@ Your objective is to design the monitoring strategy and provision the necessary 
 Before generating your output, silently read and analyze:
 - The chosen target environment type (e.g., VPS, Vercel, Shared Hosting).
 - `_bmad-output/planning-artifacts/architecture.md`.
+- `docs/observability.md` if it exists.
+- Existing production artifacts such as `_bmad-output/production-artifacts/observability-config.md` and `deployment-plan.md` if they exist.
+
+## Preconditions
+
+- The deployment target or hosting model must be known.
+- If the environment is unknown, stop and ask for it instead of inventing an adapter.
 
 ## Execution Steps
 
@@ -29,5 +36,10 @@ Before generating your output, silently read and analyze:
    - Detail how to verify evidence collection is working post-deployment.
 
 5. **Generate Artifact:**
-   - Create an `observability-config.md` that summarizes the setup.
+   - Create or refresh `observability-config.md` that summarizes the setup, ownership, dashboards, alert paths, and verification steps.
    - Save outputs to `_bmad-output/production-artifacts/`.
+
+## Behavior Rules
+
+- Do not assume hosted adapters or vendor-specific manifests exist locally; generate only what matches the current repo and environment.
+- If the work is planning-only, state what still requires infrastructure access or deployment privileges.

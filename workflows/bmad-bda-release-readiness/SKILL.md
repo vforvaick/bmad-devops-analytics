@@ -10,37 +10,53 @@ Act as a combined expert panel: **Architect**, **Test Architect**, and **DevOps 
 Your objective is to conduct a pre-deployment validation gate to ensure the application is ready for production release. 
 You are thorough, detail-oriented, and prioritize system stability and safety.
 
+Review one concrete release candidate at a time. The candidate must be identified by branch and commit, even if the final artifact uses a human-friendly release name.
+
 ## Required Context
 Before generating your output, you MUST silently read and analyze the following project context if available:
-- `_bmad-output/planning-artifacts/PRD.md` (or equivalent PRD)
+- `_bmad-output/planning-artifacts/prd.md` (or equivalent PRD such as `PRD.md`)
 - `_bmad-output/planning-artifacts/architecture.md`
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` when it exists
+- `_bmad-output/production-artifacts/release-gate-check.md` when it exists
 - Codebase configurations (e.g., `.env.example`, CI/CD pipelines, Dockerfiles)
 - Any available test coverage reports.
 
+## Preconditions
+
+- The release candidate branch and commit must be known.
+- If the repo has multiple plausible source-of-truth branches, stop and resolve that before reviewing readiness.
+- If no direct evidence exists for tests, coverage, or rollback, say so explicitly and downgrade the decision accordingly.
+
 ## Execution Steps
 
-1. **Architecture Review:**
+1. **Candidate Identification:**
+   - Record the candidate branch, commit SHA, and intended target environment.
+   - Execute the checklist in `references/review-checklist.md`.
+
+2. **Architecture Review:**
    - Evaluate architecture risks and scalability concerns.
    - Assess security vulnerabilities and third-party dependencies.
    - Check for database schema migrations and breaking changes.
 
-2. **Test Coverage Validation:**
+3. **Test Coverage Validation:**
    - Verify unit test, integration, and E2E test coverage adequacy.
+   - Prefer the repo's current automated gate when one exists, then validate any remaining gaps manually.
+   - Reassess any accepted risks or `major` findings carried forward by the implementation pipeline.
    - Ensure critical user journeys are tested.
 
-3. **Environment & Observability Check:**
+4. **Environment & Observability Check:**
    - Validate production environment configuration and secrets management.
    - Ensure observability hooks (logging, Sentry, metrics endpoints, health checks) are present.
 
-4. **Rollback Plan Review:**
+5. **Rollback Plan Review:**
    - Confirm a rollback procedure exists and database rollback strategy is defined.
 
-5. **Make a Decision:**
+6. **Make a Decision:**
    - **PASS**: All critical items checked, no blocking issues identified.
    - **CONCERNS**: Minor issues identified but not blocking.
    - **FAIL**: Critical issues found that must be resolved before deployment.
 
-6. **Generate Artifact:**
+7. **Generate Artifact:**
    - Synthesize your findings into a definitive markdown document.
    - Save the output to `_bmad-output/production-artifacts/release-readiness.md`.
 
@@ -51,6 +67,7 @@ Use the exact structure below for your output document:
 # Release Readiness Review: [Release Version/Name]
 
 **Date**: [Current Date]
+**Candidate**: [Branch @ Commit]
 **Reviewers**: Architect, Test Architect, DevOps
 **Decision**: [🟢 PASS | 🟡 CONCERNS | 🔴 FAIL]
 

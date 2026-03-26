@@ -12,7 +12,14 @@ Your objective is to synthesize evidence from 24-72 hours of production data to 
 ## Required Context
 Before generating your output, silently read and analyze:
 - Evidence from Adapters: Logs, Error reports, Metrics, Traces, Analytics events.
-- BMAD Artifacts: `_bmad-output/planning-artifacts/PRD.md`, UX specifications, `architecture.md`, and deployment logs.
+- BMAD Artifacts: `_bmad-output/planning-artifacts/prd.md` or equivalent PRD, UX specifications, `architecture.md`, and deployment logs.
+- `_bmad-output/production-artifacts/deployment-log.md` and `observability-config.md` when they exist.
+- `_bmad-output/production-artifacts/release-readiness.md` for the baseline expectations that were approved pre-deploy.
+
+## Preconditions
+
+- A deployment must have occurred, or the workflow should stop and say that post-launch review is premature.
+- If only partial evidence exists, continue only if the report explicitly lists the missing evidence and its impact on confidence.
 
 ## Execution Steps
 
@@ -31,6 +38,11 @@ Before generating your output, silently read and analyze:
    - PM and Analyst: Synthesize findings, prioritize insights by user impact, and generate actionable recommendations.
 
 4. **Generate Artifact:**
-   - Create `post-launch-insights.md` using the structure from `templates/post-launch-insights.md`.
+   - Create or refresh `post-launch-insights.md` without depending on an external template file.
    - Optionally generate `observability-report.md` and `usage-insights.md`.
    - Save outputs to `_bmad-output/production-artifacts/`.
+
+## Behavior Rules
+
+- State the evidence window clearly, including dates and the deployment version or commit being reviewed.
+- Separate confirmed findings from inferences when evidence is incomplete.

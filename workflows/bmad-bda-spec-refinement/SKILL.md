@@ -12,9 +12,14 @@ Your objective is to translate production insights from the post-launch review i
 ## Required Context
 Before generating your output, silently read and analyze:
 - `_bmad-output/production-artifacts/post-launch-insights.md`
-- `_bmad-output/planning-artifacts/PRD.md`
+- `_bmad-output/planning-artifacts/prd.md` or equivalent PRD
 - `_bmad-output/planning-artifacts/architecture.md`
-- Existing epics in `_bmad-output/planning-artifacts/epics/`
+- Existing epic definitions in `_bmad-output/planning-artifacts/epics.md` or the repo's equivalent epic index
+
+## Preconditions
+
+- `post-launch-insights.md` must exist.
+- If the repo has no authoritative PRD or epic index, stop and report that refinement cannot safely update planning artifacts.
 
 ## Execution Steps
 
@@ -32,7 +37,7 @@ Before generating your output, silently read and analyze:
 
 5. **Generate Artifacts:**
    - Create `PRD-v2-draft.md` (save to `_bmad-output/production-artifacts/PRD-v2-draft.md`).
-   - Create draft epics in `_bmad-output/production-artifacts/new-epics/`.
+   - Create draft epics in `_bmad-output/production-artifacts/new-epics/` when separate epic files are appropriate, otherwise generate a draft sectioned proposal in the same folder.
    - Create a summary `spec-refinement-log.md` (save to `_bmad-output/production-artifacts/spec-refinement-log.md`).
 
-> **CRITICAL RULE:** All generated files MUST explicitly state they are **DRAFTS** pending human review. Do NOT automatically overwrite the official `PRD.md` or existing epics.
+> **CRITICAL RULE:** All generated files MUST explicitly state they are **DRAFTS** pending human review. Do NOT automatically overwrite the official PRD file or existing epics.
