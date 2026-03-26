@@ -13,6 +13,7 @@ Run this checklist before and during the deployment workflow.
 - Confirm secrets and environment variables are present.
 - Confirm network access, service accounts, and filesystem paths that deployment depends on.
 - Confirm the deploy target matches the intended environment, such as staging or production.
+- Confirm observability sinks needed for smoke checks and post-launch review are reachable.
 
 ## 3. Safety Controls
 

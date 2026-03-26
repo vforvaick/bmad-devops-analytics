@@ -19,6 +19,7 @@ Before generating your output, silently read and analyze:
 ## Preconditions
 
 - A deployment must have occurred, or the workflow should stop and say that post-launch review is premature.
+- The evidence window should normally cover at least 24 hours after deployment. If it does not, stop unless the report is explicitly marked as an early read.
 - If only partial evidence exists, continue only if the report explicitly lists the missing evidence and its impact on confidence.
 
 ## Execution Steps
@@ -45,4 +46,5 @@ Before generating your output, silently read and analyze:
 ## Behavior Rules
 
 - State the evidence window clearly, including dates and the deployment version or commit being reviewed.
+- If the evidence window is under 24 hours, label the artifact clearly as an early read rather than a full post-launch review.
 - Separate confirmed findings from inferences when evidence is incomplete.

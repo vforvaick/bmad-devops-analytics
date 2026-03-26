@@ -22,6 +22,7 @@ Before generating your output, silently read and analyze:
 
 - `release-readiness.md` must indicate `🟢 PASS` for the same candidate branch or commit that is about to be deployed.
 - The target environment and deployment mechanism must be known.
+- Observability must already be configured for the target environment, or the deploy artifact must explicitly state that deployment is proceeding without observability by user-approved override.
 - If a rollback path is unknown, stop and surface that as a deployment blocker.
 
 ## Execution Steps
@@ -29,6 +30,7 @@ Before generating your output, silently read and analyze:
 1. **Pre-Deploy Health Check:**
    - Verify that `release-readiness.md` indicates `🟢 PASS`.
    - Verify that the candidate branch/commit being deployed matches the approved release-readiness artifact.
+   - Verify that observability endpoints, dashboards, or log sinks needed for post-deploy verification are ready.
    - Execute the checklist in `references/deployment-checklist.md`.
 
 2. **Database Migrations:**
@@ -57,4 +59,5 @@ Before generating your output, silently read and analyze:
 
 - Do not proceed if release readiness is `🟡 CONCERNS` or `🔴 FAIL` unless the user explicitly overrides the gate.
 - Do not deploy from a side worktree that is not the declared release source of truth.
+- Do not silently deploy into an environment with no usable observability path.
 - If the deploy is a dry run or planning-only session, say so explicitly in the artifacts.

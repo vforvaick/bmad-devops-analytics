@@ -38,9 +38,10 @@ It also owns repo closure for the epic: canonical branch selection, final synchr
 8. For each story, invoke `bmad-bda-pipeline-story {STORY_ID}` sequentially against the same canonical branch.
 9. After a successful story delivery, continue immediately to the next story without asking the user to re-confirm.
 10. After the last story succeeds, run one final epic-level review sweep on the aggregated candidate diff using the same automated review logic as the story pipeline, including acceptance-gap and severity reporting.
-11. Stop only if a hard blocker is reached.
-12. After all stories succeed, ensure story artifacts and epic status are synchronized, then execute the finalization checklist from `references/finalize-epic-checklist.md`.
-13. Generate a concise epic closeout summary: delivered stories, final target branch, preserved drafts, retained branches, review outcome, accepted risks, and any recommended follow-up workflows.
+11. If that final review returns `FAIL`, stop and preserve the canonical epic branch for manual handling. If it returns `PASS WITH RISKS`, carry the accepted risks explicitly into the epic closeout.
+12. Stop only if a hard blocker is reached.
+13. After all stories succeed, ensure story artifacts and epic status are synchronized, then execute the finalization checklist from `references/finalize-epic-checklist.md`.
+14. Generate a concise epic closeout summary: delivered stories, final target branch, preserved drafts, retained branches, review outcome, accepted risks, and any recommended follow-up workflows.
 
 ## Hard Blockers
 
@@ -112,6 +113,7 @@ After the final story in the epic succeeds:
 - Finalization is mandatory, not optional cleanup.
 - The final epic candidate must survive one last automated review sweep before synchronization to the target branch.
 - The epic closeout must carry forward any accepted `major` findings so release-readiness can reassess them explicitly.
+- A final epic review result of `FAIL` blocks synchronization to the target branch.
 - Synchronize the canonical epic branch into the target branch after the last story passes.
 - Verify branch equivalence after sync with a direct diff such as `git diff target..canonical`.
 - Remove successful story worktrees and delete obsolete story branches.
