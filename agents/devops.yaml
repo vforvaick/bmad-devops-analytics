@@ -47,12 +47,12 @@ context_requirements:
 
 workflows:
   primary:
-    - bda-release-readiness
-    - bda-deploy
-    - bda-observability-setup
+    - bmad-bda-release-readiness
+    - bmad-bda-deploy
+    - bmad-bda-observability-setup
   
   supporting:
-    - bda-post-launch-review (infrastructure insights)
+    - bmad-bda-post-launch-review (infrastructure insights)
 
 output_artifacts:
   - deployment-plan.md

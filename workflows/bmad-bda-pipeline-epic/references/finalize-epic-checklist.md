@@ -16,6 +16,7 @@ Run this checklist after the last story in the epic is merged into the canonical
 ## 3. Sync to the Target Branch
 
 - Merge or otherwise synchronize the canonical epic branch into the target branch, usually `main`.
+- If the target branch moved during the epic run, refresh the canonical branch against the new target tip and rerun any stale final checks before closing.
 - Preserve any caller-worktree draft files that were explicitly declared in the preserve list.
 - Do not claim completion until the target branch contains the same code and artifact state as the canonical epic branch.
 

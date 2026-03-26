@@ -2,7 +2,7 @@
 
 ## 🎯 What You'll Accomplish
 
-Complete the production lifecycle loop: deploy your BMAD project, monitor it, learn from production evidence, and refine your specs for the next iteration.
+Start from BMAD sprint planning outputs, implement epics with automated gates, deploy safely, observe real production behavior, and feed the evidence back into BMAD planning.
 
 **Time Required**: 2-4 hours (first time), 30-60 min (subsequent iterations)
 
@@ -30,7 +30,45 @@ cp -r _bmad/bda/workflows/* .agents/skills/
 
 ---
 
-## Step 2: Release Readiness (15-30 minutes)
+## Step 2: Implementation Delivery
+
+Use BDA's implementation pipelines after BMAD sprint planning has produced epics and stories.
+
+**Run one of:**
+
+```bash
+/bmad-bda-pipeline-epic
+# or
+/bmad-bda-pipeline-story
+```
+
+**The workflows will:**
+1. Resolve the active story or epic from sprint status.
+2. Deliver implementation inside isolated git worktrees.
+3. Run verification, review, and traceability gates before merge.
+4. Keep failed worktrees preserved for recovery instead of contaminating your main worktree.
+
+---
+
+## Step 3: Observability Setup
+
+Establish or refresh the evidence pipeline before production deployment.
+
+**Run setup workflow:**
+
+```bash
+/bmad-bda-observability-setup
+```
+
+**The agents will:**
+1. Classify the target as fresh-machine or existing-deployment.
+2. Design or refresh the observability path for that environment.
+3. Downgrade to planning/manual-evidence mode if the selected adapter is not implemented.
+4. Generate `observability-config.md`.
+
+---
+
+## Step 4: Release Readiness
 
 Before deploying, ensure your code and specs are aligned.
 
@@ -50,7 +88,7 @@ Before deploying, ensure your code and specs are aligned.
 
 ---
 
-## Step 3: Deployment (10-60 minutes)
+## Step 5: Deployment
 
 Once readiness is verified, execute the deployment.
 
@@ -68,30 +106,13 @@ Once readiness is verified, execute the deployment.
 
 ---
 
-## Step 4: Observability Setup (One-time)
-
-Establish the evidence pipeline.
-
-**Run setup workflow:**
-
-```bash
-/bmad-bda-observability-setup
-```
-
-**The agents will:**
-1. Provision or configure your monitoring stack (e.g., Docker Compose for VPS).
-2. Verify that logs, metrics, and analytics are flowing.
-3. Generate `observability-config.md`.
-
----
-
-## Step 5: Wait & Monitor (24-72 hours)
+## Step 6: Wait & Monitor (24-72 hours)
 
 Let the application run in production to collect real-world evidence.
 
 ---
 
-## Step 6: Post-Launch Review (1-2 hours)
+## Step 7: Post-Launch Review
 
 Synthesize evidence into insights.
 
@@ -109,7 +130,7 @@ Synthesize evidence into insights.
 
 ---
 
-## Step 7: Spec Refinement (30-60 minutes)
+## Step 8: Spec Refinement
 
 **Run refinement workflow:**
 
@@ -120,12 +141,16 @@ Synthesize evidence into insights.
 **The agents will generate:**
 1. **PRD-v2-draft.md**: Proposed updates to your Product Requirements Document.
 2. **New Epic Proposals**: Drafts for the next sprint based on evidence.
+3. **spec-refinement-log.md**: Handoff guidance for either next sprint planning or `/bmad-correct-course`.
 
 ---
 
 ## Next Steps
 
-Review the generated drafts, approve them, and move the new epics into your Phase 2 **Sprint Planning**.
+Review the generated drafts, approve them, and then:
+
+1. Use `/bmad-correct-course` if production evidence requires changes to the active sprint or in-flight epic.
+2. Use standard BMAD sprint planning for future-sprint work and approved new epics.
 
 ---
 

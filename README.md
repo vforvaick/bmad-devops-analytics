@@ -7,10 +7,10 @@
 
 ## Overview
 
-BMAD DevOps Analytics (BDA) fills the critical gap between implementation completion and continuous product evolution. While core BMAD ends at implementation, production reality requires:
+BMAD DevOps Analytics (BDA) fills the critical gap between sprint planning, implementation closure, production release, and continuous product evolution. In practice the loop becomes:
 
 ```
-deploy → monitor → learn → update spec → repeat
+sprint planning → implement epics → release ready → deploy → monitor → learn → update plan → repeat
 ```
 
 This extension adds seven new workflows and three custom agents to close the loop.
@@ -58,28 +58,45 @@ cp -r _bmad/bda/workflows/* .agents/skills/
 
 > **Note:** Step 5 is required for IDEs like Cursor, Windsurf, and other Antigravity-compatible editors to detect and list the BDA skills. After copying, reload your IDE window.
 
+## Support Matrix
+
+- `vps-default`: fully implemented reference adapter for automated evidence collection
+- `vercel`: planning/manual-evidence mode until adapter implementation is completed
+- `shared-hosting`: planning/manual-evidence mode until adapter implementation is completed
+
+Validation references:
+- [docs/bda-hardening-checklist.md](docs/bda-hardening-checklist.md)
+- [docs/bda-operational-test-matrix.md](docs/bda-operational-test-matrix.md)
+- [docs/bda-dry-run-playbook.md](docs/bda-dry-run-playbook.md)
+
 ## Quick Start
 
-After completing all BMAD Phase 1-4 epics:
+After BMAD sprint planning has produced stories and epics:
 
 ```bash
-# Step 1: Release readiness check
-/bmad-bda-release-readiness
+# Step 1: Deliver implementation work
+/bmad-bda-pipeline-epic
+# or /bmad-bda-pipeline-story for one-off story delivery
 
-# Step 2: Deploy (if PASS)
-/bmad-bda-deploy
-
-# Step 3: Setup observability (one-time per environment)
+# Step 2: Establish or refresh observability for the target environment
 /bmad-bda-observability-setup
 
-# Step 4: Wait 24-72 hours for production evidence
+# Step 3: Run release readiness on one concrete candidate
+/bmad-bda-release-readiness
 
-# Step 5: Generate insights
+# Step 4: Deploy (if PASS)
+/bmad-bda-deploy
+
+# Step 5: Wait 24-72 hours for production evidence
+
+# Step 6: Generate insights
 /bmad-bda-post-launch-review
 
-# Step 6: Refine spec (creates draft PRD-v2 for human review)
+# Step 7: Refine planning artifacts and route to next BMAD workflow
 /bmad-bda-spec-refinement
 ```
+
+Use `/bmad-correct-course` when post-launch evidence implies the current sprint or active epic should change immediately. Keep `bmad-bda-spec-refinement` as the production evidence distillation and draft-generation step.
 
 ## Governance Model
 
@@ -96,6 +113,7 @@ _bmad-output/
 ├── implementation-artifacts/ # BMAD Phase 3-4
 └── production-artifacts/     # NEW: Phase 5
     ├── release-readiness.md
+    ├── deployment-baseline.md
     ├── deployment-plan.md
     ├── deployment-log.md
     ├── rollback-plan.md
@@ -103,7 +121,9 @@ _bmad-output/
     ├── observability-report.md
     ├── usage-insights.md
     ├── post-launch-insights.md
-    └── PRD-v2-draft.md
+    ├── PRD-v2-draft.md
+    ├── spec-refinement-log.md
+    └── new-epics/
 ```
 
 ## Requirements

@@ -5,6 +5,17 @@ description: Translate production insights to PRD/epic updates. Completes the de
 
 # BMAD BDA: Spec Refinement
 
+## Overview
+
+This workflow converts post-launch evidence into draft planning artifacts that fit BMAD's normal planning loop.
+It keeps production evidence, proposed PRD changes, and new epic proposals in explicit draft form, and it routes active-sprint corrections into `/bmad-correct-course` instead of silently mixing concerns.
+
+## On Activation
+
+1. Confirm that `post-launch-insights.md` exists and identifies a concrete reviewed deployment.
+2. Load the authoritative planning artifacts and the current sprint status when available.
+3. Determine whether the evidence implies future planning work, immediate course correction, or both.
+
 ## Role
 Act as the **PM** and **Analyst** duo.
 Your objective is to translate production insights from the post-launch review into concrete PRD updates and new epic proposals. This completes the feedback loop: `deploy → monitor → learn → update spec`.
@@ -15,16 +26,19 @@ Before generating your output, silently read and analyze:
 - `_bmad-output/planning-artifacts/prd.md` or equivalent PRD
 - `_bmad-output/planning-artifacts/architecture.md`
 - Existing epic definitions in `_bmad-output/planning-artifacts/epics.md` or the repo's equivalent epic index
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` when it exists
 
 ## Preconditions
 
 - `post-launch-insights.md` must exist.
 - If the repo has no authoritative PRD or epic index, stop and report that refinement cannot safely update planning artifacts.
+- If evidence implies changes to the current sprint or active epic, route those as a `bmad-correct-course` handoff instead of silently treating them as future planning only.
 
 ## Execution Steps
 
 1. **Insight Categorization:**
    - Categorize each finding from `post-launch-insights.md` (e.g., Critical Bug -> Emergency Epic P0, Feature Gap -> PRD Update + Epic P1).
+   - Classify each finding as `future-planning`, `correct-course-now`, or `both`.
 
 2. **Draft PRD Updates:**
    - For each insight requiring a PRD change, propose the exact text modification using a `Current Text` vs `Proposed Change` format, along with its justification and priority.
@@ -32,12 +46,14 @@ Before generating your output, silently read and analyze:
 3. **Generate Epic Proposals:**
    - Create detailed drafts for new epics to address high-priority insights (P0/P1). Include Problem Statement, Evidence, Proposed Solution, Success Criteria, and Dependencies.
 
-4. **Impact Assessment:**
+4. **Impact Assessment And Routing:**
    - Summarize the total PRD updates and new epics proposed, estimating effort and categorizing by priority. Recommend the focus for the next sprint.
+   - When any item is `correct-course-now`, produce an explicit handoff section that tells the user to run `/bmad-correct-course` with the relevant evidence and artifact deltas.
+   - When items are future-only, route them to standard BMAD sprint planning.
 
 5. **Generate Artifacts:**
    - Create `PRD-v2-draft.md` (save to `_bmad-output/production-artifacts/PRD-v2-draft.md`).
    - Create draft epics in `_bmad-output/production-artifacts/new-epics/` when separate epic files are appropriate, otherwise generate a draft sectioned proposal in the same folder.
-   - Create a summary `spec-refinement-log.md` (save to `_bmad-output/production-artifacts/spec-refinement-log.md`).
+   - Create a summary `spec-refinement-log.md` (save to `_bmad-output/production-artifacts/spec-refinement-log.md`) that names the recommended next workflow: `/bmad-correct-course` or normal sprint planning.
 
 > **CRITICAL RULE:** All generated files MUST explicitly state they are **DRAFTS** pending human review. Do NOT automatically overwrite the official PRD file or existing epics.

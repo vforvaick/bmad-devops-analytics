@@ -1,6 +1,6 @@
 name: bda
 code: bda
-version: 1.0.0-alpha
+version: 1.1.0-alpha
 description: BMAD DevOps Analytics (BDA) - Production lifecycle extension - deploy, monitor, learn, refine
 author: vforvaick
 repository: https://github.com/vforvaick/bmad-devops-analytics
@@ -51,11 +51,12 @@ workflows:
     
   - name: bmad-bda-spec-refinement
     path: workflows/bmad-bda-spec-refinement
-    description: Translate production insights to PRD/epic updates
+    description: Translate production insights to PRD/epic updates with optional correct-course handoff
     agents: [pm, analyst]
 
 templates:
   - release-readiness.md
+  - deployment-baseline.md
   - deployment-plan.md
   - deployment-log.md
   - rollback-plan.md
@@ -64,6 +65,7 @@ templates:
   - usage-insights.md
   - post-launch-insights.md
   - PRD-v2-draft.md
+  - spec-refinement-log.md
 
 adapters:
   - name: vps-default

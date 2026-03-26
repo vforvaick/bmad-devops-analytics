@@ -5,6 +5,17 @@ description: Evidence synthesis and insights generation from 24-72 hours of prod
 
 # BMAD BDA: Post-Launch Review
 
+## Overview
+
+This workflow turns 24-72 hours of production evidence into an explicit BMAD feedback package.
+It compares observed production behavior against the approved release expectations and current deployment baseline, then produces durable artifacts for refinement or course correction.
+
+## On Activation
+
+1. Confirm which deployment version or commit is being reviewed.
+2. Confirm the evidence window and whether this is a full review or an early read.
+3. Confirm whether evidence is arriving from an implemented adapter or from a manual evidence bundle.
+
 ## Role
 Act as a cross-functional squad: **PM**, **Analyst**, **SRE Agent**, and **Analytics Agent**.
 Your objective is to synthesize evidence from 24-72 hours of production data to generate actionable insights. This is the **learning** step in the lifecycle.
@@ -15,12 +26,14 @@ Before generating your output, silently read and analyze:
 - BMAD Artifacts: `_bmad-output/planning-artifacts/prd.md` or equivalent PRD, UX specifications, `architecture.md`, and deployment logs.
 - `_bmad-output/production-artifacts/deployment-log.md` and `observability-config.md` when they exist.
 - `_bmad-output/production-artifacts/release-readiness.md` for the baseline expectations that were approved pre-deploy.
+- `_bmad-output/production-artifacts/deployment-baseline.md` when it exists.
 
 ## Preconditions
 
 - A deployment must have occurred, or the workflow should stop and say that post-launch review is premature.
 - The evidence window should normally cover at least 24 hours after deployment. If it does not, stop unless the report is explicitly marked as an early read.
 - If only partial evidence exists, continue only if the report explicitly lists the missing evidence and its impact on confidence.
+- The evidence source must be known, either via an implemented adapter path or an explicit manual evidence bundle.
 
 ## Execution Steps
 
@@ -28,17 +41,21 @@ Before generating your output, silently read and analyze:
    - SRE Agent: Analyze technical health (Errors and Stability, Performance, Infrastructure).
    - Analytics Agent: Analyze user behavior and feature adoption.
 
-2. **Analysis Dimensions:**
+2. **Baseline Comparison:**
+   - Compare observed behavior to the expectations approved in `release-readiness.md`.
+   - Compare observed runtime state to `deployment-baseline.md` when the deployment updated an existing environment.
+
+3. **Analysis Dimensions:**
    - **Errors & Stability:** Identify top errors by frequency and impact.
    - **Performance:** Identify slow endpoints and bottlenecks.
    - **Feature Adoption:** Evaluate usage rates of new features.
    - **User Behavior:** Analyze drop-offs and unexpected patterns.
    - **Infrastructure:** Assess resource utilization and scaling needs.
 
-3. **Synthesis:**
+4. **Synthesis:**
    - PM and Analyst: Synthesize findings, prioritize insights by user impact, and generate actionable recommendations.
 
-4. **Generate Artifact:**
+5. **Generate Artifact:**
    - Create or refresh `post-launch-insights.md` without depending on an external template file.
    - Optionally generate `observability-report.md` and `usage-insights.md`.
    - Save outputs to `_bmad-output/production-artifacts/`.
@@ -48,3 +65,4 @@ Before generating your output, silently read and analyze:
 - State the evidence window clearly, including dates and the deployment version or commit being reviewed.
 - If the evidence window is under 24 hours, label the artifact clearly as an early read rather than a full post-launch review.
 - Separate confirmed findings from inferences when evidence is incomplete.
+- If evidence implies immediate replanning of active sprint work, state that clearly so `bmad-bda-spec-refinement` or `/bmad-correct-course` can route the next step explicitly.

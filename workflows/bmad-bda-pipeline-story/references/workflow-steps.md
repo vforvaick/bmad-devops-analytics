@@ -7,6 +7,7 @@ Use these steps inside the isolated story worktree. Do not skip or silently reor
 - Confirm the story id and locate its source artifact.
 - If the story artifact does not exist yet, create or refresh it with the project's story-creation skill before implementation starts.
 - Extract acceptance criteria, dependencies, and any release-readiness constraints that affect the story.
+- Resolve the concrete local skill names that will perform implementation, review, and traceability before edits begin.
 
 ## 2. Test Shape
 
@@ -52,6 +53,7 @@ Use these steps inside the isolated story worktree. Do not skip or silently reor
 
 ## 7. Merge and Cleanup
 
+- If the canonical branch moved during implementation, sync the story branch with the new canonical tip and rerun the affected verification and review steps before merge.
 - Commit the story branch with a message that reflects the delivered outcome.
 - Merge back into the declared canonical branch.
 - Remove the successful worktree and delete the temporary story branch.

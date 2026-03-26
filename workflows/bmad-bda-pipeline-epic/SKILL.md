@@ -5,11 +5,22 @@ description: End-to-end autonomous delivery of an entire Epic using isolated git
 
 # BMAD BDA: Autonomous Epic Worktree
 
-Deliver one BMAD epic as a continuous execution run using per-story git worktrees.
+## Overview
+
+This workflow delivers one BMAD epic as a continuous implementation run using per-story git worktrees.
+It is the batch implementation entry point for BDA once BMAD sprint planning has produced a usable sprint status source.
+It preserves isolated story execution, sequential merge discipline, and epic-level closeout before the production workflows begin.
 
 This skill is the autonomous variant of `bmad-epic-pipeline-worktree`.
 It preserves the same safety model of isolated worktrees and sequential story merges, but changes the orchestration behavior so the agent keeps going until the epic is done or a hard blocker is reached.
 It also owns repo closure for the epic: canonical branch selection, final synchronization, cleanup, and closeout reporting.
+
+## On Activation
+
+1. Confirm the epic selection source, or infer the smallest incomplete epic from sprint status.
+2. Resolve the canonical branch, final target branch, and preserve-list before starting any story execution.
+3. Verify that `bmad-bda-pipeline-story` and the epic finalization checklist are available locally.
+4. Stop early when the repo state, status source, or branch ownership is too ambiguous for unattended execution.
 
 ## Inputs
 
@@ -25,6 +36,7 @@ It also owns repo closure for the epic: canonical branch selection, final synchr
 - The skill should have access to `bmad-bda-pipeline-story`.
 - The skill should have access to `references/finalize-epic-checklist.md`.
 - If the starting worktree is dirty, the dirty paths must be recorded up front as a preserve list before autonomous execution begins.
+- The final target branch must be synchronizable from a clean surface. If the target branch is dirty or ambiguous, use a clean worktree for final sync or stop.
 
 ## Workflow
 
@@ -39,9 +51,10 @@ It also owns repo closure for the epic: canonical branch selection, final synchr
 9. After a successful story delivery, continue immediately to the next story without asking the user to re-confirm.
 10. After the last story succeeds, run one final epic-level review sweep on the aggregated candidate diff using the same automated review logic as the story pipeline, including acceptance-gap and severity reporting.
 11. If that final review returns `FAIL`, stop and preserve the canonical epic branch for manual handling. If it returns `PASS WITH RISKS`, carry the accepted risks explicitly into the epic closeout.
-12. Stop only if a hard blocker is reached.
-13. After all stories succeed, ensure story artifacts and epic status are synchronized, then execute the finalization checklist from `references/finalize-epic-checklist.md`.
-14. Generate a concise epic closeout summary: delivered stories, final target branch, preserved drafts, retained branches, review outcome, accepted risks, and any recommended follow-up workflows.
+12. If the target branch moved while the epic run was in progress, refresh the canonical branch against the new target tip and rerun any final checks that became stale.
+13. Stop only if a hard blocker is reached.
+14. After all stories succeed, ensure story artifacts and epic status are synchronized, then execute the finalization checklist from `references/finalize-epic-checklist.md`.
+15. Generate a concise epic closeout summary: delivered stories, final target branch, preserved drafts, retained branches, review outcome, accepted risks, and recommended next workflows such as `bmad-bda-release-readiness`.
 
 ## Hard Blockers
 
