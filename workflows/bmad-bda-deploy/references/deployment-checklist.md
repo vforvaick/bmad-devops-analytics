@@ -15,6 +15,8 @@ Run this checklist before and during the deployment workflow.
 - Confirm network access, service accounts, and filesystem paths that deployment depends on.
 - Confirm the deploy target matches the intended environment, such as staging or production.
 - Confirm observability sinks needed for smoke checks and post-launch review are reachable.
+- Confirm the observability path can show the deployed release marker or version tag.
+- Confirm at least one critical user journey and one system-health path can be verified immediately after rollout.
 - For existing deployments, confirm the current production state has been snapshotted or otherwise recorded before mutation.
 
 ## 3. Safety Controls
@@ -27,5 +29,6 @@ Run this checklist before and during the deployment workflow.
 ## 4. Verification
 
 - Confirm smoke tests to run immediately after deployment.
-- Confirm where to inspect logs, metrics, and health endpoints.
+- Confirm where to inspect logs, metrics, health endpoints, and user-journey evidence.
+- Confirm alert owners and the escalation path for severe post-deploy regressions.
 - Confirm who or what will watch the first post-deploy interval.

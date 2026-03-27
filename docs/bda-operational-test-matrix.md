@@ -73,8 +73,10 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 
 - Readiness records `fresh-machine`
 - Greenfield prerequisites are explicit in readiness and deploy artifacts
-- Deploy logs capture candidate, operator, smoke checks, and rollback posture
+- Observability config defines critical service telemetry, critical journey evidence, release markers, and alert ownership
+- Deploy logs capture candidate, operator, smoke checks, release marker, and rollback posture
 - Post-launch review identifies the exact reviewed deployment
+- Post-launch review flags missing telemetry as a confidence issue instead of silently proceeding
 - Spec refinement routes output either to normal sprint planning or to `/bmad-correct-course`
 
 **Required Artifacts**
@@ -118,6 +120,7 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 
 - Readiness records `existing-deployment`
 - Current-state baseline includes running version, restore path, and environment notes
+- Observability setup records current coverage gaps and how they will be closed before or during rollout
 - Deploy refuses to mutate production without baseline evidence unless explicitly overridden
 - Post-launch review compares observed behavior against both release expectations and baseline state
 

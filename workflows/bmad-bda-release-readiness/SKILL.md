@@ -64,7 +64,10 @@ Before generating your output, you MUST silently read and analyze the following 
 
 5. **Environment & Observability Check:**
    - Validate production environment configuration and secrets management.
-   - Ensure observability hooks (logging, Sentry, metrics endpoints, health checks) are present.
+   - Ensure observability hooks (logging, error tracking, metrics endpoints, health checks) are present.
+   - Verify that observability covers both system health and the release's critical user journeys.
+   - Verify that release markers or version tags will let the deployment be correlated across logs, metrics, and incidents.
+   - Verify that alert ownership, notification path, and post-deploy observation expectations are documented.
 
 6. **Rollback And Restore Review:**
    - Confirm a rollback procedure exists and database rollback strategy is defined.
@@ -102,6 +105,8 @@ Use the exact structure below for your output document:
 - **Test Coverage**: [Status/Notes - Are we meeting the 80%+ threshold?]
 - **Environment Config**: [Status/Notes - Are secrets and env vars ready?]
 - **Observability Hooks**: [Status/Notes - Logging, Tracing, Metrics present?]
+- **User Journey Evidence**: [Status/Notes - Critical journeys observable and measurable?]
+- **Alert Ownership**: [Status/Notes - Clear owner, severity, and escalation path?]
 - **Rollback Plan**: [Status/Notes - Is there a safe way to revert?]
 
 ## Blocking Issues (If FAIL)

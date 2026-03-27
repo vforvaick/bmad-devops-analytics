@@ -29,7 +29,7 @@ This extension adds seven new workflows and three custom agents to close the loo
 2. **Epic Pipeline** - End-to-end autonomous delivery of an entire Epic
 3. **Release Readiness Review** - Pre-deploy validation gate
 4. **Deployment** - Structured deployment execution
-5. **Observability Setup** - Monitoring stack configuration
+5. **Observability Setup** - Production evidence contract, monitoring stack, and alert/runbook setup
 6. **Post-Launch Review** - Evidence synthesis (24-72h post-deploy)
 7. **Spec Refinement** - Translate insights to PRD/epic updates
 
@@ -79,6 +79,8 @@ After BMAD sprint planning has produced stories and epics:
 # or /bmad-bda-pipeline-story for one-off story delivery
 
 # Step 2: Establish or refresh observability for the target environment
+# This now defines the production evidence contract, critical journey telemetry,
+# release markers, alerts, and the 24-72h observation plan.
 /bmad-bda-observability-setup
 
 # Step 3: Run release readiness on one concrete candidate

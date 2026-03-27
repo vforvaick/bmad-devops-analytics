@@ -34,16 +34,19 @@ Before generating your output, silently read and analyze:
 - The evidence window should normally cover at least 24 hours after deployment. If it does not, stop unless the report is explicitly marked as an early read.
 - If only partial evidence exists, continue only if the report explicitly lists the missing evidence and its impact on confidence.
 - The evidence source must be known, either via an implemented adapter path or an explicit manual evidence bundle.
+- `observability-config.md` should define the expected telemetry contract or the report must explicitly say that confidence is reduced because the contract was missing or incomplete.
 
 ## Execution Steps
 
 1. **Evidence Collection:**
    - SRE Agent: Analyze technical health (Errors and Stability, Performance, Infrastructure).
    - Analytics Agent: Analyze user behavior and feature adoption.
+   - Validate whether the minimum evidence promised by `observability-config.md` actually arrived.
 
 2. **Baseline Comparison:**
    - Compare observed behavior to the expectations approved in `release-readiness.md`.
    - Compare observed runtime state to `deployment-baseline.md` when the deployment updated an existing environment.
+   - Compare observed evidence quality to the intended telemetry contract: missing dashboards, missing alerts, missing release markers, or missing journey instrumentation are findings, not footnotes.
 
 3. **Analysis Dimensions:**
    - **Errors & Stability:** Identify top errors by frequency and impact.
@@ -51,9 +54,11 @@ Before generating your output, silently read and analyze:
    - **Feature Adoption:** Evaluate usage rates of new features.
    - **User Behavior:** Analyze drop-offs and unexpected patterns.
    - **Infrastructure:** Assess resource utilization and scaling needs.
+   - **Operational Decision Readiness:** State whether the evidence is sufficient to answer health, user impact, rollback hindsight, and next-step planning questions with confidence.
 
 4. **Synthesis:**
    - PM and Analyst: Synthesize findings, prioritize insights by user impact, and generate actionable recommendations.
+   - Explicitly separate confirmed production issues, evidence-quality gaps, and future optimization opportunities.
 
 5. **Generate Artifact:**
    - Create or refresh `post-launch-insights.md` without depending on an external template file.
@@ -65,4 +70,5 @@ Before generating your output, silently read and analyze:
 - State the evidence window clearly, including dates and the deployment version or commit being reviewed.
 - If the evidence window is under 24 hours, label the artifact clearly as an early read rather than a full post-launch review.
 - Separate confirmed findings from inferences when evidence is incomplete.
+- Treat missing telemetry on a critical path as a real finding because it weakens operational confidence and BMAD feedback quality.
 - If evidence implies immediate replanning of active sprint work, state that clearly so `bmad-bda-spec-refinement` or `/bmad-correct-course` can route the next step explicitly.

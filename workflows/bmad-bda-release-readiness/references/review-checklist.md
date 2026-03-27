@@ -21,6 +21,9 @@ Use this checklist before deciding `PASS`, `CONCERNS`, or `FAIL`.
 - Confirm deploy path exists.
 - Confirm rollback path exists.
 - Confirm observability and health checks exist.
+- Confirm observability covers both system health and critical user journeys.
+- Confirm release markers or version tags will tie post-deploy evidence back to the reviewed candidate.
+- Confirm alert ownership and escalation path are documented.
 
 ## 4. Decision Integrity
 

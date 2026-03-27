@@ -38,6 +38,7 @@ Before generating your output, silently read and analyze:
 - The target environment and deployment mechanism must be known.
 - The rollout mode must be known: `fresh-machine` or `existing-deployment`.
 - Observability must already be configured for the target environment, or the deploy artifact must explicitly state that deployment is proceeding without observability by user-approved override.
+- The observability path must include release markers or another explicit way to correlate evidence to this deployment candidate.
 - If a rollback path is unknown, stop and surface that as a deployment blocker.
 - If this is an `existing-deployment`, do not mutate production until the current-state snapshot or backup posture has been captured and recorded, unless the user explicitly overrides.
 
@@ -48,6 +49,7 @@ Before generating your output, silently read and analyze:
    - Verify that the candidate branch/commit being deployed matches the approved release-readiness artifact.
    - Verify that the rollout mode and target environment match the approved release-readiness artifact.
    - Verify that observability endpoints, dashboards, or log sinks needed for post-deploy verification are ready.
+   - Verify that at least one critical user journey and one system-health path can be checked immediately after rollout.
    - Execute the checklist in `references/deployment-checklist.md`.
 
 2. **Current-State Protection:**
@@ -64,7 +66,7 @@ Before generating your output, silently read and analyze:
 
 5. **Post-Deploy Smoke Tests:**
    - Define the critical smoke tests to verify the deployment's success.
-   - Include at least one health/path test, one core user journey, and one observability check.
+   - Include at least one health/path test, one core user journey, one release-marker verification, and one observability check.
 
 6. **Rollback Plan Activation:**
    - Document the specific conditions and steps required to trigger a rollback if deployment fails.
@@ -74,7 +76,7 @@ Before generating your output, silently read and analyze:
    - Create or refresh `deployment-baseline.md` when current-state protection data was collected.
    - Create or refresh `deployment-plan.md` without depending on an external template file.
    - Create or refresh `deployment-log.md`.
-   - Record the deployment mode, target environment, deployed branch, commit SHA, operator, timestamps, smoke-test results, baseline snapshot identifiers, and rollback outcome if used.
+   - Record the deployment mode, target environment, deployed branch, commit SHA, operator, timestamps, smoke-test results, release marker or version tag, baseline snapshot identifiers, and rollback outcome if used.
    - Save outputs to `_bmad-output/production-artifacts/`.
 
 ## Behavior Rules
@@ -82,5 +84,6 @@ Before generating your output, silently read and analyze:
 - Do not proceed if release readiness is `🟡 CONCERNS` or `🔴 FAIL` unless the user explicitly overrides the gate.
 - Do not deploy from a side worktree that is not the declared release source of truth.
 - Do not silently deploy into an environment with no usable observability path.
+- Do not mark a deployment successful until evidence for the release marker and immediate smoke checks is visible or the artifact clearly records why verification is delayed.
 - Do not mutate an existing production deployment without recording the current-state protection posture or explicit user override.
 - If the deploy is a dry run or planning-only session, say so explicitly in the artifacts.

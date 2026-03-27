@@ -29,8 +29,14 @@ This checklist defines the intended production-grade contract for BMAD DevOps An
 
 - [x] Observability setup supports fully automated mode where an adapter exists.
 - [x] Placeholder adapters must degrade to planning/manual-evidence mode instead of pretending automation exists.
+- [x] Observability defines a telemetry contract for critical services and critical user journeys, not just infrastructure dashboards.
+- [x] Observability defines release markers or version tagging so production evidence can be tied to one deploy candidate.
+- [x] Observability defines alert ownership, notification path, and concise runbook guidance for high-risk failures.
+- [x] Observability includes retention, privacy, and cost controls for the evidence path.
+- [x] Existing deployments assess current observability coverage and gap-closure needs before rollout.
 - [x] Post-launch review states the evidence window, reviewed candidate, and confidence gaps explicitly.
 - [x] Post-launch review compares production evidence against pre-deploy expectations and current baseline.
+- [x] Post-launch review treats missing telemetry on critical paths as a real finding, not a minor note.
 
 ## BMAD Feedback Loop
 
