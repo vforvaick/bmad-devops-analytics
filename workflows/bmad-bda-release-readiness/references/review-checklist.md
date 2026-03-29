@@ -18,12 +18,15 @@ Use this checklist before deciding `PASS`, `CONCERNS`, or `FAIL`.
 ## 3. Operational Safety
 
 - Confirm current-state baseline exists for existing deployments, or record the evidence gap explicitly.
+- Confirm the current-state understanding comes from repo docs and prior production artifacts first.
+- Confirm any live VPS verification request is targeted and justified by a documented evidence gap.
 - Confirm deploy path exists.
 - Confirm rollback path exists.
 - Confirm observability and health checks exist.
 - Confirm observability covers both system health and critical user journeys.
 - Confirm release markers or version tags will tie post-deploy evidence back to the reviewed candidate.
 - Confirm alert ownership and escalation path are documented.
+- Confirm the intended observability change is reuse, extension, correction, or replacement of the current stack, and that replacement is justified if chosen.
 
 ## 4. Decision Integrity
 

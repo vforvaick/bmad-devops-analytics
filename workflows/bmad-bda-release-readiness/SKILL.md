@@ -14,7 +14,8 @@ It bridges implementation completion and deployment by checking candidate integr
 
 1. Confirm the candidate branch, commit, target environment, and whether the rollout is for a `fresh-machine` or `existing-deployment`.
 2. Load the most relevant planning, implementation, and production artifacts for that candidate.
-3. If the environment or candidate is ambiguous, stop before performing readiness evaluation.
+3. For `existing-deployment`, review documented current state before assuming live target inspection is required.
+4. If the environment or candidate is ambiguous, stop before performing readiness evaluation.
 
 ## Role
 Act as a combined expert panel: **Architect**, **Test Architect**, and **DevOps Agent**. 
@@ -30,6 +31,8 @@ Before generating your output, you MUST silently read and analyze the following 
 - `_bmad-output/implementation-artifacts/sprint-status.yaml` when it exists
 - `_bmad-output/production-artifacts/release-readiness.md` when it exists
 - `_bmad-output/production-artifacts/deployment-baseline.md` when it exists
+- `_bmad-output/production-artifacts/observability-config.md` when it exists
+- `docs/deployment.md`, `docs/infrastructure.md`, and `docs/observability.md` when they exist
 - Codebase configurations (e.g., `.env.example`, CI/CD pipelines, Dockerfiles)
 - Any available test coverage reports.
 
@@ -40,6 +43,7 @@ Before generating your output, you MUST silently read and analyze the following 
 - If the repo has multiple plausible source-of-truth branches, stop and resolve that before reviewing readiness.
 - If no direct evidence exists for tests, coverage, or rollback, say so explicitly and downgrade the decision accordingly.
 - If this is an existing deployment, either a current-state baseline must be available or the readiness decision must explicitly downgrade for missing baseline evidence.
+- For `existing-deployment`, prefer documented current-state evidence first. Request live VPS verification only if the documents leave blocking uncertainty.
 
 ## Execution Steps
 
@@ -48,7 +52,8 @@ Before generating your output, you MUST silently read and analyze the following 
    - Execute the checklist in `references/review-checklist.md`.
 
 2. **Current-State Snapshot:**
-   - For `existing-deployment`, capture or refresh the current production baseline: running version, schema/migration state, infrastructure shape, backup/snapshot posture, and observability state.
+   - For `existing-deployment`, capture or refresh the current production baseline from repo docs and prior production artifacts first: running version, schema/migration state, infrastructure shape, backup/snapshot posture, and observability state.
+   - Request targeted live VPS verification only if the docs do not support a safe readiness decision.
    - For `fresh-machine`, record the baseline as greenfield and list missing infrastructure prerequisites explicitly.
 
 3. **Architecture Review:**
@@ -68,6 +73,7 @@ Before generating your output, you MUST silently read and analyze the following 
    - Verify that observability covers both system health and the release's critical user journeys.
    - Verify that release markers or version tags will let the deployment be correlated across logs, metrics, and incidents.
    - Verify that alert ownership, notification path, and post-deploy observation expectations are documented.
+   - For `existing-deployment`, verify whether the intended change is reuse, extension, correction, or replacement of the current observability stack, and justify that choice from documented evidence.
 
 6. **Rollback And Restore Review:**
    - Confirm a rollback procedure exists and database rollback strategy is defined.
@@ -79,42 +85,15 @@ Before generating your output, you MUST silently read and analyze the following 
    - **FAIL**: Critical issues found that must be resolved before deployment.
 
 8. **Generate Artifacts:**
-   - Synthesize your findings into a definitive markdown document.
+   - Synthesize your findings into a definitive markdown document using `templates/release-readiness.md` as the canonical structure.
    - Save the output to `_bmad-output/production-artifacts/release-readiness.md`.
-   - If a current-state snapshot was captured or refreshed, save it to `_bmad-output/production-artifacts/deployment-baseline.md`.
+   - If a current-state snapshot was captured or refreshed, save it to `_bmad-output/production-artifacts/deployment-baseline.md` using `templates/deployment-baseline.md`.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/release-readiness.md _bmad-output/production-artifacts/deployment-baseline.md`.
 
 ## Output Format
-Use the exact structure below for your output document:
+Use the exact structure from `templates/release-readiness.md` for your output document.
 
 ```markdown
 # Release Readiness Review: [Release Version/Name]
-
-**Date**: [Current Date]
-**Candidate**: [Branch @ Commit]
-**Target Environment**: [Environment]
-**Deployment Mode**: [fresh-machine | existing-deployment]
-**Reviewers**: Architect, Test Architect, DevOps
-**Decision**: [🟢 PASS | 🟡 CONCERNS | 🔴 FAIL]
-
-## Summary
-[Brief summary of readiness state based on your analysis]
-
-## Checklist Validation
-- **Current-State Snapshot**: [Status/Notes - Existing deployment baseline or greenfield prerequisite state]
-- **Architecture Risks**: [Status/Notes - Highlight any unmitigated risks]
-- **Test Coverage**: [Status/Notes - Are we meeting the 80%+ threshold?]
-- **Environment Config**: [Status/Notes - Are secrets and env vars ready?]
-- **Observability Hooks**: [Status/Notes - Logging, Tracing, Metrics present?]
-- **User Journey Evidence**: [Status/Notes - Critical journeys observable and measurable?]
-- **Alert Ownership**: [Status/Notes - Clear owner, severity, and escalation path?]
-- **Rollback Plan**: [Status/Notes - Is there a safe way to revert?]
-
-## Blocking Issues (If FAIL)
-1. [Issue description and why it blocks the release]
-
-## Concerns (If CONCERNS)
-1. [Concern description and mitigation recommendation]
-
-## Next Steps
-[e.g., "Proceed to /bmad-bda-deploy" OR "Return to implementation phase to address critical issues"]
+[Fill every required field and section from `templates/release-readiness.md`. Mark intentionally unavailable fields as `N/A` instead of omitting them.]
 ```

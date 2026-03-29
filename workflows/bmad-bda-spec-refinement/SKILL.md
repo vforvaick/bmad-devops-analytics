@@ -52,8 +52,9 @@ Before generating your output, silently read and analyze:
    - When items are future-only, route them to standard BMAD sprint planning.
 
 5. **Generate Artifacts:**
-   - Create `PRD-v2-draft.md` (save to `_bmad-output/production-artifacts/PRD-v2-draft.md`).
+   - Create `PRD-v2-draft.md` using `templates/PRD-v2-draft.md` (save to `_bmad-output/production-artifacts/PRD-v2-draft.md`).
    - Create draft epics in `_bmad-output/production-artifacts/new-epics/` when separate epic files are appropriate, otherwise generate a draft sectioned proposal in the same folder.
-   - Create a summary `spec-refinement-log.md` (save to `_bmad-output/production-artifacts/spec-refinement-log.md`) that names the recommended next workflow: `/bmad-correct-course` or normal sprint planning.
+   - Create a summary `spec-refinement-log.md` using `templates/spec-refinement-log.md` (save to `_bmad-output/production-artifacts/spec-refinement-log.md`) that names the recommended next workflow: `/bmad-correct-course` or normal sprint planning.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/PRD-v2-draft.md _bmad-output/production-artifacts/spec-refinement-log.md`.
 
 > **CRITICAL RULE:** All generated files MUST explicitly state they are **DRAFTS** pending human review. Do NOT automatically overwrite the official PRD file or existing epics.

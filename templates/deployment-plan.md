@@ -1,29 +1,56 @@
-# Deployment Plan: [Release Version]
+# Deployment Plan: [Release Version / Name]
 
-**Target Environment**: [Environment Name]
-**Scheduled Time**: [Date/Time]
-**Deployment Lead**: [Name/Agent]
+**Date**: [YYYY-MM-DD]
+**Candidate**: [branch @ commit]
+**Target Environment**: [environment]
+**Deployment Mode**: [fresh-machine | existing-deployment]
+**Operator**: [name or agent]
+**Execution Mode**: [live | dry-run | planning-only]
 
-## Pre-Deployment Checklist
-- [ ] Release Readiness verified (Status: PASS)
-- [ ] Backups completed
-- [ ] Maintenance window communicated
+## Summary
+[Short description of what will be deployed and why this path is safe.]
 
-## Deployment Steps
+## Preconditions
+- [ ] `release-readiness.md` decision is PASS for the same candidate
+- [ ] Target environment identity is confirmed
+- [ ] Baseline or greenfield prerequisites are recorded
+- [ ] Observability contract is available
+- [ ] Rollback target is known
+
+## Deployment Sequence
 1. **Prepare**
-   - [ ] [Step description]
-2. **Migrate**
-   - [ ] [Database migration script]
-3. **Deploy**
-   - [ ] [Application update script]
-4. **Verify**
-   - [ ] [Smoke test execution]
+   - [exact step]
+2. **Protect Current State**
+   - [exact step]
+3. **Run Migrations**
+   - [exact step or N/A]
+4. **Deploy Application**
+   - [exact step]
+5. **Run Smoke Tests**
+   - [exact step]
+6. **Observe Immediate Signals**
+   - [exact step]
 
-## Rollback Trigger Conditions
-- [ ] Smoke tests fail
-- [ ] Error rate > [Threshold]%
-- [ ] Critical infrastructure alerts
+## Migration Strategy
+- **Required**: [yes | no]
+- **Mode**: [forward-only | reversible]
+- **Risk Notes**: [notes]
 
-## Post-Deployment
-- [ ] Notify team
-- [ ] Monitor logs for 15 mins
+## Smoke Test Plan
+- **System Health Path**: [test]
+- **Critical User Journey**: [test]
+- **Release Marker Verification**: [test]
+- **Observability Check**: [test]
+
+## Rollback Triggers
+1. [trigger]
+2. [trigger]
+
+## Rollback Procedure
+1. [exact rollback step]
+2. [exact verification step]
+
+## Evidence References
+- **Release Readiness**: [path]
+- **Deployment Baseline**: [path or N/A]
+- **Observability Config**: [path]

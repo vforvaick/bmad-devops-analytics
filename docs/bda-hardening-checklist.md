@@ -22,6 +22,7 @@ This checklist defines the intended production-grade contract for BMAD DevOps An
 - [x] Release readiness evaluates one concrete candidate branch and commit at a time.
 - [x] Release readiness and deployment both classify the target as either `fresh-machine` or `existing-deployment`.
 - [x] Existing deployments require a current-state baseline snapshot before mutation unless the user explicitly overrides.
+- [x] Existing VPS deployments are assessed from repo docs and prior production artifacts first; live host inspection is targeted fallback, not default behavior.
 - [x] Rollback and database restore posture are reviewed before production changes.
 - [x] Deployment records baseline, candidate, operator, timestamps, smoke results, and rollback outcomes.
 
@@ -34,6 +35,7 @@ This checklist defines the intended production-grade contract for BMAD DevOps An
 - [x] Observability defines alert ownership, notification path, and concise runbook guidance for high-risk failures.
 - [x] Observability includes retention, privacy, and cost controls for the evidence path.
 - [x] Existing deployments assess current observability coverage and gap-closure needs before rollout.
+- [x] Existing observability stacks are reused, extended, corrected, or replaced based on documented evidence rather than greenfield assumptions.
 - [x] Post-launch review states the evidence window, reviewed candidate, and confidence gaps explicitly.
 - [x] Post-launch review compares production evidence against pre-deploy expectations and current baseline.
 - [x] Post-launch review treats missing telemetry on critical paths as a real finding, not a minor note.
@@ -50,3 +52,5 @@ This checklist defines the intended production-grade contract for BMAD DevOps An
 - [x] Canonical workflow names use the `bmad-bda-*` prefix consistently.
 - [x] Module metadata and agent metadata refer to the same canonical workflow names.
 - [x] Docs describe the same happy path enforced by workflow preconditions.
+- [x] Production artifacts use canonical templates with stable headings and `N/A` for intentionally empty fields.
+- [x] Production artifacts can be validated by script, not only by human review.

@@ -96,6 +96,7 @@ Record these values before starting:
 
 - Production evidence becomes durable artifacts
 - The next BMAD workflow is named explicitly
+- Artifact structure matches the canonical templates instead of ad-hoc headings
 - Official planning docs remain untouched until human approval
 
 ## Operator Notes
@@ -111,6 +112,7 @@ Record these values before starting:
 - Git branch and commit state before and after each run
 - Preserved worktree paths when failures are intentional
 - Any place where the operator had to infer missing context
+- Output of `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts`
 
 ## Success Standard
 

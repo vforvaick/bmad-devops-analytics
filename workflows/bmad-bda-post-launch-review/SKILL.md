@@ -61,8 +61,9 @@ Before generating your output, silently read and analyze:
    - Explicitly separate confirmed production issues, evidence-quality gaps, and future optimization opportunities.
 
 5. **Generate Artifact:**
-   - Create or refresh `post-launch-insights.md` without depending on an external template file.
-   - Optionally generate `observability-report.md` and `usage-insights.md`.
+   - Create or refresh `post-launch-insights.md` using `templates/post-launch-insights.md`.
+   - Optionally generate `observability-report.md` using `templates/observability-report.md` and `usage-insights.md` using `templates/usage-insights.md`.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/post-launch-insights.md _bmad-output/production-artifacts/observability-report.md _bmad-output/production-artifacts/usage-insights.md`.
    - Save outputs to `_bmad-output/production-artifacts/`.
 
 ## Behavior Rules
@@ -72,3 +73,4 @@ Before generating your output, silently read and analyze:
 - Separate confirmed findings from inferences when evidence is incomplete.
 - Treat missing telemetry on a critical path as a real finding because it weakens operational confidence and BMAD feedback quality.
 - If evidence implies immediate replanning of active sprint work, state that clearly so `bmad-bda-spec-refinement` or `/bmad-correct-course` can route the next step explicitly.
+- Use the canonical template headings and fill missing values with `N/A` rather than inventing alternate structures.

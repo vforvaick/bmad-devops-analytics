@@ -69,6 +69,18 @@ Validation references:
 - [docs/bda-operational-test-matrix.md](docs/bda-operational-test-matrix.md)
 - [docs/bda-dry-run-playbook.md](docs/bda-dry-run-playbook.md)
 
+Canonical artifact schemas:
+- [templates/release-readiness.md](templates/release-readiness.md)
+- [templates/observability-config.md](templates/observability-config.md)
+- [templates/deployment-plan.md](templates/deployment-plan.md)
+- [templates/deployment-log.md](templates/deployment-log.md)
+- [templates/post-launch-insights.md](templates/post-launch-insights.md)
+- [templates/spec-refinement-log.md](templates/spec-refinement-log.md)
+
+Artifact validator:
+- `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts`
+- `python3 scripts/validate-production-artifacts.py --allow-placeholders templates`
+
 ## Quick Start
 
 After BMAD sprint planning has produced stories and epics:
@@ -127,6 +139,9 @@ _bmad-output/
     ├── spec-refinement-log.md
     └── new-epics/
 ```
+
+All production artifacts should follow the canonical schema in `templates/`. If a field does not apply, write `N/A` instead of silently dropping the section.
+Use `scripts/validate-production-artifacts.py` to enforce the schema after workflow runs.
 
 ## Requirements
 

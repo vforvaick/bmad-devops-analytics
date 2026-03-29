@@ -3,6 +3,7 @@
 ## Overview
 
 Reference implementation of `IEvidenceAdapter` for VPS environments with root access. Provides complete observability stack with logs, errors, metrics, traces, and analytics.
+For `existing-deployment` environments, the default operating model is `docs-first`: assess the current deployment and observability state from repo docs and prior production artifacts before proposing live changes on the VPS.
 
 ## Stack Components
 
@@ -22,6 +23,23 @@ Reference implementation of `IEvidenceAdapter` for VPS environments with root ac
 - Minimum 2GB RAM, 20GB disk
 - Ports available: 3000 (Grafana), 9090 (Prometheus), 9000 (Sentry), 8000 (PostHog), 16686 (Jaeger)
 
+## Assessment Modes
+
+### Greenfield VPS
+
+- Treat the host as `fresh-machine`
+- Define bootstrap prerequisites explicitly
+- Generate initial stack and app instrumentation plan from the canonical templates
+
+### Brownfield VPS
+
+- Treat the host as `existing-deployment`
+- Review `deployment-baseline.md`, `observability-config.md`, `deployment-log.md`, and any repo docs first
+- Decide whether the right action is to reuse, extend, repair, simplify, or replace the current stack
+- Request live VPS verification only for unresolved facts that matter to safe deployment or observability changes
+
+Do not default to replacing an existing Grafana, Prometheus, Loki, Sentry, or other stack just because this adapter can provision one.
+
 ## Installation
 
 ### 1. Run Observability Setup Workflow
@@ -38,6 +56,8 @@ This generates:
 - `prometheus.yml`
 - `.env.observability`
 - `observability-config.md`
+
+For `existing-deployment`, these files should describe the intended delta against the current stack, not silently assume a brand-new install.
 
 ### 2. Deploy Stack
 

@@ -120,7 +120,9 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 
 - Readiness records `existing-deployment`
 - Current-state baseline includes running version, restore path, and environment notes
+- Existing-state understanding is sourced from repo docs and prior artifacts before any live VPS inspection is requested
 - Observability setup records current coverage gaps and how they will be closed before or during rollout
+- Observability setup states whether the current stack is being reused, extended, corrected, or replaced
 - Deploy refuses to mutate production without baseline evidence unless explicitly overridden
 - Post-launch review compares observed behavior against both release expectations and baseline state
 

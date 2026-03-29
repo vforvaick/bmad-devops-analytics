@@ -14,6 +14,7 @@ Run this checklist before and during the deployment workflow.
 - Confirm secrets and environment variables are present.
 - Confirm network access, service accounts, and filesystem paths that deployment depends on.
 - Confirm the deploy target matches the intended environment, such as staging or production.
+- For existing deployments, confirm the documented baseline and observability artifacts were reviewed before any live rediscovery.
 - Confirm observability sinks needed for smoke checks and post-launch review are reachable.
 - Confirm the observability path can show the deployed release marker or version tag.
 - Confirm at least one critical user journey and one system-health path can be verified immediately after rollout.
