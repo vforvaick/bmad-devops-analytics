@@ -22,8 +22,8 @@ git clone https://github.com/vforvaick/bmad-devops-analytics.git _bmad/_config/c
 # 3. Register the module using the BMAD CLI
 npx bmad-method install --action update --yes
 
-# 4. Copy workflows to .agents/skills (required for IDE/Antigravity detection)
-cp -r _bmad/bda/workflows/* .agents/skills/
+# 4. Sync workflows + BDA agents into the IDE skill registry and agent manifest
+python3 _bmad/bda/scripts/sync-bda-assets.py --project-root .
 
 # 5. Reload your IDE window (Cmd+Shift+P → "Reload Window")
 ```
@@ -168,8 +168,8 @@ If `/bmad-bda-...` commands aren't appearing in your IDE:
 # 1. Force re-registration of module
 npx bmad-method install --action update --yes
 
-# 2. Copy workflows to .agents/skills (this is the most common fix)
-cp -r _bmad/bda/workflows/* .agents/skills/
+# 2. Re-sync workflows and BDA agents
+python3 _bmad/bda/scripts/sync-bda-assets.py --project-root .
 
 # 3. Reload your IDE window
 ```
@@ -208,6 +208,9 @@ Your project structure should look like this after installation:
 │
 ├── .agents/
 │   └── skills/                     # IDE reads skills from here
+│       ├── bmad-devops/
+│       ├── bmad-sre/
+│       ├── bmad-analytics/
 │       ├── bmad-bda-deploy/
 │       ├── bmad-bda-pipeline-story/
 │       └── ...                     # All 7 BDA skills

@@ -53,6 +53,8 @@ This checklist defines the intended production-grade contract for BMAD DevOps An
 
 - [x] Canonical workflow names use the `bmad-bda-*` prefix consistently.
 - [x] Module metadata and agent metadata refer to the same canonical workflow names.
+- [x] BDA custom agents can be registered into BMAD agent discovery and party mode without hand-editing the core manifest.
+- [x] BDA install guidance uses a sync step instead of manual workflow copy/paste.
 - [x] Docs describe the same happy path enforced by workflow preconditions.
 - [x] Production artifacts use canonical templates with stable headings and `N/A` for intentionally empty fields.
 - [x] Production artifacts can be validated by script, not only by human review.

@@ -59,6 +59,32 @@ This generates:
 
 For `existing-deployment`, these files should describe the intended delta against the current stack, not silently assume a brand-new install.
 
+### Adapter Runtime Contract
+
+The automated adapter now fails fast if its identity values are still placeholders. Configure these values before relying on automated evidence collection:
+
+```bash
+cp adapters/vps-default/.env.example .env.observability
+```
+
+Required values:
+
+- `BDA_VPS_APP_LABEL`
+- `BDA_VPS_SENTRY_ORG`
+- `BDA_VPS_SENTRY_PROJECT`
+- `SENTRY_TOKEN`
+- `POSTHOG_API_KEY`
+
+Optional values:
+
+- `BDA_VPS_JAEGER_SERVICE_NAME`
+- `BDA_VPS_REQUEST_TIMEOUT_MS`
+- `PROMETHEUS_URL`
+- `LOKI_URL`
+- `SENTRY_URL`
+- `JAEGER_URL`
+- `POSTHOG_URL`
+
 ### 2. Deploy Stack
 
 ```bash
@@ -105,7 +131,7 @@ const logger = winston.createLogger({
   transports: [
     new LokiTransport({
       host: 'http://localhost:3100',
-      labels: { app: 'your-app-name' },
+      labels: { app: process.env.BDA_VPS_APP_LABEL },
       json: true,
     }),
   ],
@@ -313,14 +339,17 @@ export class VPSDefaultAdapter implements IEvidenceAdapter {
   name = 'vps-default';
   environment = 'vps' as const;
 
+  private appLabel = process.env.BDA_VPS_APP_LABEL!;
   private prometheusUrl = process.env.PROMETHEUS_URL || 'http://localhost:9090';
   private lokiUrl = process.env.LOKI_URL || 'http://localhost:3100';
   private sentryUrl = process.env.SENTRY_URL || 'http://localhost:9000';
+  private sentryOrg = process.env.BDA_VPS_SENTRY_ORG!;
+  private sentryProject = process.env.BDA_VPS_SENTRY_PROJECT!;
   private jaegerUrl = process.env.JAEGER_URL || 'http://localhost:16686';
   private posthogUrl = process.env.POSTHOG_URL || 'http://localhost:8000';
 
   async collectLogs(since: Date): Promise<LogEntry[]> {
-    const query = `{app="your-app-name"}`;
+    const query = `{app="${this.appLabel}"}`;
     const start = Math.floor(since.getTime() / 1000) * 1e9; // nanoseconds
     
     const response = await axios.get(`${this.lokiUrl}/loki/api/v1/query_range`, {
@@ -339,7 +368,7 @@ export class VPSDefaultAdapter implements IEvidenceAdapter {
 
   async collectErrors(since: Date): Promise<ErrorReport[]> {
     // Use Sentry API to fetch errors
-    const response = await axios.get(`${this.sentryUrl}/api/0/projects/your-org/your-project/issues/`, {
+    const response = await axios.get(`${this.sentryUrl}/api/0/projects/${this.sentryOrg}/${this.sentryProject}/issues/`, {
       headers: { Authorization: `Bearer ${process.env.SENTRY_TOKEN}` },
       params: { start: since.toISOString() },
     });
@@ -386,7 +415,7 @@ export class VPSDefaultAdapter implements IEvidenceAdapter {
   async collectTraces(since: Date): Promise<TraceData[]> {
     const response = await axios.get(`${this.jaegerUrl}/api/traces`, {
       params: {
-        service: 'your-app-name',
+        service: this.appLabel,
         start: since.getTime() * 1000, // microseconds
         limit: 100,
       },

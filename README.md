@@ -52,11 +52,11 @@ git clone https://github.com/vforvaick/bmad-devops-analytics.git _bmad/_config/c
 # 4. Register the module
 npx bmad-method install --action update --yes
 
-# 5. Copy workflows to .agents/skills (required for IDE/Antigravity detection)
-cp -r _bmad/bda/workflows/* .agents/skills/
+# 5. Sync BDA workflows + agents into your IDE skill registry and agent manifest
+python3 _bmad/bda/scripts/sync-bda-assets.py --project-root .
 ```
 
-> **Note:** Step 5 is required for IDEs like Cursor, Windsurf, and other Antigravity-compatible editors to detect and list the BDA skills. After copying, reload your IDE window.
+> **Note:** Step 5 registers BDA workflows in `.agents/skills/`, creates BDA agent wrappers, and merges the BDA agents into `_bmad/_config/agent-manifest.csv` so party mode and other manifest-driven tooling can discover them. After syncing, reload your IDE window.
 
 ## Support Matrix
 
@@ -68,6 +68,10 @@ Validation references:
 - [docs/bda-hardening-checklist.md](docs/bda-hardening-checklist.md)
 - [docs/bda-operational-test-matrix.md](docs/bda-operational-test-matrix.md)
 - [docs/bda-dry-run-playbook.md](docs/bda-dry-run-playbook.md)
+
+Verification commands:
+- `python3 -m unittest discover -s tests -v`
+- `python3 scripts/sync-bda-assets.py --project-root . --copy`
 
 Canonical artifact schemas:
 - [templates/release-readiness.md](templates/release-readiness.md)
@@ -172,6 +176,12 @@ BDA workflows are fully compatible with Antigravity-powered IDEs (Cursor, Windsu
 - `bmad-bda-observability-setup` — Monitoring stack setup
 - `bmad-bda-post-launch-review` — Post-launch evidence synthesis
 - `bmad-bda-spec-refinement` — Translate insights to spec updates
+
+The sync step also exposes these agent skills:
+
+- `bmad-devops` — Deployment and rollback specialist
+- `bmad-sre` — Observability and incident specialist
+- `bmad-analytics` — Product analytics and behavior specialist
 
 ## License
 

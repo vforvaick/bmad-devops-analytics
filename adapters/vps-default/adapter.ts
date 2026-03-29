@@ -1,22 +1,19 @@
 import { IEvidenceAdapter, LogEntry, ErrorReport, MetricSnapshot, TraceData, UsageData, AdapterHealth } from '../IEvidenceAdapter';
 import axios from 'axios';
+import { loadVpsDefaultAdapterConfig } from './config';
 
 export class VPSDefaultAdapter implements IEvidenceAdapter {
   name = 'vps-default';
   environment = 'vps' as const;
-
-  private prometheusUrl = process.env.PROMETHEUS_URL || 'http://localhost:9090';
-  private lokiUrl = process.env.LOKI_URL || 'http://localhost:3100';
-  private sentryUrl = process.env.SENTRY_URL || 'http://localhost:9000';
-  private jaegerUrl = process.env.JAEGER_URL || 'http://localhost:16686';
-  private posthogUrl = process.env.POSTHOG_URL || 'http://localhost:8000';
+  private readonly config = loadVpsDefaultAdapterConfig();
 
   async collectLogs(since: Date): Promise<LogEntry[]> {
-    const query = `{app="your-app-name"}`;
+    const query = `{app="${this.config.appLabel}"}`;
     const start = Math.floor(since.getTime() / 1000) * 1e9; // nanoseconds
-    
-    const response = await axios.get(`${this.lokiUrl}/loki/api/v1/query_range`, {
+
+    const response = await axios.get(`${this.config.lokiUrl}/loki/api/v1/query_range`, {
       params: { query, start },
+      timeout: this.config.requestTimeoutMs,
     });
 
     return response.data.data.result.flatMap((stream: any) =>
@@ -30,11 +27,14 @@ export class VPSDefaultAdapter implements IEvidenceAdapter {
   }
 
   async collectErrors(since: Date): Promise<ErrorReport[]> {
-    // Use Sentry API to fetch errors
-    const response = await axios.get(`${this.sentryUrl}/api/0/projects/your-org/your-project/issues/`, {
-      headers: { Authorization: `Bearer ${process.env.SENTRY_TOKEN}` },
-      params: { start: since.toISOString() },
-    });
+    const response = await axios.get(
+      `${this.config.sentryUrl}/api/0/projects/${this.config.sentryOrganization}/${this.config.sentryProject}/issues/`,
+      {
+        headers: { Authorization: `Bearer ${this.config.sentryToken}` },
+        params: { start: since.toISOString() },
+        timeout: this.config.requestTimeoutMs,
+      },
+    );
 
     return response.data.map((issue: any) => ({
       id: issue.id,
@@ -59,10 +59,11 @@ export class VPSDefaultAdapter implements IEvidenceAdapter {
 
     const snapshots = await Promise.all(
       queries.map(async (query) => {
-        const response = await axios.get(`${this.prometheusUrl}/api/v1/query`, {
+        const response = await axios.get(`${this.config.prometheusUrl}/api/v1/query`, {
           params: { query, time: Math.floor(since.getTime() / 1000) },
+          timeout: this.config.requestTimeoutMs,
         });
-        
+
         return {
           name: query,
           value: parseFloat(response.data.data.result[0]?.value[1] || 0),
@@ -76,12 +77,13 @@ export class VPSDefaultAdapter implements IEvidenceAdapter {
   }
 
   async collectTraces(since: Date): Promise<TraceData[]> {
-    const response = await axios.get(`${this.jaegerUrl}/api/traces`, {
+    const response = await axios.get(`${this.config.jaegerUrl}/api/traces`, {
       params: {
-        service: 'your-app-name',
+        service: this.config.jaegerServiceName,
         start: since.getTime() * 1000, // microseconds
         limit: 100,
       },
+      timeout: this.config.requestTimeoutMs,
     });
 
     return response.data.data.map((trace: any) => ({
@@ -97,15 +99,20 @@ export class VPSDefaultAdapter implements IEvidenceAdapter {
   }
 
   async collectAnalytics(since: Date): Promise<UsageData[]> {
-    const response = await axios.post(`${this.posthogUrl}/api/query`, {
-      query: {
-        kind: 'EventsQuery',
-        select: ['*'],
-        where: [`timestamp >= '${since.toISOString()}'`],
+    const response = await axios.post(
+      `${this.config.posthogUrl}/api/query`,
+      {
+        query: {
+          kind: 'EventsQuery',
+          select: ['*'],
+          where: [`timestamp >= '${since.toISOString()}'`],
+        },
       },
-    }, {
-      headers: { Authorization: `Bearer ${process.env.POSTHOG_API_KEY}` },
-    });
+      {
+        headers: { Authorization: `Bearer ${this.config.posthogApiKey}` },
+        timeout: this.config.requestTimeoutMs,
+      },
+    );
 
     return response.data.results.map((event: any) => ({
       event: event.event,
@@ -117,16 +124,25 @@ export class VPSDefaultAdapter implements IEvidenceAdapter {
 
   async healthCheck(): Promise<AdapterHealth> {
     const services = [
-      { name: 'Prometheus', url: `${this.prometheusUrl}/-/healthy` },
-      { name: 'Loki', url: `${this.lokiUrl}/ready` },
-      { name: 'Jaeger', url: `${this.jaegerUrl}/` },
-      { name: 'PostHog', url: `${this.posthogUrl}/_health` },
+      { name: 'Prometheus', url: `${this.config.prometheusUrl}/-/healthy` },
+      { name: 'Loki', url: `${this.config.lokiUrl}/ready` },
+      {
+        name: 'Sentry',
+        url: `${this.config.sentryUrl}/api/0/`,
+        headers: { Authorization: `Bearer ${this.config.sentryToken}` },
+      },
+      { name: 'Jaeger', url: `${this.config.jaegerUrl}/` },
+      {
+        name: 'PostHog',
+        url: `${this.config.posthogUrl}/_health`,
+        headers: { Authorization: `Bearer ${this.config.posthogApiKey}` },
+      },
     ];
 
     const checks = await Promise.all(
       services.map(async (service) => {
         try {
-          await axios.get(service.url, { timeout: 5000 });
+          await axios.get(service.url, { headers: service.headers, timeout: this.config.requestTimeoutMs });
           return { service: service.name, healthy: true };
         } catch {
           return { service: service.name, healthy: false };
@@ -135,7 +151,7 @@ export class VPSDefaultAdapter implements IEvidenceAdapter {
     );
 
     const allHealthy = checks.every((c) => c.healthy);
-    
+
     return {
       healthy: allHealthy,
       services: checks,
@@ -154,7 +170,7 @@ export class VPSDefaultAdapter implements IEvidenceAdapter {
     try {
       return JSON.parse(line);
     } catch {
-      return {};
+      return { raw: line };
     }
   }
 }

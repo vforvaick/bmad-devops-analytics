@@ -1,6 +1,6 @@
 name: SRE Agent
 role: sre
-version: 1.0.0
+version: 1.3.0-alpha
 
 description: |
   Site Reliability Engineering agent focused on observability, monitoring, performance analysis,
