@@ -17,6 +17,7 @@
 ## Generated Drafts
 - **PRD Draft**: [path]
 - **New Epic Drafts**: [paths or N/A]
+- **BMAD Follow-Up Package**: [path]
 
 ## Routing Recommendation
 - **Recommended Workflow**: [/bmad-correct-course | /bmad-edit-prd -> /bmad-create-epics-and-stories -> /bmad-sprint-planning]

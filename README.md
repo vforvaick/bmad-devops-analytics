@@ -79,6 +79,7 @@ Canonical artifact schemas:
 - [templates/production-vs-plan-matrix.md](templates/production-vs-plan-matrix.md)
 - [templates/prd-change-draft.md](templates/prd-change-draft.md)
 - [templates/spec-refinement-log.md](templates/spec-refinement-log.md)
+- [templates/bmad-follow-up.md](templates/bmad-follow-up.md)
 
 Artifact validator:
 - `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts`
@@ -145,13 +146,14 @@ _bmad-output/
     ├── production-vs-plan/
     ├── prd-change-drafts/
     ├── spec-refinement-logs/
+    ├── bmad-follow-ups/
     └── new-epics/
 ```
 
 Current-state artifacts stay stable at the top level. Run-specific evidence and review artifacts belong in timestamped/history folders.
 All production artifacts should follow the canonical schema in `templates/`. If a field does not apply, write `N/A` instead of silently dropping the section.
 Use `scripts/validate-production-artifacts.py` to enforce the schema after workflow runs.
-The intended comparison chain is: BMAD planning docs -> current `release-intent-matrix.md` plus history snapshot -> current `observability-config.md` plus history snapshot -> `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md` -> `spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md` -> BMAD original follow-up (`/bmad-correct-course` for active-sprint changes, or `/bmad-edit-prd` -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning` for future planning).
+The intended comparison chain is: BMAD planning docs -> current `release-intent-matrix.md` plus history snapshot -> current `observability-config.md` plus history snapshot -> `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md` -> `spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md` -> `bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md` -> BMAD original follow-up (`/bmad-correct-course` for active-sprint changes, or `/bmad-edit-prd` -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning` for future planning).
 
 ## Requirements
 

@@ -54,11 +54,11 @@ workflows:
     - bmad-bda-observability-setup (analytics instrumentation)
 
 output_artifacts:
-  - usage-insights.md
-  - feature-analytics.md
-  - user-behavior-report.md
-  - adoption-analysis.md
-  - drop-off-analysis.md
+  - usage-insights/usage-insights-<timestamp>-<reviewed-deployment>.md
+  - production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md
+  - prd-change-drafts/prd-change-draft-<timestamp>-<reviewed-deployment>.md
+  - spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md
+  - bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md
 
 handoff_to:
   - pm: Usage insights for product prioritization

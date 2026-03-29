@@ -59,3 +59,4 @@ This checklist defines the intended production-grade contract for BMAD DevOps An
 - [x] Current-state artifacts are separated from run-history artifacts so repeated releases do not overwrite evidence.
 - [x] PRD change proposals use release-linked draft names instead of open-ended `v2`, `v3`, `v4` naming.
 - [x] Spec refinement names the exact BMAD original follow-up route and expected downstream artifact, including `sprint-change-proposal-{date}.md` for `/bmad-correct-course`.
+- [x] Spec refinement emits a reusable BMAD follow-up package instead of leaving the next workflow as conversation-only guidance.

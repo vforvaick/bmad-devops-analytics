@@ -92,6 +92,7 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 - `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md`
 - `prd-change-drafts/prd-change-draft-<timestamp>-<reviewed-deployment>.md`
 - `spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md`
+- `bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md`
 
 **Failure Signals**
 

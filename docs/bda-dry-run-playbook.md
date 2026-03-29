@@ -92,7 +92,7 @@ Record these values before starting:
    - Explicit comparison against `release-intent-matrix.md`
 4. Confirm a run-specific production-vs-plan matrix is created and contains matched, partial, missed, and unverified rows.
 5. Run `/bmad-bda-spec-refinement`.
-6. Confirm a release-linked PRD change draft and refinement log are created.
+6. Confirm a release-linked PRD change draft, refinement log, and BMAD follow-up package are created.
 7. Confirm the refinement output names the next routing decision:
    - `/bmad-correct-course`
    - `/bmad-edit-prd -> /bmad-create-epics-and-stories -> /bmad-sprint-planning`
@@ -108,6 +108,7 @@ Record these values before starting:
 - Production evidence becomes durable artifacts
 - The next BMAD workflow is named explicitly
 - The expected BMAD output artifact is named explicitly
+- The BMAD follow-up package lists the exact command and required inputs
 - Artifact structure matches the canonical templates instead of ad-hoc headings
 - Official planning docs remain untouched until human approval
 

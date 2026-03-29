@@ -232,6 +232,24 @@
         "BMAD Handoff Package",
         "Operator Notes"
       ]
+    },
+    "bmad-follow-up.md": {
+      "title_prefix": "# BMAD Follow-Up Package:",
+      "required_metadata": [
+        "Date",
+        "Reviewed Deployment",
+        "Source Review",
+        "Source Comparison Matrix",
+        "Status"
+      ],
+      "required_headings": [
+        "Summary",
+        "Recommended Command",
+        "Trigger Package",
+        "Required Inputs",
+        "Expected Outcome",
+        "Operator Notes"
+      ]
     }
   }
 }

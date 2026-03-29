@@ -64,7 +64,8 @@ Establish or refresh the evidence pipeline before production deployment.
 1. Classify the target as fresh-machine or existing-deployment.
 2. Design or refresh the observability path for that environment.
 3. Downgrade to planning/manual-evidence mode if the selected adapter is not implemented.
-4. Generate `observability-config.md`.
+4. Refresh the canonical `_bmad-output/production-artifacts/observability-config.md`.
+5. Refresh `_bmad-output/production-artifacts/release-intent-matrix.md` and save run-specific history snapshots.
 
 ---
 
@@ -82,7 +83,8 @@ Before deploying, ensure your code and specs are aligned.
 1. Read your `PRD.md` and `architecture.md`.
 2. Verify test coverage.
 3. Check environment configuration.
-4. Generate `_bmad-output/production-artifacts/release-readiness.md`.
+4. Generate `_bmad-output/production-artifacts/release-readiness/release-readiness-<timestamp>-<candidate>.md`.
+5. Refresh canonical baseline and release-intent artifacts when needed.
 
 **Action**: Proceed only if the decision is 🟢 **PASS**.
 
@@ -99,10 +101,10 @@ Once readiness is verified, execute the deployment.
 ```
 
 **The agents will:**
-1. Generate a detailed `deployment-plan.md`.
+1. Generate `_bmad-output/production-artifacts/deployment-plans/deployment-plan-<timestamp>-<candidate>.md`.
 2. Assist with (or execute) code sync to production.
 3. Define rollback triggers.
-4. Log the execution in `deployment-log.md`.
+4. Log the execution in `_bmad-output/production-artifacts/deployment-logs/deployment-log-<timestamp>-<candidate>.md`.
 
 ---
 
@@ -126,7 +128,8 @@ Synthesize evidence into insights.
 1. Analyze production logs and metrics.
 2. Identify top errors and performance bottlenecks.
 3. Track feature adoption.
-4. Generate `post-launch-insights.md`.
+4. Generate `_bmad-output/production-artifacts/post-launch-reviews/post-launch-insights-<timestamp>-<reviewed-deployment>.md`.
+5. Generate `_bmad-output/production-artifacts/production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md`.
 
 ---
 
@@ -139,9 +142,10 @@ Synthesize evidence into insights.
 ```
 
 **The agents will generate:**
-1. **PRD-v2-draft.md**: Proposed updates to your Product Requirements Document.
-2. **New Epic Proposals**: Drafts for the next sprint based on evidence.
-3. **spec-refinement-log.md**: Handoff guidance for either next sprint planning or `/bmad-correct-course`.
+1. **`prd-change-drafts/prd-change-draft-<timestamp>-<reviewed-deployment>.md`**: Proposed PRD changes linked to one reviewed deployment.
+2. **`new-epics/<reviewed-deployment>/...`**: Draft epics for future planning work.
+3. **`spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md`**: Routing summary for the next BMAD workflow.
+4. **`bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md`**: Explicit BMAD handoff package naming the next command, inputs, and expected downstream artifact.
 
 ---
 
@@ -150,7 +154,7 @@ Synthesize evidence into insights.
 Review the generated drafts, approve them, and then:
 
 1. Use `/bmad-correct-course` if production evidence requires changes to the active sprint or in-flight epic.
-2. Use standard BMAD sprint planning for future-sprint work and approved new epics.
+2. Otherwise follow the packaged BMAD loop: `/bmad-edit-prd -> /bmad-create-epics-and-stories -> /bmad-sprint-planning`.
 
 ---
 
@@ -210,3 +214,9 @@ Your project structure should look like this after installation:
 │
 └── [your application code]
 ```
+
+## Output Pattern
+
+- Canonical current-state artifacts stay at `_bmad-output/production-artifacts/`.
+- Run-specific evidence goes into history folders such as `release-readiness/`, `deployment-plans/`, `deployment-logs/`, `post-launch-reviews/`, `production-vs-plan/`, `prd-change-drafts/`, and `bmad-follow-ups/`.
+- Do not expect `PRD-v2-draft.md` or single-file `release-readiness.md` anymore.

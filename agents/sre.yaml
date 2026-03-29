@@ -55,11 +55,11 @@ workflows:
 
 output_artifacts:
   - observability-config.md
-  - observability-report.md
-  - incident-log.md
-  - performance-analysis.md
-  - monitoring-dashboards.json
-  - alert-rules.yaml
+  - observability-config-history/observability-config-<timestamp>-<candidate>.md
+  - release-intent-matrix.md
+  - release-intent-history/release-intent-matrix-<timestamp>-<candidate>.md
+  - observability-reports/observability-report-<timestamp>-<candidate>.md
+  - usage-insights/usage-insights-<timestamp>-<reviewed-deployment>.md
 
 handoff_to:
   - analytics: Usage data for product insights
@@ -67,7 +67,7 @@ handoff_to:
   - devops: Infrastructure scaling recommendations
 
 handoff_from:
-  - devops: Post-deployment for monitoring setup
+  - devops: Target environment details and deployment baseline context before observability design
   - architect: Observability requirements and SLIs
 
 principles:

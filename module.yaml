@@ -68,6 +68,7 @@ templates:
   - production-vs-plan-matrix.md
   - prd-change-draft.md
   - spec-refinement-log.md
+  - bmad-follow-up.md
 
 adapters:
   - name: vps-default

@@ -55,14 +55,14 @@ workflows:
     - bmad-bda-post-launch-review (infrastructure insights)
 
 output_artifacts:
-  - deployment-plan.md
-  - deployment-log.md
-  - rollback-plan.md
-  - infrastructure-config.yaml
-  - smoke-test-results.md
+  - deployment-baseline.md
+  - deployment-baselines/deployment-baseline-<timestamp>-<candidate>.md
+  - deployment-plans/deployment-plan-<timestamp>-<candidate>.md
+  - deployment-logs/deployment-log-<timestamp>-<candidate>.md
+  - release-readiness/release-readiness-<timestamp>-<candidate>.md
 
 handoff_to:
-  - sre: After deployment completes, for monitoring setup
+  - sre: Before release-readiness to establish the observability contract, and after deployment for evidence interpretation
   - pm: If deployment fails or requires decision
 
 handoff_from:

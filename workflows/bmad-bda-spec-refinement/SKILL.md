@@ -60,6 +60,7 @@ Before generating your output, silently read and analyze:
    - Create a run-specific PRD change draft using `templates/prd-change-draft.md` at `_bmad-output/production-artifacts/prd-change-drafts/prd-change-draft-<timestamp>-<reviewed-deployment>.md`.
    - Create draft epics in `_bmad-output/production-artifacts/new-epics/<reviewed-deployment>/` when separate epic files are appropriate, otherwise generate a draft sectioned proposal in that folder.
    - Create a run-specific summary `spec-refinement-log` using `templates/spec-refinement-log.md` at `_bmad-output/production-artifacts/spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md` that names the recommended BMAD follow-up workflow, the expected next artifact, and the exact evidence package to carry forward.
-   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/prd-change-drafts _bmad-output/production-artifacts/spec-refinement-logs`.
+   - Create a run-specific BMAD follow-up package using `templates/bmad-follow-up.md` at `_bmad-output/production-artifacts/bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md`.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/prd-change-drafts _bmad-output/production-artifacts/spec-refinement-logs _bmad-output/production-artifacts/bmad-follow-ups`.
 
 > **CRITICAL RULE:** All generated files MUST explicitly state they are **DRAFTS** pending human review. Do NOT automatically overwrite the official PRD file or existing epics.
