@@ -73,21 +73,25 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 
 - Readiness records `fresh-machine`
 - Greenfield prerequisites are explicit in readiness and deploy artifacts
+- Release intent matrix is generated from PRD, UX, architecture, epics/stories, and release scope artifacts
 - Observability config defines critical service telemetry, critical journey evidence, release markers, and alert ownership
 - Deploy logs capture candidate, operator, smoke checks, release marker, and rollback posture
 - Post-launch review identifies the exact reviewed deployment
+- Production-vs-plan matrix compares observed behavior against release intent rows instead of only narrative expectations
 - Post-launch review flags missing telemetry as a confidence issue instead of silently proceeding
-- Spec refinement routes output either to normal sprint planning or to `/bmad-correct-course`
+- Spec refinement routes output either to `/bmad-correct-course` or to `/bmad-edit-prd -> /bmad-create-epics-and-stories -> /bmad-sprint-planning`
 
 **Required Artifacts**
 
-- `release-readiness.md`
-- `deployment-plan.md`
-- `deployment-log.md`
+- `release-readiness/release-readiness-<timestamp>-<candidate>.md`
+- `release-intent-matrix.md`
+- `deployment-plans/deployment-plan-<timestamp>-<candidate>.md`
+- `deployment-logs/deployment-log-<timestamp>-<candidate>.md`
 - `observability-config.md`
-- `post-launch-insights.md`
-- `PRD-v2-draft.md`
-- `spec-refinement-log.md`
+- `post-launch-reviews/post-launch-insights-<timestamp>-<reviewed-deployment>.md`
+- `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md`
+- `prd-change-drafts/prd-change-draft-<timestamp>-<reviewed-deployment>.md`
+- `spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md`
 
 **Failure Signals**
 
@@ -123,16 +127,17 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 - Existing-state understanding is sourced from repo docs and prior artifacts before any live VPS inspection is requested
 - Observability setup records current coverage gaps and how they will be closed before or during rollout
 - Observability setup states whether the current stack is being reused, extended, corrected, or replaced
+- Release intent matrix and production-vs-plan matrix stay aligned to the same candidate and evidence window
 - Deploy refuses to mutate production without baseline evidence unless explicitly overridden
 - Post-launch review compares observed behavior against both release expectations and baseline state
 
 **Required Artifacts**
 
 - `deployment-baseline.md`
-- `release-readiness.md`
-- `deployment-plan.md`
-- `deployment-log.md`
-- `post-launch-insights.md`
+- `release-readiness/release-readiness-<timestamp>-<candidate>.md`
+- `deployment-plans/deployment-plan-<timestamp>-<candidate>.md`
+- `deployment-logs/deployment-log-<timestamp>-<candidate>.md`
+- `post-launch-reviews/post-launch-insights-<timestamp>-<reviewed-deployment>.md`
 
 **Failure Signals**
 

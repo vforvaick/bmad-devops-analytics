@@ -12,7 +12,7 @@ It supports both `fresh-machine` and `existing-deployment` rollouts, with explic
 
 ## On Activation
 
-1. Confirm the approved candidate branch and commit from `release-readiness.md`.
+1. Confirm the approved candidate branch and commit from the selected release-readiness artifact under `_bmad-output/production-artifacts/release-readiness/`.
 2. Confirm the target environment and classify the rollout as `fresh-machine` or `existing-deployment`.
 3. Load any existing deployment baseline, observability configuration, and prior deployment artifacts before planning execution.
 4. For `existing-deployment`, rely on the documented baseline and observability plan first; do not default to rediscovery on the live VPS.
@@ -26,17 +26,18 @@ Deploy from the repo's current source of truth only. If branch ownership or rele
 
 ## Required Context
 Before generating your output, silently read and analyze:
-- `_bmad-output/production-artifacts/release-readiness.md`
+- the selected approved file in `_bmad-output/production-artifacts/release-readiness/`
 - `_bmad-output/production-artifacts/deployment-baseline.md` if it exists
+- the most relevant file in `_bmad-output/production-artifacts/deployment-baselines/` if it exists
 - `_bmad-output/production-artifacts/observability-config.md` if it exists
-- `_bmad-output/production-artifacts/deployment-plan.md` and `_bmad-output/production-artifacts/deployment-log.md` if they already exist
+- the most relevant files in `_bmad-output/production-artifacts/observability-config-history/`, `_bmad-output/production-artifacts/deployment-plans/`, and `_bmad-output/production-artifacts/deployment-logs/` if they exist
 - `docs/deployment.md` and `docs/infrastructure.md` when they exist
 - Target environment details and configurations
 - The current source-of-truth branch and commit that will be deployed
 
 ## Preconditions
 
-- `release-readiness.md` must indicate `🟢 PASS` for the same candidate branch or commit that is about to be deployed.
+- The selected release-readiness artifact must indicate `🟢 PASS` for the same candidate branch or commit that is about to be deployed.
 - The target environment and deployment mechanism must be known.
 - The rollout mode must be known: `fresh-machine` or `existing-deployment`.
 - Observability must already be configured for the target environment, or the deploy artifact must explicitly state that deployment is proceeding without observability by user-approved override.
@@ -48,7 +49,7 @@ Before generating your output, silently read and analyze:
 ## Execution Steps
 
 1. **Pre-Deploy Health Check:**
-   - Verify that `release-readiness.md` indicates `🟢 PASS`.
+   - Verify that the selected release-readiness artifact indicates `🟢 PASS`.
    - Verify that the candidate branch/commit being deployed matches the approved release-readiness artifact.
    - Verify that the rollout mode and target environment match the approved release-readiness artifact.
    - Verify that observability endpoints, dashboards, or log sinks needed for post-deploy verification are ready.
@@ -77,11 +78,12 @@ Before generating your output, silently read and analyze:
    - Name the rollback trigger threshold and the exact revert target.
 
 7. **Generate Artifacts:**
-   - Create or refresh `deployment-baseline.md` when current-state protection data was collected, using `templates/deployment-baseline.md`.
-   - Create or refresh `deployment-plan.md` using `templates/deployment-plan.md`.
-   - Create or refresh `deployment-log.md` using `templates/deployment-log.md`.
+   - Create or refresh the canonical current `deployment-baseline.md` when current-state protection data was collected, using `templates/deployment-baseline.md`.
+   - Also save a historical snapshot at `_bmad-output/production-artifacts/deployment-baselines/deployment-baseline-<timestamp>-<candidate>.md`.
+   - Create a run-specific deployment plan at `_bmad-output/production-artifacts/deployment-plans/deployment-plan-<timestamp>-<candidate>.md` using `templates/deployment-plan.md`.
+   - Create a run-specific deployment log at `_bmad-output/production-artifacts/deployment-logs/deployment-log-<timestamp>-<candidate>.md` using `templates/deployment-log.md`.
    - Record the deployment mode, target environment, deployed branch, commit SHA, operator, timestamps, smoke-test results, release marker or version tag, baseline snapshot identifiers, and rollback outcome if used.
-   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/deployment-baseline.md _bmad-output/production-artifacts/deployment-plan.md _bmad-output/production-artifacts/deployment-log.md`.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/deployment-baseline.md _bmad-output/production-artifacts/deployment-baselines _bmad-output/production-artifacts/deployment-plans _bmad-output/production-artifacts/deployment-logs`.
    - Save outputs to `_bmad-output/production-artifacts/`.
 
 ## Behavior Rules

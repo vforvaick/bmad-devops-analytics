@@ -11,7 +11,7 @@
 [Short description of what will be deployed and why this path is safe.]
 
 ## Preconditions
-- [ ] `release-readiness.md` decision is PASS for the same candidate
+- [ ] Selected release-readiness artifact decision is PASS for the same candidate
 - [ ] Target environment identity is confirmed
 - [ ] Baseline or greenfield prerequisites are recorded
 - [ ] Observability contract is available
@@ -51,6 +51,6 @@
 2. [exact verification step]
 
 ## Evidence References
-- **Release Readiness**: [path]
+- **Release Readiness**: [run-specific artifact path]
 - **Deployment Baseline**: [path or N/A]
 - **Observability Config**: [path]

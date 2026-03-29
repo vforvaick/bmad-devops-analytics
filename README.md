@@ -71,10 +71,13 @@ Validation references:
 
 Canonical artifact schemas:
 - [templates/release-readiness.md](templates/release-readiness.md)
+- [templates/release-intent-matrix.md](templates/release-intent-matrix.md)
 - [templates/observability-config.md](templates/observability-config.md)
 - [templates/deployment-plan.md](templates/deployment-plan.md)
 - [templates/deployment-log.md](templates/deployment-log.md)
 - [templates/post-launch-insights.md](templates/post-launch-insights.md)
+- [templates/production-vs-plan-matrix.md](templates/production-vs-plan-matrix.md)
+- [templates/prd-change-draft.md](templates/prd-change-draft.md)
 - [templates/spec-refinement-log.md](templates/spec-refinement-log.md)
 
 Artifact validator:
@@ -92,7 +95,7 @@ After BMAD sprint planning has produced stories and epics:
 
 # Step 2: Establish or refresh observability for the target environment
 # This now defines the production evidence contract, critical journey telemetry,
-# release markers, alerts, and the 24-72h observation plan.
+# release markers, release-intent matrix, alerts, and the 24-72h observation plan.
 /bmad-bda-observability-setup
 
 # Step 3: Run release readiness on one concrete candidate
@@ -110,7 +113,8 @@ After BMAD sprint planning has produced stories and epics:
 /bmad-bda-spec-refinement
 ```
 
-Use `/bmad-correct-course` when post-launch evidence implies the current sprint or active epic should change immediately. Keep `bmad-bda-spec-refinement` as the production evidence distillation and draft-generation step.
+Use `/bmad-correct-course` when post-launch evidence implies the current sprint or active epic should change immediately. Keep `bmad-bda-spec-refinement` as the production evidence distillation and draft-generation step that prepares the handoff package for BMAD original.
+When the changes are future-planning only, the intended BMAD follow-up is: human review of BDA drafts -> `/bmad-edit-prd` -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning`.
 
 ## Governance Model
 
@@ -126,22 +130,28 @@ _bmad-output/
 ├── planning-artifacts/       # BMAD Phase 1-2
 ├── implementation-artifacts/ # BMAD Phase 3-4
 └── production-artifacts/     # NEW: Phase 5
-    ├── release-readiness.md
+    ├── release-intent-matrix.md
     ├── deployment-baseline.md
-    ├── deployment-plan.md
-    ├── deployment-log.md
-    ├── rollback-plan.md
     ├── observability-config.md
-    ├── observability-report.md
-    ├── usage-insights.md
-    ├── post-launch-insights.md
-    ├── PRD-v2-draft.md
-    ├── spec-refinement-log.md
+    ├── release-intent-history/
+    ├── deployment-baselines/
+    ├── observability-config-history/
+    ├── release-readiness/
+    ├── deployment-plans/
+    ├── deployment-logs/
+    ├── observability-reports/
+    ├── usage-insights/
+    ├── post-launch-reviews/
+    ├── production-vs-plan/
+    ├── prd-change-drafts/
+    ├── spec-refinement-logs/
     └── new-epics/
 ```
 
+Current-state artifacts stay stable at the top level. Run-specific evidence and review artifacts belong in timestamped/history folders.
 All production artifacts should follow the canonical schema in `templates/`. If a field does not apply, write `N/A` instead of silently dropping the section.
 Use `scripts/validate-production-artifacts.py` to enforce the schema after workflow runs.
+The intended comparison chain is: BMAD planning docs -> current `release-intent-matrix.md` plus history snapshot -> current `observability-config.md` plus history snapshot -> `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md` -> `spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md` -> BMAD original follow-up (`/bmad-correct-course` for active-sprint changes, or `/bmad-edit-prd` -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning` for future planning).
 
 ## Requirements
 

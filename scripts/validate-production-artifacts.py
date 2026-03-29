@@ -30,6 +30,18 @@ def load_spec(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def resolve_artifact_name(name: str, artifact_names: set[str]) -> str | None:
+    if name in artifact_names:
+        return name
+
+    for artifact_name in artifact_names:
+        stem = artifact_name[:-3] if artifact_name.endswith(".md") else artifact_name
+        if name.startswith(stem + "-") and name.endswith(".md"):
+            return artifact_name
+
+    return None
+
+
 def collect_targets(inputs: list[str], artifact_names: set[str]) -> list[Path]:
     targets: list[Path] = []
     seen: set[Path] = set()
@@ -42,9 +54,13 @@ def collect_targets(inputs: list[str], artifact_names: set[str]) -> list[Path]:
         candidates: list[Path]
         if path.is_dir():
             candidates = sorted(
-                file for file in path.iterdir() if file.is_file() and file.name in artifact_names
+                file
+                for file in path.rglob("*.md")
+                if file.is_file() and resolve_artifact_name(file.name, artifact_names) is not None
             )
         else:
+            if resolve_artifact_name(path.name, artifact_names) is None:
+                raise FileNotFoundError(f"No schema defined for artifact: {path.name}")
             candidates = [path]
 
         for candidate in candidates:
@@ -85,7 +101,8 @@ def validate_artifact(path: Path, spec: dict, allow_placeholders: bool) -> Artif
     warnings: list[str] = []
     name = path.name
 
-    artifact_spec = spec["artifacts"].get(name)
+    resolved_name = resolve_artifact_name(name, set(spec["artifacts"].keys()))
+    artifact_spec = spec["artifacts"].get(resolved_name or "")
     if artifact_spec is None:
         return ArtifactResult(path=path, errors=[f"No schema defined for artifact: {name}"], warnings=[])
 

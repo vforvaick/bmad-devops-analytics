@@ -56,6 +56,7 @@ workflows:
 
 templates:
   - release-readiness.md
+  - release-intent-matrix.md
   - deployment-baseline.md
   - deployment-plan.md
   - deployment-log.md
@@ -64,7 +65,8 @@ templates:
   - observability-report.md
   - usage-insights.md
   - post-launch-insights.md
-  - PRD-v2-draft.md
+  - production-vs-plan-matrix.md
+  - prd-change-draft.md
   - spec-refinement-log.md
 
 adapters:

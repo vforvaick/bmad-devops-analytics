@@ -43,6 +43,8 @@ This checklist defines the intended production-grade contract for BMAD DevOps An
 ## BMAD Feedback Loop
 
 - [x] Post-launch review produces durable production artifacts, not just conversational output.
+- [x] BDA extracts release ground truth from BMAD foundation artifacts into a stable release-intent matrix.
+- [x] BDA compares production evidence against that release-intent matrix, not only against narrative summaries.
 - [x] Spec refinement keeps draft PRD and epic outputs separate from official planning documents.
 - [x] Spec refinement can route evidence into `/bmad-correct-course` when current sprint or active epic changes are needed.
 - [x] Future-sprint work remains suitable for standard BMAD sprint planning.
@@ -54,3 +56,6 @@ This checklist defines the intended production-grade contract for BMAD DevOps An
 - [x] Docs describe the same happy path enforced by workflow preconditions.
 - [x] Production artifacts use canonical templates with stable headings and `N/A` for intentionally empty fields.
 - [x] Production artifacts can be validated by script, not only by human review.
+- [x] Current-state artifacts are separated from run-history artifacts so repeated releases do not overwrite evidence.
+- [x] PRD change proposals use release-linked draft names instead of open-ended `v2`, `v3`, `v4` naming.
+- [x] Spec refinement names the exact BMAD original follow-up route and expected downstream artifact, including `sprint-change-proposal-{date}.md` for `/bmad-correct-course`.

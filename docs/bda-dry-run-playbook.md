@@ -45,8 +45,10 @@ Record these values before starting:
 2. Run `/bmad-bda-observability-setup`.
 3. Run `/bmad-bda-release-readiness`.
 4. Confirm the artifact records `fresh-machine`.
-5. Run `/bmad-bda-deploy` as a dry run or staging-equivalent execution.
-6. Check that deploy output records:
+5. Confirm `release-intent-matrix.md` is refreshed and a historical snapshot is written.
+6. Confirm the run-specific release-readiness artifact is written under `release-readiness/`.
+7. Run `/bmad-bda-deploy` as a dry run or staging-equivalent execution.
+8. Check that deploy output records:
    - Candidate branch and commit
    - Environment
    - Deployment mode
@@ -87,15 +89,25 @@ Record these values before starting:
    - Reviewed deployment
    - Confidence gaps
    - Differences from baseline expectations
-4. Run `/bmad-bda-spec-refinement`.
-5. Confirm the refinement output names the next routing decision:
+   - Explicit comparison against `release-intent-matrix.md`
+4. Confirm a run-specific production-vs-plan matrix is created and contains matched, partial, missed, and unverified rows.
+5. Run `/bmad-bda-spec-refinement`.
+6. Confirm a release-linked PRD change draft and refinement log are created.
+7. Confirm the refinement output names the next routing decision:
    - `/bmad-correct-course`
-   - Normal sprint planning
+   - `/bmad-edit-prd -> /bmad-create-epics-and-stories -> /bmad-sprint-planning`
+8. When the route is `/bmad-correct-course`, confirm the refinement log includes:
+   - trigger issue summary
+   - impacted BMAD artifacts
+   - recommended approach
+   - evidence bundle paths
+   - expected BMAD output `_bmad-output/planning-artifacts/sprint-change-proposal-{date}.md`
 
 **Pass if**
 
 - Production evidence becomes durable artifacts
 - The next BMAD workflow is named explicitly
+- The expected BMAD output artifact is named explicitly
 - Artifact structure matches the canonical templates instead of ad-hoc headings
 - Official planning docs remain untouched until human approval
 

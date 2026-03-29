@@ -17,6 +17,11 @@
 - **Existing Observability Stack**: [none | partial | established]
 - **Reuse / Extend / Replace Decision**: [decision and reason]
 
+## Intent Coverage Mapping
+| Intent ID | Intent Layer | Planned Outcome | Evidence Signal | Coverage Status | Notes |
+|---|---|---|---|---|---|
+| [INT-001] | [success-criterion | journey | FR | NFR | UX-flow | release-change] | [planned outcome] | [metric, event, log, trace, report] | [covered | partial | missing] | [notes] |
+
 ## Critical Service Inventory
 | Service / Component | Type | Criticality | Primary Signal | Owner |
 |---|---|---|---|---|

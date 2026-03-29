@@ -6,7 +6,7 @@ Run this checklist before and during the deployment workflow.
 
 - Confirm the source-of-truth branch.
 - Confirm the exact commit SHA being deployed.
-- Confirm that `release-readiness.md` approves the same candidate.
+- Confirm that the selected release-readiness artifact approves the same candidate.
 - Confirm the rollout mode: `fresh-machine` or `existing-deployment`.
 
 ## 2. Environment Readiness

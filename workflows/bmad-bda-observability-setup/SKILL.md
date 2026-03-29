@@ -30,10 +30,14 @@ Before generating your output, silently read and analyze:
 - `_bmad-output/planning-artifacts/prd.md` or equivalent PRD when it exists.
 - UX specifications when they exist, especially for critical user journeys.
 - `_bmad-output/planning-artifacts/architecture.md`.
+- Existing epic and story planning artifacts when they exist, especially release-scope coverage maps and acceptance criteria.
 - `docs/observability.md` if it exists.
 - `docs/deployment.md`, `docs/infrastructure.md`, or equivalent environment notes when they exist.
-- Existing production artifacts such as `_bmad-output/production-artifacts/observability-config.md` and `deployment-plan.md` if they exist.
-- Existing production artifacts such as `_bmad-output/production-artifacts/deployment-baseline.md` and `deployment-log.md` when they exist.
+- `_bmad-output/production-artifacts/release-intent-matrix.md` when it exists.
+- the most relevant prior file in `_bmad-output/production-artifacts/release-intent-history/` when it exists.
+- Existing production artifacts such as `_bmad-output/production-artifacts/observability-config.md` and files under `_bmad-output/production-artifacts/deployment-plans/` if they exist.
+- Existing production artifacts such as `_bmad-output/production-artifacts/deployment-baseline.md` and files under `_bmad-output/production-artifacts/deployment-logs/` when they exist.
+- the most relevant file in `_bmad-output/production-artifacts/observability-config-history/` and `_bmad-output/production-artifacts/observability-reports/` when they exist.
 - `adapters/` inventory for the selected environment, if present.
 
 ## Preconditions
@@ -62,37 +66,46 @@ Before generating your output, silently read and analyze:
    - List the critical user journeys and business events that must be observable after deployment.
    - For `existing-deployment`, record current coverage and the gaps that must be closed before reliable post-launch review.
 
-4. **Define The Telemetry Contract:**
+4. **Build Or Refresh Release Intent Matrix:**
+   - Extract the release ground truth from BMAD artifacts: executive summary, success criteria, user journeys, FRs, NFRs, UX critical flows, release-scoped story acceptance criteria, and explicit release changes.
+   - Create or refresh `release-intent-matrix.md` using `templates/release-intent-matrix.md`.
+   - Every critical row must trace back to a source artifact and define the expected runtime proxy or operator check.
+
+5. **Define The Telemetry Contract:**
    - For each critical service, define the minimum evidence set: health, structured logs, errors, latency, throughput, saturation, and dependency status when applicable.
    - For each critical user journey, define the success signal, failure signal, and the event or report used to measure it.
+   - Map the release-intent rows to telemetry coverage in `observability-config.md`, including coverage gaps for rows that cannot yet be observed well.
    - Define the minimum SLI or guardrail thresholds required for release-readiness and post-launch review, even if no formal SLO program exists yet.
    - Require release markers or version tags so metrics, logs, and incidents can be correlated to one deployment candidate.
 
-5. **Design Alerting, Ownership, And Runbooks:**
+6. **Design Alerting, Ownership, And Runbooks:**
    - Define alert conditions for hard failures, severe degradation, and silent business regressions where feasible.
    - Name the owner, notification path, severity, and expected first response for each top-level alert class.
    - Provide concise runbook guidance for the highest-risk alerts, including rollback triggers when known.
    - State retention, sampling, redaction, privacy, and cost controls for the chosen evidence path.
 
-6. **Generate Configuration Or Evidence Contract:**
+7. **Generate Configuration Or Evidence Contract:**
    - Create environment-specific configuration files when the adapter is implemented (for example `docker-compose.observability.yml` for VPS).
    - Otherwise, generate a manual evidence contract that states exactly which dashboards, exports, logs, traces, error feeds, or analytics reports must be collected for post-launch review.
    - For `existing-deployment`, include how baseline observability state will be captured before rollout and whether the plan is reuse, extension, cleanup, or replacement.
    - When an observability stack already exists, document the intended change against that existing stack rather than describing a greenfield install by default.
 
-7. **Deploy Or Refresh Strategy:**
+8. **Deploy Or Refresh Strategy:**
    - Provide instructions on how to deploy or refresh the monitoring stack.
    - Include deployment annotations or release marker steps so the upcoming rollout is visible in the evidence system.
 
-8. **Verification And Observation Plan:**
+9. **Verification And Observation Plan:**
    - Detail how to verify evidence collection is working post-deployment.
    - Include one verification for infrastructure health, one for service health, one for a critical user journey, and one for release marker visibility.
    - Define the 24-72 hour observation window, review cadence, and minimum evidence bundle required by `bmad-bda-post-launch-review`.
 
-9. **Generate Artifact:**
-   - Create or refresh `observability-config.md` using `templates/observability-config.md` as the canonical structure.
-   - When useful, create or refresh `observability-report.md` using `templates/observability-report.md` to capture current-state gaps, especially for `existing-deployment` environments.
-   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/observability-config.md _bmad-output/production-artifacts/observability-report.md`.
+10. **Generate Artifact:**
+   - Create or refresh the canonical current release-intent matrix at `_bmad-output/production-artifacts/release-intent-matrix.md` using `templates/release-intent-matrix.md`.
+   - Also save a historical snapshot at `_bmad-output/production-artifacts/release-intent-history/release-intent-matrix-<timestamp>-<candidate>.md`.
+   - Create or refresh the canonical current observability config at `_bmad-output/production-artifacts/observability-config.md` using `templates/observability-config.md`.
+   - Also save a historical snapshot at `_bmad-output/production-artifacts/observability-config-history/observability-config-<timestamp>-<candidate>.md`.
+   - When useful, create or refresh a run-specific observability report at `_bmad-output/production-artifacts/observability-reports/observability-report-<timestamp>-<candidate>.md`.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/release-intent-matrix.md _bmad-output/production-artifacts/release-intent-history _bmad-output/production-artifacts/observability-config.md _bmad-output/production-artifacts/observability-config-history _bmad-output/production-artifacts/observability-reports`.
    - Save outputs to `_bmad-output/production-artifacts/`.
 
 ## Behavior Rules
@@ -106,3 +119,4 @@ Before generating your output, silently read and analyze:
 - Do not ignore baseline drift, alert ownership, or evidence retention just because the first deployment is small.
 - Do not invent ad-hoc section headings when a canonical template exists; fill the template completely and note any intentionally omitted sections as `N/A`.
 - Do not invent a brand-new observability stack when existing docs or artifacts indicate the right action is to extend, repair, or rationalize the current one.
+- Do not treat PRD, UX, epics, or stories as narrative background only; extract concrete comparison rows into `release-intent-matrix.md`.

@@ -8,6 +8,8 @@
 **Evidence Mode**: [automated | manual-evidence]
 **Overall Status**: [healthy | concerns | critical]
 **Confidence Level**: [high | medium | low]
+**Release Intent Matrix**: [selected run-specific path or N/A]
+**Production vs Plan Matrix**: [selected run-specific path or N/A]
 
 ## Executive Summary
 [3-5 sentences covering user impact, technical health, and recommended next action.]
@@ -27,6 +29,14 @@
 | Traces | [expected] | [observed] | [pass/concerns/fail] | [notes] |
 | Analytics | [expected] | [observed] | [pass/concerns/fail] | [notes] |
 | Release Markers | [expected] | [observed] | [pass/concerns/fail] | [notes] |
+
+## Plan Comparison Summary
+- **Matched Rows**: [count]
+- **Partial Rows**: [count]
+- **Missed Rows**: [count]
+- **Unverified Rows**: [count]
+- **Unexpected Positive Rows**: [count]
+- **Unexpected Negative Rows**: [count]
 
 ## Top Findings
 1. **[Finding Title]**

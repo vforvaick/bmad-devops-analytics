@@ -51,6 +51,8 @@
 - **Implementation Evidence**: [paths]
 - **Production Baseline**: [path or N/A]
 - **Observability Config**: [path or N/A]
+- **Release Intent Matrix**: [canonical path or N/A]
+- **Release Intent Snapshot**: [run-specific path or N/A]
 
 ## Next Steps
 - **Recommended Workflow**: [/bmad-bda-deploy | return to implementation]
