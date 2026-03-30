@@ -37,6 +37,7 @@ Before generating your output, you MUST silently read and analyze the following 
 - `_bmad-output/production-artifacts/release-intent-matrix.md` when it exists
 - the most relevant prior file in `_bmad-output/production-artifacts/release-intent-history/` when it exists
 - `_bmad-output/production-artifacts/observability-config.md` when it exists
+- the most relevant files in `_bmad-output/production-artifacts/operational-decisions/` when they exist
 - `docs/deployment.md`, `docs/infrastructure.md`, and `docs/observability.md` when they exist
 - Codebase configurations (e.g., `.env.example`, CI/CD pipelines, Dockerfiles)
 - Any available test coverage reports.
@@ -90,19 +91,25 @@ Before generating your output, you MUST silently read and analyze the following 
    - Confirm a rollback procedure exists and database rollback strategy is defined.
    - For `existing-deployment`, confirm snapshot, backup, or restore evidence exists for the current target.
 
-8. **Make a Decision:**
+8. **Exception And Decision Capture:**
+   - If deployment is being allowed by override, waiver, accepted evidence gap, or risk acceptance, create an operational decision record using `templates/operational-decision-record.md`.
+   - Save it at `_bmad-output/production-artifacts/operational-decisions/operational-decision-record-<timestamp>-<decision>.md`.
+   - Record the exact reason, affected docs, temporary/permanent intent, and the BMAD-original alignment route that will be required later.
+
+9. **Make a Decision:**
    - **PASS**: All critical items checked, no blocking issues identified.
    - **CONCERNS**: Minor issues identified but not blocking.
    - **FAIL**: Critical issues found that must be resolved before deployment.
 
-9. **Generate Artifacts:**
+10. **Generate Artifacts:**
    - Synthesize your findings into a definitive markdown document using `templates/release-readiness.md` as the canonical structure.
    - Save the run-specific review to `_bmad-output/production-artifacts/release-readiness/release-readiness-<timestamp>-<candidate>.md`.
    - If a current-state snapshot was captured or refreshed, save the canonical current state to `_bmad-output/production-artifacts/deployment-baseline.md` using `templates/deployment-baseline.md`.
    - Also save a historical snapshot to `_bmad-output/production-artifacts/deployment-baselines/deployment-baseline-<timestamp>-<candidate>.md`.
    - Save the canonical current release-ground-truth basis to `_bmad-output/production-artifacts/release-intent-matrix.md` using `templates/release-intent-matrix.md`.
    - Also save a historical snapshot to `_bmad-output/production-artifacts/release-intent-history/release-intent-matrix-<timestamp>-<candidate>.md`.
-   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/release-readiness _bmad-output/production-artifacts/deployment-baselines _bmad-output/production-artifacts/release-intent-history _bmad-output/production-artifacts/deployment-baseline.md _bmad-output/production-artifacts/release-intent-matrix.md`.
+   - Validate any generated operational decision records in `_bmad-output/production-artifacts/operational-decisions/`.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/release-readiness _bmad-output/production-artifacts/deployment-baselines _bmad-output/production-artifacts/release-intent-history _bmad-output/production-artifacts/operational-decisions _bmad-output/production-artifacts/deployment-baseline.md _bmad-output/production-artifacts/release-intent-matrix.md`.
 
 ## Output Format
 Use the exact structure from `templates/release-readiness.md` for your output document.

@@ -25,6 +25,7 @@ This checklist defines the intended production-grade contract for BMAD DevOps An
 - [x] Existing VPS deployments are assessed from repo docs and prior production artifacts first; live host inspection is targeted fallback, not default behavior.
 - [x] Rollback and database restore posture are reviewed before production changes.
 - [x] Deployment records baseline, candidate, operator, timestamps, smoke results, and rollback outcomes.
+- [x] Any deploy-time override, waiver, hotfix route, rollback call, or observability exception can be captured as a durable operational decision record.
 
 ## Observability And Evidence
 
@@ -45,8 +46,10 @@ This checklist defines the intended production-grade contract for BMAD DevOps An
 - [x] Post-launch review produces durable production artifacts, not just conversational output.
 - [x] BDA extracts release ground truth from BMAD foundation artifacts into a stable release-intent matrix.
 - [x] BDA compares production evidence against that release-intent matrix, not only against narrative summaries.
+- [x] Operational decisions taken under time pressure are captured durably and reconciled before BMAD original planning handoff is considered complete.
 - [x] Spec refinement keeps draft PRD and epic outputs separate from official planning documents.
 - [x] Spec refinement can route evidence into `/bmad-correct-course` when current sprint or active epic changes are needed.
+- [x] Spec refinement can route architecture-level alignment into `/bmad-create-architecture` before backlog regeneration when architecture truth changed.
 - [x] Future-sprint work remains suitable for standard BMAD sprint planning.
 
 ## Naming And Integration

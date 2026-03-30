@@ -39,6 +39,10 @@
 ## Incidents And Deviations
 1. [issue, deviation, or N/A]
 
+## Operational Decisions
+- **Decision Records**: [_bmad-output/production-artifacts/operational-decisions/operational-decision-record-<timestamp>-<decision>.md | none]
+- **Open Alignment Debt**: [summary or N/A]
+
 ## Final Status
 - **Deployment Result**: [success | failed | partial]
 - **Immediate Confidence**: [high | medium | low]

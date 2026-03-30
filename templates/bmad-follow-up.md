@@ -4,6 +4,7 @@
 **Reviewed Deployment**: [branch @ commit]
 **Source Review**: [post-launch review artifact path]
 **Source Comparison Matrix**: [production-vs-plan matrix path]
+**Operational Decision Records**: [paths or N/A]
 **Status**: DRAFT - Pending Human Review
 
 ## Summary
@@ -11,8 +12,8 @@
 
 ## Recommended Command
 - **Primary Command**: [/bmad-correct-course | /bmad-edit-prd]
-- **Follow-On Commands**: [/bmad-create-epics-and-stories -> /bmad-sprint-planning | N/A]
-- **Expected Next Artifact**: [_bmad-output/planning-artifacts/sprint-change-proposal-{date}.md | updated prd/epics/sprint-status artifacts]
+- **Follow-On Commands**: [/bmad-create-architecture -> /bmad-create-epics-and-stories -> /bmad-sprint-planning | /bmad-create-epics-and-stories -> /bmad-sprint-planning | N/A]
+- **Expected Next Artifact**: [_bmad-output/planning-artifacts/sprint-change-proposal-{date}.md | updated prd/architecture/epics/sprint-status artifacts]
 
 ## Trigger Package
 - **Trigger Issue Summary**: [short issue statement for BMAD]
@@ -21,8 +22,8 @@
 
 ## Required Inputs
 - **Planning Artifacts**: [paths]
-- **Production Evidence**: [paths including deployment verification, post-launch review, and production-vs-plan matrix]
-- **Draft Changes**: [paths]
+- **Production Evidence**: [paths including decision records, deployment verification, post-launch review, and production-vs-plan matrix]
+- **Draft Changes**: [paths including PRD draft, architecture change draft, and epic drafts as applicable]
 - **Additional Notes**: [anything BMAD operator should know before running the next command]
 
 ## Expected Outcome

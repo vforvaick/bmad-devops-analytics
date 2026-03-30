@@ -9,6 +9,7 @@
 **Overall Status**: [healthy | concerns | critical]
 **Confidence Level**: [high | medium | low]
 **Deployment Verification**: [selected run-specific path or N/A]
+**Operational Decisions**: [selected decision record paths or N/A]
 **Release Intent Matrix**: [selected run-specific path or N/A]
 **Production vs Plan Matrix**: [selected run-specific path or N/A]
 
@@ -81,7 +82,14 @@
 ## Recommended Actions
 1. [P0/P1/P2 action]
 
+## Decision Record Reconciliation
+- **Open Operational Decisions Reviewed**: [count]
+- **Still Valid**: [count]
+- **Need BMAD Alignment**: [count]
+- **Can Close As Operational-Only**: [count]
+
 ## Routing Recommendation
 - **Run `/bmad-correct-course` Now**: [yes | no]
 - **Future Sprint Planning Update Needed**: [yes | no]
+- **Architecture / ADR Update Needed**: [yes | no]
 - **Notes**: [routing explanation]

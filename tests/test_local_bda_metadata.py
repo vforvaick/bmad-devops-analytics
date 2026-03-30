@@ -64,6 +64,18 @@ class LocalBdaMetadataTests(unittest.TestCase):
             ],
         )
 
+    def test_module_registers_operational_decision_record_template(self) -> None:
+        module_text = (ROOT / "module.yaml").read_text(encoding="utf-8")
+        self.assertIn("operational-decision-record.md", module_text)
+        self.assertIn("architecture-change-draft.md", module_text)
+
+    def test_readme_future_planning_route_includes_architecture(self) -> None:
+        readme_text = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn(
+            "/bmad-edit-prd` -> `/bmad-create-architecture` when architecture truth must change -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning",
+            readme_text,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -81,9 +81,11 @@ Canonical artifact schemas:
 - [templates/deployment-plan.md](templates/deployment-plan.md)
 - [templates/deployment-log.md](templates/deployment-log.md)
 - [templates/deployment-verification.md](templates/deployment-verification.md)
+- [templates/operational-decision-record.md](templates/operational-decision-record.md)
 - [templates/post-launch-insights.md](templates/post-launch-insights.md)
 - [templates/production-vs-plan-matrix.md](templates/production-vs-plan-matrix.md)
 - [templates/prd-change-draft.md](templates/prd-change-draft.md)
+- [templates/architecture-change-draft.md](templates/architecture-change-draft.md)
 - [templates/spec-refinement-log.md](templates/spec-refinement-log.md)
 - [templates/bmad-follow-up.md](templates/bmad-follow-up.md)
 
@@ -125,14 +127,15 @@ After BMAD sprint planning has produced stories and epics:
 ```
 
 Use `/bmad-correct-course` when post-launch evidence implies the current sprint or active epic should change immediately. Keep `bmad-bda-spec-refinement` as the production evidence distillation and draft-generation step that prepares the handoff package for BMAD original.
-When the changes are future-planning only, the intended BMAD follow-up is: human review of BDA drafts -> `/bmad-edit-prd` -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning`.
+When the changes are future-planning only, the intended BMAD follow-up is: human review of BDA drafts -> `/bmad-edit-prd` -> `/bmad-create-architecture` when architecture truth must change -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning`.
+Just-in-time overrides, waivers, hotfix decisions, rollback calls, and observability exceptions should be captured as `operational-decision-record` artifacts and reconciled in `bmad-bda-spec-refinement` before BMAD original planning workflows are run.
 
 Workflow boundary summary:
 - `bmad-bda-release-readiness` decides whether a candidate is safe and coherent enough to deploy.
 - `bmad-bda-deploy` performs the rollout and requires immediate deployment verification.
 - `bmad-bda-deployment-verification` proves the T+0 critical runtime outcome; it does not do long-window analysis or planning changes.
 - `bmad-bda-post-launch-review` extends the T+0 baseline with evidence-window analysis, drift, adoption, and support signals.
-- `bmad-bda-spec-refinement` is the only BDA workflow that should hand planning changes back into BMAD original workflows.
+- `bmad-bda-spec-refinement` is the only BDA workflow that should hand planning changes back into BMAD original workflows, and it must reconcile open operational decision records before that handoff closes.
 
 ## Governance Model
 
@@ -158,11 +161,13 @@ _bmad-output/
     ├── deployment-plans/
     ├── deployment-logs/
     ├── deployment-verifications/
+    ├── operational-decisions/
     ├── observability-reports/
     ├── usage-insights/
     ├── post-launch-reviews/
     ├── production-vs-plan/
     ├── prd-change-drafts/
+    ├── architecture-change-drafts/
     ├── spec-refinement-logs/
     ├── bmad-follow-ups/
     └── new-epics/
@@ -171,7 +176,7 @@ _bmad-output/
 Current-state artifacts stay stable at the top level. Run-specific evidence and review artifacts belong in timestamped/history folders.
 All production artifacts should follow the canonical schema in `templates/`. If a field does not apply, write `N/A` instead of silently dropping the section.
 Use `scripts/validate-production-artifacts.py` to enforce the schema after workflow runs.
-The intended comparison chain is: BMAD planning docs -> current `release-intent-matrix.md` plus history snapshot -> current `observability-config.md` plus history snapshot -> `deployment-verifications/deployment-verification-<timestamp>-<candidate>.md` -> `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md` -> `spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md` -> `bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md` -> BMAD original follow-up (`/bmad-correct-course` for active-sprint changes, or `/bmad-edit-prd` -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning` for future planning).
+The intended comparison chain is: BMAD planning docs -> current `release-intent-matrix.md` plus history snapshot -> current `observability-config.md` plus history snapshot -> `deployment-verifications/deployment-verification-<timestamp>-<candidate>.md` -> `operational-decisions/operational-decision-record-<timestamp>-<decision>.md` as needed -> `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md` -> `prd-change-drafts/prd-change-draft-<timestamp>-<reviewed-deployment>.md` and `architecture-change-drafts/architecture-change-draft-<timestamp>-<reviewed-deployment>.md` as needed -> `spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md` -> `bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md` -> BMAD original follow-up (`/bmad-correct-course` for active-sprint changes, or `/bmad-edit-prd` -> `/bmad-create-architecture` -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning` for future planning).
 
 ## Requirements
 

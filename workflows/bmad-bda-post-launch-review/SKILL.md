@@ -28,6 +28,7 @@ Before generating your output, silently read and analyze:
 - BMAD Artifacts: `_bmad-output/planning-artifacts/prd.md` or equivalent PRD, UX specifications, `architecture.md`, and deployment logs.
 - the selected deployment log in `_bmad-output/production-artifacts/deployment-logs/` and the current `observability-config.md` when they exist.
 - the selected deployment verification artifact in `_bmad-output/production-artifacts/deployment-verifications/` when it exists.
+- the most relevant files in `_bmad-output/production-artifacts/operational-decisions/` when they exist.
 - the selected release-readiness artifact in `_bmad-output/production-artifacts/release-readiness/` for the baseline expectations that were approved pre-deploy.
 - `_bmad-output/production-artifacts/deployment-baseline.md` when it exists.
 - `_bmad-output/production-artifacts/release-intent-matrix.md` when it exists.
@@ -66,16 +67,19 @@ Before generating your output, silently read and analyze:
    - **Infrastructure:** Assess resource utilization and scaling needs.
    - **Plan Fidelity:** State which planned success criteria, journeys, FRs, NFRs, UX critical flows, and acceptance-critical behaviors were matched, partially matched, missed, or left unverified.
    - **Operational Decision Readiness:** State whether the evidence is sufficient to answer health, user impact, rollback hindsight, and next-step planning questions with confidence.
+   - **Decision Record Reconciliation:** Review whether temporary hotfixes, waivers, overrides, or observability exceptions are still valid, should be closed, or now require BMAD-original alignment.
 
 4. **Synthesis:**
    - PM and Analyst: Synthesize findings, prioritize insights by user impact, and generate actionable recommendations.
    - Explicitly separate confirmed production issues, evidence-quality gaps, and future optimization opportunities.
+   - If longer-window evidence confirms that an open operational decision changes product definition, architecture, or backlog truth, keep it open and carry it into spec refinement explicitly.
 
 5. **Generate Artifact:**
    - Create a run-specific post-launch review at `_bmad-output/production-artifacts/post-launch-reviews/post-launch-insights-<timestamp>-<reviewed-deployment>.md` using `templates/post-launch-insights.md`.
    - Create a run-specific comparison matrix at `_bmad-output/production-artifacts/production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md` using `templates/production-vs-plan-matrix.md`.
    - Optionally generate run-specific artifacts in `_bmad-output/production-artifacts/observability-reports/` and `_bmad-output/production-artifacts/usage-insights/`.
-   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/post-launch-reviews _bmad-output/production-artifacts/production-vs-plan _bmad-output/production-artifacts/observability-reports _bmad-output/production-artifacts/usage-insights`.
+   - If this review produces a new or refreshed operational decision record, save it under `_bmad-output/production-artifacts/operational-decisions/`.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/post-launch-reviews _bmad-output/production-artifacts/production-vs-plan _bmad-output/production-artifacts/operational-decisions _bmad-output/production-artifacts/observability-reports _bmad-output/production-artifacts/usage-insights`.
    - Save outputs to `_bmad-output/production-artifacts/`.
 
 ## Behavior Rules
@@ -85,6 +89,7 @@ Before generating your output, silently read and analyze:
 - Separate confirmed findings from inferences when evidence is incomplete.
 - Treat missing telemetry on a critical path as a real finding because it weakens operational confidence and BMAD feedback quality.
 - Treat a missing deployment-verification artifact as a confidence-chain gap, not a harmless omission.
+- Treat unresolved operational decision records as part of the evidence chain, not side notes to be dropped before spec refinement.
 - Do not repeat the deployment-verification gate as if it were this workflow's main purpose; reference it, compare against it, and explain drift or persistence.
 - If evidence implies immediate replanning of active sprint work, state that clearly so `bmad-bda-spec-refinement` or `/bmad-correct-course` can route the next step explicitly.
 - Use the canonical template headings and fill missing values with `N/A` rather than inventing alternate structures.

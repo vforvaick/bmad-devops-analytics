@@ -78,10 +78,12 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 - Observability config defines critical service telemetry, critical journey evidence, release markers, and alert ownership
 - Deploy logs capture candidate, operator, smoke checks, release marker, and rollback posture
 - Deployment verification proves the critical runtime outcome instead of only service health
+- Non-pass verification outcomes or accepted deploy-time overrides create operational decision records
 - Post-launch review identifies the exact reviewed deployment
 - Production-vs-plan matrix compares observed behavior against release intent rows instead of only narrative expectations
 - Post-launch review flags missing telemetry as a confidence issue instead of silently proceeding
-- Spec refinement routes output either to `/bmad-correct-course` or to `/bmad-edit-prd -> /bmad-create-epics-and-stories -> /bmad-sprint-planning`
+- Spec refinement reconciles open operational decision records before routing output
+- Spec refinement routes output either to `/bmad-correct-course` or to `/bmad-edit-prd -> /bmad-create-architecture -> /bmad-create-epics-and-stories -> /bmad-sprint-planning`
 
 **Required Artifacts**
 
@@ -90,10 +92,12 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 - `deployment-plans/deployment-plan-<timestamp>-<candidate>.md`
 - `deployment-logs/deployment-log-<timestamp>-<candidate>.md`
 - `deployment-verifications/deployment-verification-<timestamp>-<candidate>.md`
+- `operational-decisions/operational-decision-record-<timestamp>-<decision>.md` when overrides, waivers, hotfix-now, rollback, or telemetry exceptions occur
 - `observability-config.md`
 - `post-launch-reviews/post-launch-insights-<timestamp>-<reviewed-deployment>.md`
 - `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md`
 - `prd-change-drafts/prd-change-draft-<timestamp>-<reviewed-deployment>.md`
+- `architecture-change-drafts/architecture-change-draft-<timestamp>-<reviewed-deployment>.md` when architecture truth must change
 - `spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md`
 - `bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md`
 
@@ -137,6 +141,7 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 - Deploy refuses to mutate production without baseline evidence unless explicitly overridden
 - Deployment verification distinguishes immediate runtime failure from later production drift
 - Post-launch review compares observed behavior against both release expectations and baseline state
+- Operational decision records remain linked to the same reviewed deployment until they are closed or routed into BMAD original
 
 **Required Artifacts**
 

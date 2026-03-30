@@ -26,12 +26,13 @@ Before generating your output, silently read and analyze:
 - the selected post-launch review in `_bmad-output/production-artifacts/post-launch-reviews/`
 - the selected comparison matrix in `_bmad-output/production-artifacts/production-vs-plan/` when it exists
 - the selected deployment verification artifact in `_bmad-output/production-artifacts/deployment-verifications/` when it exists
+- the most relevant files in `_bmad-output/production-artifacts/operational-decisions/` when they exist
 - `_bmad-output/production-artifacts/release-intent-matrix.md` when it exists
 - `_bmad-output/planning-artifacts/prd.md` or equivalent PRD
 - `_bmad-output/planning-artifacts/architecture.md`
 - Existing epic definitions in `_bmad-output/planning-artifacts/epics.md` or the repo's equivalent epic index
 - `_bmad-output/implementation-artifacts/sprint-status.yaml` when it exists
-- `_bmad/bmm/workflows/4-implementation/bmad-correct-course/workflow.md` when BMAD original docs are available locally
+- `{project-root}/_bmad/bmm/workflows/4-implementation/bmad-correct-course/workflow.md` when BMAD original docs are available locally
 
 ## Preconditions
 
@@ -44,6 +45,7 @@ Before generating your output, silently read and analyze:
 1. **Insight Categorization:**
    - Categorize each finding from the selected post-launch review and production-vs-plan matrix (e.g., Critical Bug -> Emergency Epic P0, Feature Gap -> PRD Update + Epic P1).
    - Use the deployment-verification artifact as the T+0 baseline when deciding whether a finding is an immediate-release defect, later production drift, observability weakness, or a true planning gap.
+   - Reconcile every open operational decision record: close as operational-only, keep open for monitoring, route to `/bmad-correct-course`, or promote into architecture/PRD/backlog alignment.
    - Classify each finding as `future-planning`, `correct-course-now`, or `both`.
 
 2. **Draft PRD Updates:**
@@ -56,15 +58,16 @@ Before generating your output, silently read and analyze:
    - Summarize the total PRD updates and new epics proposed, estimating effort and categorizing by priority. Recommend the focus for the next sprint.
    - When any item is `correct-course-now`, produce an explicit handoff section aligned to BMAD original `bmad-correct-course`: issue summary, impact analysis across PRD/epics/architecture/UX, recommended approach, and detailed change proposals backed by production evidence.
    - State that the expected BMAD output of that handoff is `_bmad-output/planning-artifacts/sprint-change-proposal-{date}.md`.
-   - When items are future-only, route them to the standard BMAD planning loop in order: human review of draft artifacts -> `/bmad-edit-prd` when PRD text should change -> `/bmad-create-epics-and-stories` when backlog structure must change -> `/bmad-sprint-planning` when sprint execution should be refreshed.
+   - When items are future-only, route them to the standard BMAD planning loop in order: human review of draft artifacts -> `/bmad-edit-prd` when PRD text should change -> `/bmad-create-architecture` when architecture decisions or ADR-level truth should change -> `/bmad-create-epics-and-stories` when backlog structure must change -> `/bmad-sprint-planning` when sprint execution should be refreshed.
    - Name the exact BMAD original command chain in the output. Do not leave the operator to infer whether the next move is `bmad-correct-course` or the future-planning path.
-   - Distinguish between product-definition gaps, delivery gaps, and observability-only gaps so the next workflow is not over-rotated toward the wrong fix.
+   - Distinguish between product-definition gaps, delivery gaps, architecture-decision gaps, and observability-only gaps so the next workflow is not over-rotated toward the wrong fix.
 
 5. **Generate Artifacts:**
    - Create a run-specific PRD change draft using `templates/prd-change-draft.md` at `_bmad-output/production-artifacts/prd-change-drafts/prd-change-draft-<timestamp>-<reviewed-deployment>.md`.
+   - When architecture-level alignment is needed, generate an architecture change draft using `templates/architecture-change-draft.md` at `_bmad-output/production-artifacts/architecture-change-drafts/architecture-change-draft-<timestamp>-<reviewed-deployment>.md`, aligned to BMAD original `bmad-create-architecture` inputs.
    - Create draft epics in `_bmad-output/production-artifacts/new-epics/<reviewed-deployment>/` when separate epic files are appropriate, otherwise generate a draft sectioned proposal in that folder.
-   - Create a run-specific summary `spec-refinement-log` using `templates/spec-refinement-log.md` at `_bmad-output/production-artifacts/spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md` that names the recommended BMAD follow-up workflow, the expected next artifact, and the exact evidence package to carry forward.
+   - Create a run-specific summary `spec-refinement-log` using `templates/spec-refinement-log.md` at `_bmad-output/production-artifacts/spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md` that names the recommended BMAD follow-up workflow, the exact disposition of each operational decision record, the expected next artifact, and the evidence package to carry forward.
    - Create a run-specific BMAD follow-up package using `templates/bmad-follow-up.md` at `_bmad-output/production-artifacts/bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md`.
-   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/prd-change-drafts _bmad-output/production-artifacts/spec-refinement-logs _bmad-output/production-artifacts/bmad-follow-ups`.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/prd-change-drafts _bmad-output/production-artifacts/architecture-change-drafts _bmad-output/production-artifacts/spec-refinement-logs _bmad-output/production-artifacts/bmad-follow-ups`.
 
 > **CRITICAL RULE:** All generated files MUST explicitly state they are **DRAFTS** pending human review. Do NOT automatically overwrite the official PRD file or existing epics.

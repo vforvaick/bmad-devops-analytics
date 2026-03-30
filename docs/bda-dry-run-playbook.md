@@ -56,6 +56,7 @@ Record these values before starting:
    - Smoke-test plan
    - Rollback trigger
    - Deployment-verification route
+   - Operational decision record path when the deploy used any override, waiver, or temporary mitigation
 
 **Pass if**
 
@@ -98,11 +99,12 @@ Record these values before starting:
    - Explicit comparison against `release-intent-matrix.md`
 4. Confirm a run-specific production-vs-plan matrix is created and contains matched, partial, missed, and unverified rows.
 5. Run `/bmad-bda-spec-refinement`.
-6. Confirm a release-linked PRD change draft, refinement log, and BMAD follow-up package are created.
+6. Confirm a release-linked PRD change draft, architecture change draft when needed, refinement log, and BMAD follow-up package are created.
 7. Confirm the refinement output names the next routing decision:
    - `/bmad-correct-course`
-   - `/bmad-edit-prd -> /bmad-create-epics-and-stories -> /bmad-sprint-planning`
-8. When the route is `/bmad-correct-course`, confirm the refinement log includes:
+   - `/bmad-edit-prd -> /bmad-create-architecture -> /bmad-create-epics-and-stories -> /bmad-sprint-planning`
+8. Confirm any open operational decision records are explicitly reconciled as closed, still-open, or promoted into BMAD follow-up.
+9. When the route is `/bmad-correct-course`, confirm the refinement log includes:
    - trigger issue summary
    - impacted BMAD artifacts
    - recommended approach

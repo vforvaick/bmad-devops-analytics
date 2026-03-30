@@ -33,6 +33,7 @@ Before generating your output, silently read and analyze:
 - `_bmad-output/production-artifacts/observability-config.md` if it exists
 - the most relevant files in `_bmad-output/production-artifacts/observability-config-history/`, `_bmad-output/production-artifacts/deployment-plans/`, and `_bmad-output/production-artifacts/deployment-logs/` if they exist
 - the most relevant file in `_bmad-output/production-artifacts/deployment-verifications/` if it exists
+- the most relevant files in `_bmad-output/production-artifacts/operational-decisions/` if they exist
 - `docs/deployment.md` and `docs/infrastructure.md` when they exist
 - Target environment details and configurations
 - The current source-of-truth branch and commit that will be deployed
@@ -76,23 +77,29 @@ Before generating your output, silently read and analyze:
    - Define the critical smoke tests and the deeper runtime checks required by `bmad-bda-deployment-verification`.
    - Include at least one health/path test, one core user journey, one release-marker verification, one observability check, and one release-specific critical outcome proof.
 
-6. **Mandatory Deployment Verification:**
+6. **Deviation And Decision Capture:**
+   - If this deployment proceeds through a gate override, missing-but-accepted evidence, temporary mitigation, manual step substitution, or rollback-threshold change, create an operational decision record using `templates/operational-decision-record.md`.
+   - Save it at `_bmad-output/production-artifacts/operational-decisions/operational-decision-record-<timestamp>-<decision>.md`.
+   - Link the decision record from the deployment log so later workflows can reconcile the operational choice against BMAD ground truth.
+
+7. **Mandatory Deployment Verification:**
    - Execute `bmad-bda-deployment-verification` immediately after rollout as part of this workflow.
    - Treat the deployment as incomplete until the verification decision is recorded as `PASS`, `HOTFIX-NOW`, `ROLLBACK`, or `FIX-OBSERVABILITY`.
    - If the deployment remains live but verification fails, record the exact route and whether a rerun of `bmad-bda-deployment-verification` is required after corrective work.
 
-7. **Rollback Plan Activation:**
+8. **Rollback Plan Activation:**
    - Document the specific conditions and steps required to trigger a rollback if deployment fails.
    - Name the rollback trigger threshold and the exact revert target.
 
-8. **Generate Artifacts:**
+9. **Generate Artifacts:**
    - Create or refresh the canonical current `deployment-baseline.md` when current-state protection data was collected, using `templates/deployment-baseline.md`.
    - Also save a historical snapshot at `_bmad-output/production-artifacts/deployment-baselines/deployment-baseline-<timestamp>-<candidate>.md`.
    - Create a run-specific deployment plan at `_bmad-output/production-artifacts/deployment-plans/deployment-plan-<timestamp>-<candidate>.md` using `templates/deployment-plan.md`.
    - Create a run-specific deployment log at `_bmad-output/production-artifacts/deployment-logs/deployment-log-<timestamp>-<candidate>.md` using `templates/deployment-log.md`.
    - Create or refresh a run-specific deployment verification artifact at `_bmad-output/production-artifacts/deployment-verifications/deployment-verification-<timestamp>-<candidate>.md` by executing `bmad-bda-deployment-verification`.
+   - Create or refresh any required operational decision records at `_bmad-output/production-artifacts/operational-decisions/`.
    - Record the deployment mode, target environment, deployed branch, commit SHA, operator, timestamps, smoke-test results, deployment-verification decision, release marker or version tag, baseline snapshot identifiers, and rollback outcome if used.
-   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/deployment-baseline.md _bmad-output/production-artifacts/deployment-baselines _bmad-output/production-artifacts/deployment-plans _bmad-output/production-artifacts/deployment-logs _bmad-output/production-artifacts/deployment-verifications`.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/deployment-baseline.md _bmad-output/production-artifacts/deployment-baselines _bmad-output/production-artifacts/deployment-plans _bmad-output/production-artifacts/deployment-logs _bmad-output/production-artifacts/deployment-verifications _bmad-output/production-artifacts/operational-decisions`.
    - Save outputs to `_bmad-output/production-artifacts/`.
 
 ## Behavior Rules
@@ -104,5 +111,6 @@ Before generating your output, silently read and analyze:
 - Do not mutate an existing production deployment without recording the current-state protection posture or explicit user override.
 - Do not rediscover or replace an existing VPS deployment shape by default when release-readiness and baseline artifacts already provide the intended current state.
 - Do not skip `bmad-bda-deployment-verification` just because smoke tests passed.
+- Do not leave an override, waiver, or temporary mitigation undocumented; create an operational decision record when deploy-time behavior or accepted risk changes.
 - If the deploy is a dry run or planning-only session, say so explicitly in the artifacts.
 - Do not skip required template sections; use `N/A` where a field genuinely does not apply.

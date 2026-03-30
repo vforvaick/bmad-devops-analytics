@@ -14,12 +14,13 @@
 - **Observability Config**: [path]
 - **Release Readiness**: [path]
 - **Deployment Verification**: [path or N/A]
+- **Operational Decision Records**: [paths or N/A]
 - **Deployment Baseline**: [path or N/A]
 
 ## Production vs Plan Matrix
 | Intent ID | Layer | Planned Statement | Expected Evidence | Observed Evidence | Status | Confidence | User Impact | Recommended Route |
 |---|---|---|---|---|---|---|---|---|
-| INT-001 | [layer] | [planned statement] | [expected evidence] | [observed evidence] | [matched | partial | missed | unverified | unplanned-positive | unplanned-negative] | [high | medium | low] | [summary] | [none | fix-observability | refine-plan | correct-course] |
+| INT-001 | [layer] | [planned statement] | [expected evidence] | [observed evidence] | [matched | partial | missed | unverified | unplanned-positive | unplanned-negative] | [high | medium | low] | [summary] | [none | fix-observability | refine-plan | architecture-align | correct-course] |
 
 ## Comparison Totals
 - **Matched Rows**: [count]
@@ -35,4 +36,5 @@
 ## Routing Recommendation
 - **Immediate Correct Course Needed**: [yes | no]
 - **Future Refinement Needed**: [yes | no]
+- **Architecture / ADR Alignment Needed**: [yes | no]
 - **Observability Fix Needed Before Stronger Judgment**: [yes | no]

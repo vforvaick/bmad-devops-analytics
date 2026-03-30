@@ -39,6 +39,7 @@ Before generating your output, silently read and analyze:
 - `_bmad-output/production-artifacts/observability-config.md` when it exists
 - `_bmad-output/production-artifacts/deployment-baseline.md` when it exists
 - the most relevant prior file in `_bmad-output/production-artifacts/deployment-verifications/` when it exists
+- the most relevant files in `_bmad-output/production-artifacts/operational-decisions/` when they exist
 - `docs/deployment.md`, `docs/infrastructure.md`, and `docs/observability.md` when they exist
 - the exact runtime checks, logs, metrics, events, traces, reports, or operator checks available for the target environment
 
@@ -75,15 +76,21 @@ Before generating your output, silently read and analyze:
    - If product judgment cannot be supported because release markers, telemetry, or journey instrumentation are missing, classify `FIX-OBSERVABILITY`.
    - Only classify `PASS` when the critical outcome and its key protections have concrete evidence.
 
-5. **Artifact Generation:**
+5. **Operational Decision Capture:**
+   - If the outcome is `HOTFIX-NOW`, `ROLLBACK`, or `FIX-OBSERVABILITY`, create an operational decision record using `templates/operational-decision-record.md`.
+   - Also create an operational decision record when the release remains live only because of a temporary mitigation, behavior override, or accepted evidence weakness.
+   - Save the record at `_bmad-output/production-artifacts/operational-decisions/operational-decision-record-<timestamp>-<decision>.md`.
+
+6. **Artifact Generation:**
    - Create a run-specific deployment verification artifact at `_bmad-output/production-artifacts/deployment-verifications/deployment-verification-<timestamp>-<candidate>.md` using `templates/deployment-verification.md`.
    - Record whether this run is the initial verification or a rerun, the trigger for the run, the reviewed deployment log, the release marker, top findings, matrix totals, and decision route.
-   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/deployment-verifications`.
+   - Record any linked operational decision records and whether they remain open.
+   - When local command execution is available, validate generated artifacts with `python3 scripts/validate-production-artifacts.py _bmad-output/production-artifacts/deployment-verifications _bmad-output/production-artifacts/operational-decisions`.
 
-6. **Downstream Routing Discipline:**
+7. **Downstream Routing Discipline:**
    - If the outcome is `PASS`, hand the reviewed deployment forward to `bmad-bda-post-launch-review` as the T+0 baseline for later comparison.
    - If the outcome is `HOTFIX-NOW`, `ROLLBACK`, or `FIX-OBSERVABILITY`, route first to operational remediation, redeploy or rerun deployment verification as needed, and only then continue into post-launch review.
-   - If the findings imply product-definition, scope, or backlog changes beyond immediate operational repair, carry this artifact forward into `bmad-bda-post-launch-review` and `bmad-bda-spec-refinement` so BMAD original receives the full evidence chain.
+   - If the findings imply product-definition, scope, architecture, or backlog changes beyond immediate operational repair, carry this artifact and any linked operational decision records forward into `bmad-bda-post-launch-review` and `bmad-bda-spec-refinement` so BMAD original receives the full evidence chain.
 
 ## Behavior Rules
 
@@ -94,4 +101,5 @@ Before generating your output, silently read and analyze:
 - Do not confuse this immediate gate with long-window learning, adoption, or trend analysis; those belong to `bmad-bda-post-launch-review`.
 - Do not draft PRD, epic, or sprint changes here; route planning changes through `bmad-bda-spec-refinement`, which then hands off to BMAD original.
 - Do not skip security, data-integrity, or duplicate-protection verification when the release can trigger real-world side effects.
+- Do not resolve a live-but-risky outcome with conversation-only explanation; create an operational decision record when runtime judgment changes the accepted path.
 - When this workflow is rerun after a hotfix or config fix, tie the rerun explicitly to the same reviewed deployment or say that a new deployment log is required.

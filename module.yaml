@@ -66,6 +66,7 @@ templates:
   - deployment-plan.md
   - deployment-log.md
   - deployment-verification.md
+  - operational-decision-record.md
   - rollback-plan.md
   - observability-config.md
   - observability-report.md
@@ -73,6 +74,7 @@ templates:
   - post-launch-insights.md
   - production-vs-plan-matrix.md
   - prd-change-draft.md
+  - architecture-change-draft.md
   - spec-refinement-log.md
   - bmad-follow-up.md
 

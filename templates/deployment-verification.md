@@ -46,6 +46,10 @@
    - **Evidence**: [summary]
    - **Route**: [hotfix-now | rollback | fix-observability | watch]
 
+## Operational Decisions
+- **Decision Records**: [_bmad-output/production-artifacts/operational-decisions/operational-decision-record-<timestamp>-<decision>.md | none]
+- **Open Decision Alignment Risk**: [summary or N/A]
+
 ## Decision And Routing
 - **Immediate Action**: [proceed | hotfix-now | rollback | fix-observability]
 - **Why**: [summary]
