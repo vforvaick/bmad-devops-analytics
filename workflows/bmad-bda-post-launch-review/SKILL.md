@@ -9,12 +9,14 @@ description: Evidence synthesis and insights generation from 24-72 hours of prod
 
 This workflow turns 24-72 hours of production evidence into an explicit BMAD feedback package.
 It compares observed production behavior against the approved release expectations and current deployment baseline, then produces durable artifacts for refinement or course correction.
+It does not replace immediate deployment verification; it extends that T+0 baseline with longer-window evidence, drift, adoption, and support signals.
 
 ## On Activation
 
 1. Confirm which deployment version or commit is being reviewed.
 2. Confirm the evidence window and whether this is a full review or an early read.
 3. Confirm whether evidence is arriving from an implemented adapter or from a manual evidence bundle.
+4. Load the most relevant deployment verification artifact so the review has a concrete T+0 baseline.
 
 ## Role
 Act as a cross-functional squad: **PM**, **Analyst**, **SRE Agent**, and **Analytics Agent**.
@@ -25,6 +27,7 @@ Before generating your output, silently read and analyze:
 - Evidence from Adapters: Logs, Error reports, Metrics, Traces, Analytics events.
 - BMAD Artifacts: `_bmad-output/planning-artifacts/prd.md` or equivalent PRD, UX specifications, `architecture.md`, and deployment logs.
 - the selected deployment log in `_bmad-output/production-artifacts/deployment-logs/` and the current `observability-config.md` when they exist.
+- the selected deployment verification artifact in `_bmad-output/production-artifacts/deployment-verifications/` when it exists.
 - the selected release-readiness artifact in `_bmad-output/production-artifacts/release-readiness/` for the baseline expectations that were approved pre-deploy.
 - `_bmad-output/production-artifacts/deployment-baseline.md` when it exists.
 - `_bmad-output/production-artifacts/release-intent-matrix.md` when it exists.
@@ -37,6 +40,7 @@ Before generating your output, silently read and analyze:
 - If only partial evidence exists, continue only if the report explicitly lists the missing evidence and its impact on confidence.
 - The evidence source must be known, either via an implemented adapter path or an explicit manual evidence bundle.
 - `observability-config.md` should define the expected telemetry contract or the report must explicitly say that confidence is reduced because the contract was missing or incomplete.
+- A deployment-verification artifact should exist for a full confidence chain. If it does not, continue only if the report explicitly states that the T+0 runtime baseline is missing.
 - `release-intent-matrix.md` should exist for a full plan-vs-production comparison. If it does not, the report must explicitly downgrade confidence and say the comparison chain is incomplete.
 
 ## Execution Steps
@@ -49,6 +53,7 @@ Before generating your output, silently read and analyze:
 2. **Plan And Baseline Comparison:**
    - Compare observed production evidence row-by-row against the release-intent matrix snapshot tied to the reviewed deployment.
    - Compare observed behavior to the expectations approved in the selected release-readiness artifact.
+   - Compare observed production evidence to the immediate T+0 findings in deployment verification so the review distinguishes immediate failure from later drift.
    - Compare observed runtime state to `deployment-baseline.md` when the deployment updated an existing environment.
    - Compare observed evidence quality to the intended telemetry contract: missing dashboards, missing alerts, missing release markers, or missing journey instrumentation are findings, not footnotes.
    - Create a run-specific `production-vs-plan-matrix` artifact using `templates/production-vs-plan-matrix.md`.
@@ -79,6 +84,8 @@ Before generating your output, silently read and analyze:
 - If the evidence window is under 24 hours, label the artifact clearly as an early read rather than a full post-launch review.
 - Separate confirmed findings from inferences when evidence is incomplete.
 - Treat missing telemetry on a critical path as a real finding because it weakens operational confidence and BMAD feedback quality.
+- Treat a missing deployment-verification artifact as a confidence-chain gap, not a harmless omission.
+- Do not repeat the deployment-verification gate as if it were this workflow's main purpose; reference it, compare against it, and explain drift or persistence.
 - If evidence implies immediate replanning of active sprint work, state that clearly so `bmad-bda-spec-refinement` or `/bmad-correct-course` can route the next step explicitly.
 - Use the canonical template headings and fill missing values with `N/A` rather than inventing alternate structures.
 - Do not stop at infrastructure or aggregate metrics; compare production reality against the release-ground-truth rows derived from BMAD planning artifacts.

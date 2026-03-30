@@ -13,6 +13,7 @@
 - **Release Intent Matrix**: [path]
 - **Observability Config**: [path]
 - **Release Readiness**: [path]
+- **Deployment Verification**: [path or N/A]
 - **Deployment Baseline**: [path or N/A]
 
 ## Production vs Plan Matrix

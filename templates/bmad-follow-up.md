@@ -21,7 +21,7 @@
 
 ## Required Inputs
 - **Planning Artifacts**: [paths]
-- **Production Evidence**: [paths]
+- **Production Evidence**: [paths including deployment verification, post-launch review, and production-vs-plan matrix]
 - **Draft Changes**: [paths]
 - **Additional Notes**: [anything BMAD operator should know before running the next command]
 

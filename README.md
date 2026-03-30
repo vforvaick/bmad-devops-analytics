@@ -10,10 +10,10 @@
 BMAD DevOps Analytics (BDA) fills the critical gap between sprint planning, implementation closure, production release, and continuous product evolution. In practice the loop becomes:
 
 ```
-sprint planning → implement epics → release ready → deploy → monitor → learn → update plan → repeat
+sprint planning → implement epics → release ready → deploy → verify → monitor → learn → update plan → repeat
 ```
 
-This extension adds seven new workflows and three custom agents to close the loop.
+This extension adds eight workflows and three custom agents to close the loop.
 
 ## What's Included
 
@@ -23,15 +23,16 @@ This extension adds seven new workflows and three custom agents to close the loo
 - **SRE Agent** - Observability setup, monitoring, incident analysis
 - **Analytics Agent** - Product usage analysis, feature adoption tracking
 
-### 🔄 Seven Workflows
+### 🔄 Eight Workflows
 
 1. **Story Pipeline** - Deliver one user story in an isolated git worktree
 2. **Epic Pipeline** - End-to-end autonomous delivery of an entire Epic
-3. **Release Readiness Review** - Pre-deploy validation gate
-4. **Deployment** - Structured deployment execution
-5. **Observability Setup** - Production evidence contract, monitoring stack, and alert/runbook setup
-6. **Post-Launch Review** - Evidence synthesis (24-72h post-deploy)
-7. **Spec Refinement** - Translate insights to PRD/epic updates
+3. **Observability Setup** - Production evidence contract, monitoring stack, and alert/runbook setup
+4. **Release Readiness Review** - Pre-deploy validation gate
+5. **Deployment** - Structured deployment execution
+6. **Deployment Verification** - Immediate proof of critical runtime outcomes after rollout
+7. **Post-Launch Review** - Evidence synthesis (24-72h post-deploy)
+8. **Spec Refinement** - Translate insights to PRD/epic updates
 
 ## Installation
 
@@ -79,6 +80,7 @@ Canonical artifact schemas:
 - [templates/observability-config.md](templates/observability-config.md)
 - [templates/deployment-plan.md](templates/deployment-plan.md)
 - [templates/deployment-log.md](templates/deployment-log.md)
+- [templates/deployment-verification.md](templates/deployment-verification.md)
 - [templates/post-launch-insights.md](templates/post-launch-insights.md)
 - [templates/production-vs-plan-matrix.md](templates/production-vs-plan-matrix.md)
 - [templates/prd-change-draft.md](templates/prd-change-draft.md)
@@ -107,19 +109,30 @@ After BMAD sprint planning has produced stories and epics:
 /bmad-bda-release-readiness
 
 # Step 4: Deploy (if PASS)
+# This includes mandatory immediate deployment verification.
 /bmad-bda-deploy
 
-# Step 5: Wait 24-72 hours for production evidence
+# Step 5: Rerun deployment verification if a hotfix, config fix, or telemetry fix is needed
+/bmad-bda-deployment-verification
 
-# Step 6: Generate insights
+# Step 6: Wait 24-72 hours for production evidence
+
+# Step 7: Generate insights
 /bmad-bda-post-launch-review
 
-# Step 7: Refine planning artifacts and route to next BMAD workflow
+# Step 8: Refine planning artifacts and route to next BMAD workflow
 /bmad-bda-spec-refinement
 ```
 
 Use `/bmad-correct-course` when post-launch evidence implies the current sprint or active epic should change immediately. Keep `bmad-bda-spec-refinement` as the production evidence distillation and draft-generation step that prepares the handoff package for BMAD original.
 When the changes are future-planning only, the intended BMAD follow-up is: human review of BDA drafts -> `/bmad-edit-prd` -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning`.
+
+Workflow boundary summary:
+- `bmad-bda-release-readiness` decides whether a candidate is safe and coherent enough to deploy.
+- `bmad-bda-deploy` performs the rollout and requires immediate deployment verification.
+- `bmad-bda-deployment-verification` proves the T+0 critical runtime outcome; it does not do long-window analysis or planning changes.
+- `bmad-bda-post-launch-review` extends the T+0 baseline with evidence-window analysis, drift, adoption, and support signals.
+- `bmad-bda-spec-refinement` is the only BDA workflow that should hand planning changes back into BMAD original workflows.
 
 ## Governance Model
 
@@ -144,6 +157,7 @@ _bmad-output/
     ├── release-readiness/
     ├── deployment-plans/
     ├── deployment-logs/
+    ├── deployment-verifications/
     ├── observability-reports/
     ├── usage-insights/
     ├── post-launch-reviews/
@@ -157,7 +171,7 @@ _bmad-output/
 Current-state artifacts stay stable at the top level. Run-specific evidence and review artifacts belong in timestamped/history folders.
 All production artifacts should follow the canonical schema in `templates/`. If a field does not apply, write `N/A` instead of silently dropping the section.
 Use `scripts/validate-production-artifacts.py` to enforce the schema after workflow runs.
-The intended comparison chain is: BMAD planning docs -> current `release-intent-matrix.md` plus history snapshot -> current `observability-config.md` plus history snapshot -> `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md` -> `spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md` -> `bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md` -> BMAD original follow-up (`/bmad-correct-course` for active-sprint changes, or `/bmad-edit-prd` -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning` for future planning).
+The intended comparison chain is: BMAD planning docs -> current `release-intent-matrix.md` plus history snapshot -> current `observability-config.md` plus history snapshot -> `deployment-verifications/deployment-verification-<timestamp>-<candidate>.md` -> `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md` -> `spec-refinement-logs/spec-refinement-log-<timestamp>-<reviewed-deployment>.md` -> `bmad-follow-ups/bmad-follow-up-<timestamp>-<reviewed-deployment>.md` -> BMAD original follow-up (`/bmad-correct-course` for active-sprint changes, or `/bmad-edit-prd` -> `/bmad-create-epics-and-stories` -> `/bmad-sprint-planning` for future planning).
 
 ## Requirements
 
@@ -173,6 +187,7 @@ BDA workflows are fully compatible with Antigravity-powered IDEs (Cursor, Windsu
 - `bmad-bda-pipeline-epic` — Autonomous epic delivery
 - `bmad-bda-release-readiness` — Pre-deploy validation gate
 - `bmad-bda-deploy` — Structured deployment execution
+- `bmad-bda-deployment-verification` — Immediate post-deploy runtime proof
 - `bmad-bda-observability-setup` — Monitoring stack setup
 - `bmad-bda-post-launch-review` — Post-launch evidence synthesis
 - `bmad-bda-spec-refinement` — Translate insights to spec updates

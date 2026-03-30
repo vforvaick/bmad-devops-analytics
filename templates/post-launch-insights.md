@@ -8,6 +8,7 @@
 **Evidence Mode**: [automated | manual-evidence]
 **Overall Status**: [healthy | concerns | critical]
 **Confidence Level**: [high | medium | low]
+**Deployment Verification**: [selected run-specific path or N/A]
 **Release Intent Matrix**: [selected run-specific path or N/A]
 **Production vs Plan Matrix**: [selected run-specific path or N/A]
 
@@ -49,6 +50,7 @@
 ## Baseline Comparison
 - **Expectation Match**: [matched | partial | missed]
 - **Delta From Release Readiness**: [summary]
+- **Delta From Deployment Verification**: [summary or N/A]
 - **Delta From Deployment Baseline**: [summary or N/A]
 
 ## Detailed Analysis

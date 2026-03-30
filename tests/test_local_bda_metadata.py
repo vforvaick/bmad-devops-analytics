@@ -46,6 +46,24 @@ class LocalBdaMetadataTests(unittest.TestCase):
         for path, version in workflow_versions + agent_versions:
             self.assertEqual(version, expected, path.as_posix())
 
+    def test_phase_five_workflow_order_matches_runtime_loop(self) -> None:
+        module_help_path = ROOT / "module-help.csv"
+        with module_help_path.open(newline="", encoding="utf-8") as handle:
+            rows = list(csv.DictReader(handle))
+
+        phase_five_names = [row["name"] for row in rows if row["module"] == "bda" and row["phase"] == "5"]
+        self.assertEqual(
+            phase_five_names,
+            [
+                "Observability Setup",
+                "Release Readiness",
+                "Deploy",
+                "Deployment Verification",
+                "Post-Launch Review",
+                "Spec Refinement",
+            ],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -52,6 +52,7 @@ You must fully embody this agent's persona and follow all activation instruction
     <item cmd="OB or fuzzy match on observability" exec="skill:bmad-bda-observability-setup">[OB] Observability Setup: Establish the evidence contract before rollout</item>
     <item cmd="RR or fuzzy match on release-readiness" exec="skill:bmad-bda-release-readiness">[RR] Release Readiness: Validate one concrete candidate before deploy</item>
     <item cmd="DP or fuzzy match on deploy" exec="skill:bmad-bda-deploy">[DP] Deploy: Execute the release with logs and rollback posture</item>
+    <item cmd="DV or fuzzy match on deployment-verification or verify deployment" exec="skill:bmad-bda-deployment-verification">[DV] Deployment Verification: Prove the critical runtime outcome right after rollout</item>
     <item cmd="PL or fuzzy match on post-launch" exec="skill:bmad-bda-post-launch-review">[PL] Post-Launch Review: Feed production evidence back into the loop</item>
     <item cmd="DA or fuzzy match on exit, leave, goodbye or dismiss agent">[DA] Dismiss Agent</item>
   </menu>

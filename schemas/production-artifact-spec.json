@@ -106,6 +106,29 @@
         "Final Status"
       ]
     },
+    "deployment-verification.md": {
+      "title_prefix": "# Deployment Verification:",
+      "required_metadata": [
+        "Date",
+        "Reviewed Deployment",
+        "Target Environment",
+        "Verification Mode",
+        "Triggered By",
+        "Decision",
+        "Confidence Level",
+        "Deployment Log",
+        "Release Marker"
+      ],
+      "required_headings": [
+        "Summary",
+        "Verification Inputs",
+        "Critical Outcome",
+        "Evidence Coverage",
+        "Verification Matrix",
+        "Findings",
+        "Decision And Routing"
+      ]
+    },
     "observability-report.md": {
       "title_prefix": "# Observability Report:",
       "required_metadata": [
@@ -148,6 +171,7 @@
         "Evidence Mode",
         "Overall Status",
         "Confidence Level",
+        "Deployment Verification",
         "Release Intent Matrix",
         "Production vs Plan Matrix"
       ],

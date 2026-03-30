@@ -94,6 +94,7 @@ cp -r _bmad/bda/workflows/* .agents/skills/
 ```bash
 # In your BMAD test project
 /bmad-bda-release-readiness
+/bmad-bda-deployment-verification
 /bmad-bda-observability-setup
 # etc.
 ```

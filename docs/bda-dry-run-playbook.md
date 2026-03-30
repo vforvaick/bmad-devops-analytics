@@ -48,18 +48,21 @@ Record these values before starting:
 5. Confirm `release-intent-matrix.md` is refreshed and a historical snapshot is written.
 6. Confirm the run-specific release-readiness artifact is written under `release-readiness/`.
 7. Run `/bmad-bda-deploy` as a dry run or staging-equivalent execution.
-8. Check that deploy output records:
+8. Confirm `/bmad-bda-deployment-verification` runs or can be run immediately against the same candidate.
+9. Check that deploy output records:
    - Candidate branch and commit
    - Environment
    - Deployment mode
    - Smoke-test plan
    - Rollback trigger
+   - Deployment-verification route
 
 **Pass if**
 
 - No hidden dependency needs to be invented by the operator
 - Readiness and deploy artifacts describe the same candidate and environment
 - Greenfield prerequisites are explicit
+- Immediate runtime proof exists for the release's critical outcome
 
 ## Dry Run C: Existing-Deployment Update
 
@@ -72,13 +75,15 @@ Record these values before starting:
    - Environment caveats
    - Observability state
 5. Run `/bmad-bda-deploy` as a dry run or controlled staging-equivalent execution.
-6. Confirm deployment refuses unsafe mutation when baseline evidence is missing.
+6. Confirm `deployment-verifications/deployment-verification-<timestamp>-<candidate>.md` exists or that the block is explicitly recorded.
+7. Confirm deployment refuses unsafe mutation when baseline evidence is missing.
 
 **Pass if**
 
 - Existing-state protection is explicit
 - Baseline and candidate are both visible in artifacts
 - Rollback posture is concrete rather than generic
+- Immediate verification can distinguish rollout success from runtime failure
 
 ## Dry Run D: Post-Launch Evidence Loop
 
@@ -87,6 +92,7 @@ Record these values before starting:
 3. Confirm the artifact names:
    - Evidence window
    - Reviewed deployment
+   - Deployment verification baseline
    - Confidence gaps
    - Differences from baseline expectations
    - Explicit comparison against `release-intent-matrix.md`

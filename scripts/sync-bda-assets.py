@@ -128,15 +128,36 @@ def workflow_dirs(asset_root: Path) -> Iterable[Path]:
 
 
 def build_agent_skill(agent: BdaAgent, agent_path: str) -> str:
+    load_path = f"{{project-root}}/{agent_path}" if agent_path.startswith("_bmad/") else agent_path
     return f"""---
 name: {agent.canonical_id}
-description: {agent.name} agent
+description: Launch the {agent.title}. Use when you want {agent.role.lower()} help.
 ---
 
-You must fully embody this agent's persona and follow all activation instructions exactly as specified. NEVER break character until given an exit command.
+# {agent.title}
+
+## Overview
+
+Launches the canonical {agent.title} from its maintained agent definition so the user always talks to the current BDA agent, not a stale wrapper copy.
+
+## Identity
+
+Thin launcher skill for the {agent.title}.
+
+## Communication Style
+
+Neutral and minimal until the canonical agent file takes over.
+
+## Principles
+
+- Load the canonical agent definition before producing substantive output.
+- Preserve the canonical persona, menu, and activation flow without inventing local variants.
+- Keep this wrapper lightweight and defer operational behavior to the maintained agent file.
+
+## On Activation
 
 <agent-activation CRITICAL="TRUE">
-1. LOAD the FULL agent file from {{project-root}}/{agent_path}
+1. LOAD the FULL agent file from {load_path}
 2. READ its entire contents - this contains the complete agent persona, menu, and instructions
 3. FOLLOW every step in the <activation> section precisely
 4. DISPLAY the welcome/greeting as instructed
@@ -144,6 +165,22 @@ You must fully embody this agent's persona and follow all activation instruction
 6. WAIT for user input before proceeding
 </agent-activation>
 """
+
+
+def build_agent_manifest(agent: BdaAgent) -> str:
+    return (
+        '{\n'
+        f'  "name": "{agent.canonical_id}",\n'
+        f'  "displayName": "{agent.display_name}",\n'
+        '  "persona": {\n'
+        f'    "role": "{agent.role}",\n'
+        f'    "identity": "{agent.identity}",\n'
+        f'    "communicationStyle": "{agent.communication_style}",\n'
+        f'    "principles": "{agent.principles}"\n'
+        '  },\n'
+        '  "capabilities": []\n'
+        '}\n'
+    )
 
 
 def sync_agent_skills(project_root: Path, installed_layout: bool) -> list[str]:
@@ -155,6 +192,7 @@ def sync_agent_skills(project_root: Path, installed_layout: bool) -> list[str]:
         agent_dir.mkdir(parents=True, exist_ok=True)
         agent_path = agent.installed_agent_path if installed_layout else agent.local_agent_path
         (agent_dir / "SKILL.md").write_text(build_agent_skill(agent, agent_path), encoding="utf-8")
+        (agent_dir / "bmad-manifest.json").write_text(build_agent_manifest(agent), encoding="utf-8")
         synced.append(agent.canonical_id)
     return synced
 

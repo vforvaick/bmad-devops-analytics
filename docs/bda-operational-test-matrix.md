@@ -66,8 +66,9 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 1. Run `/bmad-bda-observability-setup`
 2. Run `/bmad-bda-release-readiness`
 3. Run `/bmad-bda-deploy`
-4. Run `/bmad-bda-post-launch-review` after the evidence window
-5. Run `/bmad-bda-spec-refinement`
+4. Confirm `/bmad-bda-deployment-verification` runs as part of deploy or run it explicitly
+5. Run `/bmad-bda-post-launch-review` after the evidence window
+6. Run `/bmad-bda-spec-refinement`
 
 **Must Verify**
 
@@ -76,6 +77,7 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 - Release intent matrix is generated from PRD, UX, architecture, epics/stories, and release scope artifacts
 - Observability config defines critical service telemetry, critical journey evidence, release markers, and alert ownership
 - Deploy logs capture candidate, operator, smoke checks, release marker, and rollback posture
+- Deployment verification proves the critical runtime outcome instead of only service health
 - Post-launch review identifies the exact reviewed deployment
 - Production-vs-plan matrix compares observed behavior against release intent rows instead of only narrative expectations
 - Post-launch review flags missing telemetry as a confidence issue instead of silently proceeding
@@ -87,6 +89,7 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 - `release-intent-matrix.md`
 - `deployment-plans/deployment-plan-<timestamp>-<candidate>.md`
 - `deployment-logs/deployment-log-<timestamp>-<candidate>.md`
+- `deployment-verifications/deployment-verification-<timestamp>-<candidate>.md`
 - `observability-config.md`
 - `post-launch-reviews/post-launch-insights-<timestamp>-<reviewed-deployment>.md`
 - `production-vs-plan/production-vs-plan-matrix-<timestamp>-<reviewed-deployment>.md`
@@ -98,6 +101,7 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 
 - Deploy proceeds without a known target environment
 - Deploy claims success without smoke evidence
+- Deploy claims success without a deployment-verification decision
 - Post-launch review cannot identify the deployed commit
 - Spec refinement overwrites official planning docs instead of creating drafts
 
@@ -118,8 +122,9 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 2. Run `/bmad-bda-release-readiness`
 3. Confirm `deployment-baseline.md` is created or refreshed
 4. Run `/bmad-bda-deploy`
-5. Observe production for the evidence window
-6. Run `/bmad-bda-post-launch-review`
+5. Confirm `deployment-verifications/deployment-verification-<timestamp>-<candidate>.md` exists
+6. Observe production for the evidence window
+7. Run `/bmad-bda-post-launch-review`
 
 **Must Verify**
 
@@ -130,6 +135,7 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 - Observability setup states whether the current stack is being reused, extended, corrected, or replaced
 - Release intent matrix and production-vs-plan matrix stay aligned to the same candidate and evidence window
 - Deploy refuses to mutate production without baseline evidence unless explicitly overridden
+- Deployment verification distinguishes immediate runtime failure from later production drift
 - Post-launch review compares observed behavior against both release expectations and baseline state
 
 **Required Artifacts**
@@ -138,6 +144,7 @@ Do not skip scenario 3 just because scenario 2 passes. They protect different fa
 - `release-readiness/release-readiness-<timestamp>-<candidate>.md`
 - `deployment-plans/deployment-plan-<timestamp>-<candidate>.md`
 - `deployment-logs/deployment-log-<timestamp>-<candidate>.md`
+- `deployment-verifications/deployment-verification-<timestamp>-<candidate>.md`
 - `post-launch-reviews/post-launch-insights-<timestamp>-<reviewed-deployment>.md`
 
 **Failure Signals**

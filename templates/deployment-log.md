@@ -42,4 +42,5 @@
 ## Final Status
 - **Deployment Result**: [success | failed | partial]
 - **Immediate Confidence**: [high | medium | low]
-- **Next Recommended Workflow**: [/bmad-bda-post-launch-review | investigate | retry]
+- **Deployment Verification**: [_bmad-output/production-artifacts/deployment-verifications/deployment-verification-<timestamp>-<candidate>.md | pending | N/A]
+- **Next Recommended Workflow**: [/bmad-bda-deployment-verification | /bmad-bda-post-launch-review | investigate | retry]

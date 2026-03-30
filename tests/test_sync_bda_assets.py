@@ -71,6 +71,8 @@ class SyncBdaAssetsTests(unittest.TestCase):
         skill_root = self.project_root / ".agents" / "skills"
         self.assertTrue((skill_root / "bmad-bda-deploy").exists())
         self.assertTrue((skill_root / "bmad-bda-deploy").is_symlink())
+        self.assertTrue((skill_root / "bmad-bda-deployment-verification").exists())
+        self.assertTrue((skill_root / "bmad-bda-deployment-verification").is_symlink())
 
         wrapper = (skill_root / "bmad-devops" / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("{project-root}/_bmad/bda/agents/devops.md", wrapper)
@@ -95,6 +97,10 @@ class SyncBdaAssetsTests(unittest.TestCase):
         self.assertTrue(deploy_dir.is_dir())
         self.assertFalse(deploy_dir.is_symlink())
         self.assertTrue((deploy_dir / "SKILL.md").exists())
+        verification_dir = self.project_root / ".agents" / "skills" / "bmad-bda-deployment-verification"
+        self.assertTrue(verification_dir.is_dir())
+        self.assertFalse(verification_dir.is_symlink())
+        self.assertTrue((verification_dir / "SKILL.md").exists())
 
 
 if __name__ == "__main__":

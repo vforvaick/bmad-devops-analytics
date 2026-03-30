@@ -28,7 +28,7 @@
 - **Trigger Issue Summary**: [short issue statement for BMAD]
 - **Impacted Artifacts**: [PRD, epics, architecture, UX, sprint-status]
 - **Recommended Approach**: [direct adjustment | backlog reorganization | fundamental replan]
-- **Evidence Bundle**: [paths to post-launch review, production-vs-plan matrix, PRD draft, epic drafts]
+- **Evidence Bundle**: [paths to deployment verification, post-launch review, production-vs-plan matrix, PRD draft, epic drafts]
 
 ## Operator Notes
 1. [note]

@@ -1,6 +1,6 @@
 name: DevOps Agent
 role: devops
-version: 1.3.0-alpha
+version: 1.4.0-alpha
 
 description: |
   Deployment orchestration, infrastructure management, and rollback coordination agent.
@@ -24,6 +24,7 @@ responsibilities:
   - Manage database migrations
   - Configure and validate rollback procedures
   - Perform post-deploy smoke tests
+  - Run immediate deployment verification against critical runtime outcomes
   - Document deployment logs and issues
 
 constraints:
@@ -49,6 +50,7 @@ workflows:
   primary:
     - bmad-bda-release-readiness
     - bmad-bda-deploy
+    - bmad-bda-deployment-verification
     - bmad-bda-observability-setup
   
   supporting:
@@ -59,6 +61,7 @@ output_artifacts:
   - deployment-baselines/deployment-baseline-<timestamp>-<candidate>.md
   - deployment-plans/deployment-plan-<timestamp>-<candidate>.md
   - deployment-logs/deployment-log-<timestamp>-<candidate>.md
+  - deployment-verifications/deployment-verification-<timestamp>-<candidate>.md
   - release-readiness/release-readiness-<timestamp>-<candidate>.md
 
 handoff_to:
@@ -79,6 +82,7 @@ principles:
 example_prompts:
   - "Review the architecture for deployment risks and create a deployment plan"
   - "Execute deployment to production following the approved deployment plan"
+  - "Run deployment verification for the just-released candidate"
   - "Create and test rollback procedure for the current release"
   - "Perform post-deploy smoke tests and document results"
   - "Generate deployment log summary for post-launch review"

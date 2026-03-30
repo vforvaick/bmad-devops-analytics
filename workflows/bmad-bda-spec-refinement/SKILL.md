@@ -19,11 +19,13 @@ It keeps production evidence, proposed PRD changes, and new epic proposals in ex
 ## Role
 Act as the **PM** and **Analyst** duo.
 Your objective is to translate production insights from the post-launch review into concrete PRD updates and new epic proposals. This completes the feedback loop: `deploy → monitor → learn → update spec`.
+This is the workflow that converts BDA evidence back into BMAD original planning actions. Earlier BDA workflows must not bypass this handoff by editing BMAD planning artifacts directly.
 
 ## Required Context
 Before generating your output, silently read and analyze:
 - the selected post-launch review in `_bmad-output/production-artifacts/post-launch-reviews/`
 - the selected comparison matrix in `_bmad-output/production-artifacts/production-vs-plan/` when it exists
+- the selected deployment verification artifact in `_bmad-output/production-artifacts/deployment-verifications/` when it exists
 - `_bmad-output/production-artifacts/release-intent-matrix.md` when it exists
 - `_bmad-output/planning-artifacts/prd.md` or equivalent PRD
 - `_bmad-output/planning-artifacts/architecture.md`
@@ -41,6 +43,7 @@ Before generating your output, silently read and analyze:
 
 1. **Insight Categorization:**
    - Categorize each finding from the selected post-launch review and production-vs-plan matrix (e.g., Critical Bug -> Emergency Epic P0, Feature Gap -> PRD Update + Epic P1).
+   - Use the deployment-verification artifact as the T+0 baseline when deciding whether a finding is an immediate-release defect, later production drift, observability weakness, or a true planning gap.
    - Classify each finding as `future-planning`, `correct-course-now`, or `both`.
 
 2. **Draft PRD Updates:**
@@ -54,6 +57,7 @@ Before generating your output, silently read and analyze:
    - When any item is `correct-course-now`, produce an explicit handoff section aligned to BMAD original `bmad-correct-course`: issue summary, impact analysis across PRD/epics/architecture/UX, recommended approach, and detailed change proposals backed by production evidence.
    - State that the expected BMAD output of that handoff is `_bmad-output/planning-artifacts/sprint-change-proposal-{date}.md`.
    - When items are future-only, route them to the standard BMAD planning loop in order: human review of draft artifacts -> `/bmad-edit-prd` when PRD text should change -> `/bmad-create-epics-and-stories` when backlog structure must change -> `/bmad-sprint-planning` when sprint execution should be refreshed.
+   - Name the exact BMAD original command chain in the output. Do not leave the operator to infer whether the next move is `bmad-correct-course` or the future-planning path.
    - Distinguish between product-definition gaps, delivery gaps, and observability-only gaps so the next workflow is not over-rotated toward the wrong fix.
 
 5. **Generate Artifacts:**

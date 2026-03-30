@@ -1,0 +1,5 @@
+type: skill
+name: bmad-bda-deployment-verification
+description: Immediate post-deploy verification workflow that proves whether the release's critical runtime outcomes work in the target environment.
+author: vforvaick
+version: 1.4.0-alpha

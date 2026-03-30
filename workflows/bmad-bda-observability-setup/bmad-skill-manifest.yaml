@@ -2,4 +2,4 @@ type: skill
 name: bmad-bda-observability-setup
 description: Monitoring stack configuration workflow to establish the data pipeline for the feedback loop.
 author: vforvaick
-version: 1.3.0-alpha
+version: 1.4.0-alpha

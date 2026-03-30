@@ -1,7 +1,7 @@
 name: bda
 code: bda
-version: 1.3.0-alpha
-description: BMAD DevOps Analytics (BDA) - Production lifecycle extension - deploy, monitor, learn, refine
+version: 1.4.0-alpha
+description: BMAD DevOps Analytics (BDA) - Production lifecycle extension - deploy, verify, monitor, learn, refine
 author: vforvaick
 repository: https://github.com/vforvaick/bmad-devops-analytics
 
@@ -29,6 +29,11 @@ workflows:
     description: End-to-end autonomous delivery of an entire Epic using isolated git worktrees
     agents: [pm, dev]
 
+  - name: bmad-bda-observability-setup
+    path: workflows/bmad-bda-observability-setup
+    description: Monitoring stack configuration (one-time per environment)
+    agents: [sre, devops]
+
   - name: bmad-bda-release-readiness
     path: workflows/bmad-bda-release-readiness
     description: Pre-deploy validation gate
@@ -38,11 +43,11 @@ workflows:
     path: workflows/bmad-bda-deploy
     description: Structured deployment execution
     agents: [devops]
-    
-  - name: bmad-bda-observability-setup
-    path: workflows/bmad-bda-observability-setup
-    description: Monitoring stack configuration (one-time per environment)
-    agents: [sre, devops]
+
+  - name: bmad-bda-deployment-verification
+    path: workflows/bmad-bda-deployment-verification
+    description: Immediate post-deploy proof of critical runtime outcomes
+    agents: [devops, sre]
     
   - name: bmad-bda-post-launch-review
     path: workflows/bmad-bda-post-launch-review
@@ -60,6 +65,7 @@ templates:
   - deployment-baseline.md
   - deployment-plan.md
   - deployment-log.md
+  - deployment-verification.md
   - rollback-plan.md
   - observability-config.md
   - observability-report.md
