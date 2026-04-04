@@ -1,0 +1,12 @@
+id: bmad-bda-analytics-cycle
+name: BMAD BDA: Analytics Cycle
+description: "Wrapper workflow orchestrating post-release evaluation and requirement refinement (Post-Launch Review -> Spec Refinement). Features upfront zero-interruption clarification."
+category: devops
+version: 1.0.0
+author: BMAD Community
+type: complex-workflow
+tags:
+  - analytics
+  - feedback-loop
+  - refinement
+  - wrapper
