@@ -1,5 +1,5 @@
 id: bmad-bda-devops-cycle
-name: BMAD BDA: DevOps Cycle
+name: "BMAD BDA: DevOps Cycle"
 description: "End-to-end wrapper workflow orchestrating Development -> Preparation -> Deployment -> Immediate Evaluate. Features upfront zero-interruption clarification and auto-remediation (hotfix loop) for quality gate failures."
 category: devops
 version: 1.0.0
