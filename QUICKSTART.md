@@ -34,7 +34,17 @@ python3 _bmad/bda/scripts/sync-bda-assets.py --project-root .
 
 Use BDA's implementation pipelines after BMAD sprint planning has produced epics and stories.
 
-**Run one of:**
+**OPTION A: The Autonomous DevOps Cycle (Recommended)**
+
+Orchestrate the entire continuous delivery pipeline with zero mid-flight interruptions. This wrapper automatically runs Implementation -> Readiness Review (with Auto-Hotfix) -> Deployment -> Immediate Verification.
+
+```bash
+/bmad-bda-devops-cycle
+```
+
+**OPTION B: Manual Workflow Execution**
+
+**Run one of the individual implementation workflows:**
 
 ```bash
 /bmad-bda-pipeline-epic
@@ -118,7 +128,17 @@ Let the application run in production to collect real-world evidence.
 
 Synthesize evidence into insights.
 
-**Run review workflow:**
+**OPTION A: The Autonomous Analytics Cycle (Recommended)**
+
+Orchestrate the entire post-release evaluation and refinement pipeline.
+
+```bash
+/bmad-bda-analytics-cycle
+```
+
+**OPTION B: Manual Workflow Execution**
+
+**Run the review workflow manually:**
 
 ```bash
 /bmad-bda-post-launch-review

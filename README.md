@@ -13,7 +13,7 @@ BMAD DevOps Analytics (BDA) fills the critical gap between sprint planning, impl
 sprint planning → implement epics → release ready → deploy → verify → monitor → learn → update plan → repeat
 ```
 
-This extension adds eight workflows and three custom agents to close the loop.
+This extension adds ten workflows and three custom agents to close the loop.
 
 ## What's Included
 
@@ -23,7 +23,7 @@ This extension adds eight workflows and three custom agents to close the loop.
 - **SRE Agent** - Observability setup, monitoring, incident analysis
 - **Analytics Agent** - Product usage analysis, feature adoption tracking
 
-### 🔄 Eight Workflows
+### 🔄 Ten Workflows
 
 1. **Story Pipeline** - Deliver one user story in an isolated git worktree
 2. **Epic Pipeline** - End-to-end autonomous delivery of an entire Epic
@@ -33,6 +33,8 @@ This extension adds eight workflows and three custom agents to close the loop.
 6. **Deployment Verification** - Immediate proof of critical runtime outcomes after rollout
 7. **Post-Launch Review** - Evidence synthesis (24-72h post-deploy)
 8. **Spec Refinement** - Translate insights to PRD/epic updates
+9. **DevOps Cycle** *(Wrapper)* - End-to-end orchestrator for continuous delivery (Implementation -> Deployment)
+10. **Analytics Cycle** *(Wrapper)* - End-to-end orchestrator for post-release feedback (Evaluate -> Refine)
 
 ## Installation
 
@@ -95,7 +97,15 @@ Artifact validator:
 
 ## Quick Start
 
-After BMAD sprint planning has produced stories and epics:
+After BMAD sprint planning has produced stories and epics, you can execute the end-to-end continuous delivery pipeline:
+
+```bash
+# OPTION A: The Autonomous Wrapper (Zero-Interruption)
+# Combines implementation, quality gates, auto-remediation, and deployment.
+/bmad-bda-devops-cycle
+```
+
+**Or run the individual workflows manually:**
 
 ```bash
 # Step 1: Deliver implementation work
@@ -118,6 +128,12 @@ After BMAD sprint planning has produced stories and epics:
 /bmad-bda-deployment-verification
 
 # Step 6: Wait 24-72 hours for production evidence
+
+# OPTION B: The Autonomous Post-Release Wrapper
+# Combines post-launch review and spec refinement
+/bmad-bda-analytics-cycle
+
+**Or run the individual feedback workflows manually:**
 
 # Step 7: Generate insights
 /bmad-bda-post-launch-review
@@ -196,6 +212,8 @@ BDA workflows are fully compatible with Antigravity-powered IDEs (Cursor, Windsu
 - `bmad-bda-observability-setup` — Monitoring stack setup
 - `bmad-bda-post-launch-review` — Post-launch evidence synthesis
 - `bmad-bda-spec-refinement` — Translate insights to spec updates
+- `bmad-bda-devops-cycle` — Orchestrates end-to-end DevOps pipeline
+- `bmad-bda-analytics-cycle` — Orchestrates post-release evaluation
 
 The sync step also exposes these agent skills:
 

@@ -59,6 +59,16 @@ workflows:
     description: Translate production insights to PRD/epic updates with optional correct-course handoff
     agents: [pm, analyst]
 
+  - name: bmad-bda-devops-cycle
+    path: workflows/bmad-bda-devops-cycle
+    description: End-to-end wrapper workflow orchestrating Development -> Preparation -> Deployment -> Immediate Evaluate
+    agents: [pm, dev, architect, test-architect, devops, sre]
+
+  - name: bmad-bda-analytics-cycle
+    path: workflows/bmad-bda-analytics-cycle
+    description: Wrapper workflow orchestrating post-release evaluation and requirement refinement
+    agents: [pm, analyst, sre, analytics]
+
 templates:
   - release-readiness.md
   - release-intent-matrix.md
