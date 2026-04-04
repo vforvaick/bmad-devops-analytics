@@ -1,3 +1,8 @@
+---
+name: bmad-bda-analytics-cycle
+description: Orchestrate post-release evaluation and requirement refinement. Use when the user says "run analytics cycle" or "evaluate production"
+---
+
 # BMAD BDA: Analytics Cycle
 
 **Overview**: An orchestrator workflow designed to run several days (e.g., 24-72 hours) after a release. It closes the Continuous Delivery loop by gathering production data, evaluating the release's success, and refining future specifications based on real-world evidence.

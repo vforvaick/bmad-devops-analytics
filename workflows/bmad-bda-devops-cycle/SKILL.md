@@ -1,3 +1,8 @@
+---
+name: bmad-bda-devops-cycle
+description: Orchestrate the entire continuous delivery pipeline. Use when the user says "run devops cycle" or "deploy epic"
+---
+
 # BMAD BDA: DevOps Cycle
 
 **Overview**: An end-to-end wrapper workflow that orchestrates the entire continuous delivery pipeline: from code implementation, through pre-deploy quality gates, physical deployment, and immediate post-deployment verification.
